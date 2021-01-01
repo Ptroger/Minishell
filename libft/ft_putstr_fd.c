@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "../includes/minishell.h"
 #include <stdlib.h>
 #include <errno.h>
 #include <stdio.h>
@@ -23,7 +24,10 @@ void	ft_putstr_fd_echo(char *str, int fd)
 		return ;
 	res = write(fd, str, ft_strlen(str));
 	if (res != 0)
+	{
+		throw_error(NULL, res);
 		exit(errno);
+	}
 }
 
 void	ft_putstr_fd(char *str, int fd)

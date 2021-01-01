@@ -9,9 +9,9 @@ int	redirect(t_vars *vars, t_list *tokens, char *name, int *file)
 	token = tokens->token;
 	toks = vars->tokens;
 	if (ft_strcmp(token, "<") == 0)
-		redirect_input(tokens, file);
+		redirect_input(vars, tokens);
 	else if (ft_strcmp(token, ">") == 0 || ft_strcmp(token, ">>") == 0)
-		redirect_output(tokens, token, file);
+		redirect_output(vars, tokens, token);
 	else if (ft_strcmp(token, "<<") == 0)
 	{
 		while (toks && toks->type != H_DOC)
@@ -19,7 +19,7 @@ int	redirect(t_vars *vars, t_list *tokens, char *name, int *file)
 		if (toks->index == tokens->index)
 		{
 			write_file(vars, name);
-			redir_temp("temp", file);
+			redir_temp(vars, tokens, "temp", file);
 		}
 	}
 	return (1);

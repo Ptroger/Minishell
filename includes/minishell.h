@@ -51,6 +51,8 @@ typedef struct	s_vars
 	int		special_i;
 	int		size;
 	int		tab_size;
+	int		stdout;
+	int		stdin;
 	char	**path;
 	char	**real_envs;
 	t_pipe	*store;
@@ -81,9 +83,9 @@ char	*get_tok_index(t_list *lst, int i);
 void	finish_token(t_vars *vars, char *token, int i);
 
 // REDIRECTIONS
-void	redirect_input(t_list *tokens, int *file);
-void	redir_temp(char *name, int *file);
-void	redirect_output(t_list *tokens, char *token, int *file);
+void	redirect_input(t_vars *vars, t_list *tokens);
+void	redir_temp(t_vars *vars, t_list *tokens, char *name, int *file);
+void	redirect_output(t_vars *vars, t_list *tokens, char *token);
 int		handle_redirs(t_vars *vars, t_list *tokens, int *file);
 int		is_redir(char *token);
 int		is_special(t_list *tokens);

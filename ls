@@ -1,9 +1,0 @@
-Makefile
-README.md
-includes
-libft
-ls
-minishell
-srcs
-titi
-toto
