@@ -3,7 +3,7 @@
 
 //// PROMPT ////
 
-# define PROMPT "minishell "
+# define PROMPT "minishell> "
 # define RUNNING 1
 # define EXIT 0
 
@@ -21,4 +21,7 @@
 # define TOK_QUOTE 3
 # define TOK_SIMP 4
 
+//// OTHER ////
+
+# define TOKENSIZE 1024
 #endif

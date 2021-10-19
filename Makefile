@@ -1,7 +1,10 @@
 NAME    =       minishell
 
-SRCS    =       srcs/read.c                \
-                srcs/parse.c               \
+SRCS    =       srcs/read.c                 \
+                srcs/parse.c                \
+                srcs/ft_lstnew.c			\
+                srcs/ft_lstadd_back.c		\
+                srcs/ft_strcpy.c			\
 
 INCLUDE =       includes/
 
