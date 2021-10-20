@@ -10,15 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	ft_lstiter(t_list *lst, void (*f)(void *))
+void	ft_lstiter(t_list *lst, void (*f)(char *))
 {
-	if (lst == NULL || f == NULL)
+	if (!f)
 		return ;
 	while (lst)
 	{
-		f(lst->content);
+		f(lst->token);
 		lst = lst->next;
 	}
 }

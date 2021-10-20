@@ -5,7 +5,7 @@ void	init_token(t_vars *vars)
 	char	*token;
 
 	token = malloc(sizeof(char) * vars->token_size);
-	vars->tokens = ft_lstnew((void *)token, 0);
+	vars->tokens = ft_lstnew((void *)token);
 }
 
 void	add_token(t_vars *vars)
@@ -14,14 +14,28 @@ void	add_token(t_vars *vars)
 	char	*token;
 
 	token = malloc(sizeof(char) * vars->token_size);
-	list = ft_lstnew((void *)token, 0);
+	list = ft_lstnew((void *)token);
 	ft_lstadd_back(&vars->tokens, list);
+}
+
+void	ft_putstr_lst(char *token)
+{
+	int	i;
+
+	i = 0;
+	while (token[i])
+	{
+		write(1, &token[i], 1);
+		i++;
+	}
 }
 
 int	main(int ac, char **av)
 {
 	char	*line;
 	t_vars	*vars;
+	t_list	*tet;
+//	int i = 0;
 	(void)ac;
 	(void)av;
 
@@ -29,7 +43,9 @@ int	main(int ac, char **av)
 	vars->shell = RUNNING;
 	vars->state = BASIC;
 	vars->token_size = TOKENSIZE;
-	init_token(vars);
+	vars->tokens = NULL;
+	vars->finish_line = FALSE;
+//	init_token(vars);
 //	vars = initialize();
 	while (vars->shell == RUNNING)
 	{
@@ -37,6 +53,17 @@ int	main(int ac, char **av)
 		add_history(line);
 		parse(line, vars);
 		free(line);
+		tet = vars->tokens;
+//		while (tet)
+//		{
+//			printf("i = %d", i);
+//			i++;
+//			ft_putstr_lst(tet->token);
+//			tet = tet->next;
+//		}
+		ft_lstiter(vars->tokens, ft_putstr_lst);
+		ft_putstr_lst("\n");
+		ft_lstclear(&vars->tokens, free);
 	}
 //	destroy(vars);
 }

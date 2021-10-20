@@ -10,23 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <stdlib.h>
+#include "minishell.h"
 
-void	ft_lstclear(t_list **alst, void (*del)(void *))
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	t_list	*tmp;
-	t_list	*first;
+	t_list	*old_elem;
 
-	first = *alst;
-	if (!alst || !del)
+	if (!del)
 		return ;
-	while (*alst)
+	while (*lst)
 	{
-		tmp = (*alst)->next;
-		del((*alst)->content);
-		free(*alst);
-		*alst = tmp;
+		del((*lst)->token);
+		old_elem = *lst;
+		*lst = old_elem->next;
+		free(old_elem);
 	}
-	first = NULL;
+	*lst = NULL;
 }

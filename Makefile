@@ -5,12 +5,14 @@ SRCS    =       srcs/read.c                 \
                 srcs/ft_lstnew.c			\
                 srcs/ft_lstadd_back.c		\
                 srcs/ft_strcpy.c			\
+                srcs/ft_lstiter.c			\
+                srcs/ft_lstclear.c			\
 
 INCLUDE =       includes/
 
 OBJS    =       $(SRCS:%.c=%.o)
 
-CFLAGS  =       -Wall -Wextra -Werror -g -I ./$(INCLUDE)
+CFLAGS  =       -Wall -Wextra -Werror -fsanitize=address -g -I ./$(INCLUDE)
 
 LIBS = -lreadline
 

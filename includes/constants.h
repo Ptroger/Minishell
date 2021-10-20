@@ -23,5 +23,7 @@
 
 //// OTHER ////
 
+# define TRUE 1
+# define FALSE 0
 # define TOKENSIZE 1024
 #endif
