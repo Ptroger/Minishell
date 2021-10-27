@@ -3,7 +3,7 @@
 
 //// PROMPT ////
 
-# define PROMPT "minishell> "
+# define PROMPT "\033[0;36m\033[1mMinishell> \033[0;m"
 # define RUNNING 1
 # define EXIT 0
 
