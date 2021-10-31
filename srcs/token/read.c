@@ -30,53 +30,88 @@ void	ft_putstr_lst(char *token)
 	}
 }
 
-int	main(int ac, char **av, char **env)
+void	ft_set_exp(t_sort  **t_exp, t_sort  **t_env)
+{
+	char    *max;
+	t_sort  *temp;
+
+	temp = *t_env;
+    while (temp->next)
+    {
+        ft_add_elem_exp(t_exp, temp->data);
+		temp = temp->next;
+    }
+    max = ft_return_max(t_exp);
+    while (ft_pile_in_order(t_exp) != 1)
+    {
+        if (*t_exp && (*t_exp)->next && ft_strcmp((*t_exp)->data, (*t_exp)->next->data) > 0
+		&& ft_strcmp((*t_exp)->data, max) != 0 && ft_strcmp((*t_exp)->next->data, max) != 0)
+            ft_swap(t_exp);
+        ft_reverse_rotate(t_exp);
+    }
+}
+
+void	ft_set_env(t_sort  **t_env, char **env)
 {
 	int     i;
 	int		j;
+	
+	i = 0;
+	j = 0;
+	while (env[i])
+        i++;
+    while (i)
+    {
+        ft_add_elem(t_env, env[i]);
+        i--;
+    }
+}
+
+void	ft_get_env_name(t_sort  **t_env, char **env)
+{
+	int		i;
+	int		j;
+	t_sort  *temp;
+
+	i = 0;
+	j = 0;
+	temp = *t_env;
+	while (env[i])
+	{
+		j = 0;
+		temp->name = malloc(sizeof(char) * ft_strlen(env[i]));
+		if (!temp->name)
+			return ;
+		while (env[i][j] != '=')
+		{
+			temp->name[j] = env[i][j];
+			j++;
+		}
+		temp->name[j] = '\0';
+		temp = temp->next;
+		i++;
+	}
+}
+
+int	main(int ac, char **av, char **env)
+{
 	char	*line;
-	char    *max;
-    t_sort  *t_exp;
-    t_sort  *temp;
 	t_vars	*vars;
 	t_list	*tet;
-    t_sort  *t_env;
 	(void)ac;
 	(void)av;
 
-    i = 0;
-	j = 0;
-    t_env = NULL;
-	while (env[i])
-        i++;
-	i--;
-    while (i)
-    {
-        ft_add_elem(&t_env, env[i]);
-        i--;
-    }
-	i = 0;
-    t_exp = NULL;
-	temp = t_env;
-    while (temp->next)
-    {
-        ft_add_elem_exp(&t_exp, temp->str);
-		temp = temp->next;
-    }
-    max = ft_return_max(&t_exp);
-    while (ft_pile_in_order(&t_exp) != 1)
-    {
-        if (t_exp && t_exp->next && ft_strcmp(t_exp->str, t_exp->next->str) > 0
-		&& ft_strcmp(t_exp->str, max) != 0 && ft_strcmp(t_exp->next->str, max) != 0)
-            ft_swap(&t_exp);
-        ft_reverse_rotate(&t_exp);
-    }
 	vars = malloc(sizeof(t_vars));
 	vars->shell = RUNNING;
 	vars->state = BASIC;
 	vars->token_size = TOKENSIZE;
 	vars->tokens = NULL;
 	vars->finish_line = FALSE;
+	vars->t_env = NULL;
+	vars->t_exp = NULL;
+	ft_set_env(&vars->t_env, env);
+	ft_get_env_name(&vars->t_env, env);
+	ft_set_exp(&vars->t_exp, &vars->t_env);
 	while (vars->shell == RUNNING)
 	{
 		line = readline(PROMPT);
@@ -85,7 +120,7 @@ int	main(int ac, char **av, char **env)
 		parse(line, vars);
 		free(line);
 		tet = vars->tokens;
-		call_command(vars->tokens, &t_env, &t_exp);
+		call_command(tet, &vars->t_env, &vars->t_exp);
 		ft_lstclear(&vars->tokens, free);
 	}
 //	destroy(vars);

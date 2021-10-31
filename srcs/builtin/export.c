@@ -18,13 +18,13 @@ int	ft_pile_in_order(t_sort **pile_a)
 	t_sort	*temp;
 
 	temp = *pile_a;
-	tmp = temp->str;
+	tmp = temp->data;
 	while (temp->next)
 	{
 		temp = temp->next;
-		if (ft_strcmp(tmp, temp->str) > 0)
+		if (ft_strcmp(tmp, temp->data) > 0)
 			return (0);
-		tmp = temp->str;
+		tmp = temp->data;
 	}
 	return (1);
 }
@@ -35,12 +35,12 @@ char	*ft_return_max(t_sort **pile_a)
 	t_sort	*temp;
 
 	temp = *pile_a;
-	max = temp->str;
+	max = temp->data;
 	while (temp->next)
 	{
 		temp = temp->next;
-		if (ft_strcmp(max, temp->str) < 0)
-			max = temp->str;
+		if (ft_strcmp(max, temp->data) < 0)
+			max = temp->data;
 	}
 	return (max);
 }
@@ -87,28 +87,28 @@ void	ft_add_elem_exp(t_sort **sort, char *env)
 	new_elem = malloc(sizeof(t_sort));
 	if (!new_elem)
 		return ;
-	new_elem->str = malloc(sizeof(char) * ft_strlen(env) + 3);
-	if (!new_elem->str)
+	new_elem->data = malloc(sizeof(char) * ft_strlen(env) + 3);
+	if (!new_elem->data)
 		return ;
 	while (env[j] != '=')
 	{
-		new_elem->str[i] = env[j];
+		new_elem->data[i] = env[j];
 		i++;
 		j++;
 	}
-	new_elem->str[i] = env[j];
+	new_elem->data[i] = env[j];
 	i++;
 	j++;
-	new_elem->str[i] = '"';
+	new_elem->data[i] = '"';
 	i++;
 	while (env[j])
 	{
-		new_elem->str[i] = env[j];
+		new_elem->data[i] = env[j];
 		i++;
 		j++;
 	}
-	new_elem->str[i] = '"';
-	new_elem->str[i + 1] = '\0';
+	new_elem->data[i] = '"';
+	new_elem->data[i + 1] = '\0';
 	new_elem->next = *sort;
 	*sort = new_elem;
 }
@@ -120,84 +120,85 @@ void	ft_add_elem(t_sort **sort, char *env)
 	new_elem = malloc(sizeof(t_sort));
 	if (!new_elem)
 		return ;
-	new_elem->str = env;
+	new_elem->data = env;
 	new_elem->next = *sort;
 	*sort = new_elem;
 }
 
-void    ft_export(t_list *tokens, t_sort  **t_exp)
+void    ft_export(t_list *tokens, t_sort **t_env, t_sort  **t_exp)
 {
 	int		i;
 	int		j;
-//    char    *max;
-//    t_sort  *t_exp;
-    t_sort  *temp;
+    t_sort  *temp_exp;
+    t_sort  *temp_env;
+//	t_sort  *temp_env_2;
+	t_sort	*new_exp;
+	t_sort	*new_env;
 
 	i = 0;
 	j = 0;
-/*    t_exp = NULL;
-	temp = *t_env;
-    while (temp->next)
-    {
-        ft_add_elem_exp(&t_exp, temp->str);
-		temp = temp->next;
-    }
-    max = ft_return_max(&t_exp);
-    while (ft_pile_in_order(&t_exp) != 1)
-    {
-        if (t_exp && t_exp->next && ft_strcmp(t_exp->str, t_exp->next->str) > 0
-		&& ft_strcmp(t_exp->str, max) != 0 && ft_strcmp(t_exp->next->str, max) != 0)
-            ft_swap(&t_exp);
-        ft_reverse_rotate(&t_exp);
-    }
-*/    temp = *t_exp;
+	temp_exp = *t_exp;
+	temp_env = *t_env;
+//	temp_env_2 = *t_env;
 	if (tokens->next)
 	{
 		while (tokens->next->token[j] && tokens->next->token[j] != '=')
 			j++;
 		if (tokens->next->token[j] == '=' && tokens->next->token[j - 1] != ' ')
 		{
-			t_sort	*new_elem;
-
-			new_elem = malloc(sizeof(t_sort));
 			j = 0;
-			while (temp->next)
-				temp = temp->next;
-			temp->next = new_elem;
-			new_elem->str = malloc(sizeof(char) * ft_strlen(tokens->next->token) + 3);
-			if (!new_elem->str)
+			new_exp = malloc(sizeof(t_sort));
+			new_env = malloc(sizeof(t_sort));
+			while (temp_exp->next)
+				temp_exp = temp_exp->next;
+			while (temp_env->next)
+				temp_env = temp_env->next;
+		/*	while (temp_env->str[0] != 'P' && temp_env->str[1] != 'W' && temp_env->str[2] != 'D')
+				temp_env = temp_env->next;
+			while (temp_env_2->str[0] != 'P' && temp_env_2->str[1] != 'W' && temp_env_2->str[2] != 'D')
+				temp_env_2 = temp_env_2->next;
+			temp_env_2 = temp_env_2->next;
+		*/	temp_exp->next = new_exp;
+			temp_env->next = new_env;
+		//	new_env->next = temp_env_2;
+			new_exp->data = malloc(sizeof(char) * ft_strlen(tokens->next->token) + 3);
+			new_env->data = ft_strdup(tokens->next->token);
+			new_env->next = NULL;
+			if (!new_exp->data)
 				return ;
 			while (tokens->next->token[j] && tokens->next->token[j] != '=')
 			{
-				new_elem->str[i] = tokens->next->token[j];
+				new_exp->data[i] = tokens->next->token[j];
 				i++;
 				j++;
 			}
-			new_elem->str[i] = tokens->next->token[j];
+			new_exp->data[i] = tokens->next->token[j];
 			i++;
 			j++;
-			new_elem->str[i] = '"';
+			new_exp->data[i] = '"';
 			i++;
 			while (tokens->next->token[j])
 			{
-				new_elem->str[i] = tokens->next->token[j];
+				new_exp->data[i] = tokens->next->token[j];
 				i++;
 				j++;
 			}
-			new_elem->str[i] = '"';
-			new_elem->str[i + 1] = '\0';
-			new_elem->next = NULL;
+			new_exp->data[i] = '"';
+			new_exp->data[i + 1] = '\0';
+			new_exp->next = NULL;
 		}
 	}
-    temp = *t_exp;
-    while (temp->next)
-    {
-        printf("%s", "declare -x ");
-        if (temp->str[0] == '_' && temp->str[1] == '=' && temp->str[2] == '/')
-            temp = temp->next;
-        printf("%s\n", temp->str);
-        temp = temp->next;
-    }
-    printf("%s", "declare -x ");
-    printf("%s\n", temp->str);
+	else
+	{
+		while (temp_exp->next)
+		{
+			printf("%s", "declare -x ");
+			if (temp_exp->data[0] == '_' && temp_exp->data[1] == '=' && temp_exp->data[2] == '/')
+				temp_exp = temp_exp->next;
+			printf("%s\n", temp_exp->data);
+			temp_exp = temp_exp->next;
+		}
+		printf("%s", "declare -x ");
+		printf("%s\n", temp_exp->data);
+	}
 }

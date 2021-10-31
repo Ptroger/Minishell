@@ -19,14 +19,7 @@ void    ft_env(t_sort  **t_env)
     temp = *t_env;
     while (temp->next)
     {
-        printf("%s\n", temp->str);
+        printf("%s\n", temp->data);
         temp = temp->next;    
     }
-/*    i = 0;
-    while (env[i])
-    {
-        printf("%s\n", env[i]);    
-        i++;
-    }
-*/
 }

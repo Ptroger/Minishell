@@ -28,9 +28,11 @@ void    ft_call_builtin(t_list *tokens, t_sort **t_env, t_sort  **t_exp)
     if (ft_strcmp(tokens->token, "exit") == 0)
         exit(1);
     if (ft_strcmp(tokens->token, "export") == 0)
-        ft_export(tokens, t_exp);
+        ft_export(tokens, t_env, t_exp);
     if (ft_strcmp(tokens->token, "pwd") == 0)
-            ft_pwd();
+        ft_pwd();
+    if (ft_strcmp(tokens->token, "unset") == 0 && tokens->next)
+        ft_unset(tokens, t_env, t_exp);
 }
 
 int     ft_is_buitlin(char *token)
@@ -43,18 +45,18 @@ int     ft_is_buitlin(char *token)
     return (0);
 }
 
-char    *find_path(t_list *tokens, char *tab)
+char    *find_path(char *token, char *tab)
 {
     char    *path;
 
-    path = malloc(sizeof(char) * ft_strlen(tokens->token) + ft_strlen(tab) + 2);
+    path = malloc(sizeof(char) * ft_strlen(token) + ft_strlen(tab) + 2);
     path = ft_strcpy_ari(path, tab);
     path = ft_strcat(path, "/");
-    path = ft_strcat(path, tokens->token);
+    path = ft_strcat(path, token);
     return (path);
 }
 
-void    call_command(t_list *tokens, t_sort **t_env, t_sort  **t_exp)
+int    call_command(t_list *tokens, t_sort **t_env, t_sort  **t_exp)
 {
     int     i;
     char    *cmd[3] = {NULL, NULL, NULL};
@@ -68,14 +70,24 @@ void    call_command(t_list *tokens, t_sort **t_env, t_sort  **t_exp)
     else
     {
         if (tokens->next)
-            cmd[1] = ft_strdup(tokens->next->token);
+        {
+            if (tokens->next->next)
+            {
+                if (ft_strcmp(tokens->next->token, "|") != 0)
+                    cmd[1] = ft_strdup(tokens->next->next->token);
+                else
+                    return (ft_pipe(tokens, tab));
+            }
+            else
+                cmd[1] = ft_strdup(tokens->next->token);
+        }
         pid = fork();
         wait(NULL);
         if (pid == 0)
         {
             while (tab[i])
             {
-                cmd[0] = find_path(tokens, tab[i]);
+                cmd[0] = find_path(tokens->token, tab[i]);
                 if (execve(cmd[0], cmd, 0) == -1)
                     i++;
                 free(cmd[0]);
@@ -83,4 +95,5 @@ void    call_command(t_list *tokens, t_sort **t_env, t_sort  **t_exp)
             exit(0);
         }
     }
+    return (0);
 }

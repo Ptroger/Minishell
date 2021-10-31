@@ -22,12 +22,14 @@ SRCS    =		srcs/token/read.c \
 				srcs/builtin/ft_strdup.c \
 				srcs/builtin/ft_strlen.c \
 				srcs/builtin/pwd.c \
+				srcs/builtin/unset.c \
+				srcs/pipe/pipe.c \
 
 INCLUDE =       includes/
 
 OBJS    =       $(SRCS:%.c=%.o)
 
-CFLAGS  =       -Wall -Wextra -Werror -fsanitize=address -g -I ./$(INCLUDE)
+CFLAGS  =       -Wall -Wextra -Werror -g -I ./$(INCLUDE) #-fsanitize=address
 
 LIBS =			-lreadline
 
