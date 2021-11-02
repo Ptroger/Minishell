@@ -79,8 +79,8 @@ int	main(int ac, char **av, char **env)
 	vars->finish_line = FALSE;
 	while (vars->shell == RUNNING)
 	{
+		vars->parse_i = 0;
 		line = readline(PROMPT);
-    //    printf("\033[0;36m\033[1m %s\033[0;m", "Minishell ");
 		add_history(line);
 		parse(line, vars);
 		free(line);

@@ -17,12 +17,15 @@ typedef struct	s_list
 typedef struct	s_vars
 {
 //	shell = savoir si il faut arrêter minishell
-	int		shell;
-	int		state;
-	int		token_size;
-	int		finish_line;
-	t_list	*tokens;
-}				t_vars;
+	int             shell;
+	int             token_i;
+	int             parse_i;
+	int             state;
+	int             token_size;
+	int             finish_line;
+	t_list  *tokens;
+}                               t_vars;
+
 
 typedef struct      s_sort
 {
