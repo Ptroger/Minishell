@@ -23,6 +23,7 @@ typedef struct      s_sort
 
 typedef	struct		s_pipe
 {
+	int				size;
 	char			**cell;
 	struct s_pipe	*next;
 }					t_pipe;
