@@ -19,6 +19,5 @@ void    ft_echo(char *str)
 
 void    ft_echo_n(char *str)
 {
-    printf("%s", str);
-//    ft_putstr(str);
+    ft_putstr(str);
 }

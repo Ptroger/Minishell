@@ -44,8 +44,9 @@ void	ft_set_exp(t_sort  **t_exp, t_sort  **t_env)
     max = ft_return_max(t_exp);
     while (ft_pile_in_order(t_exp) != 1)
     {
-        if (*t_exp && (*t_exp)->next && ft_strcmp((*t_exp)->data, (*t_exp)->next->data) > 0
-		&& ft_strcmp((*t_exp)->data, max) != 0 && ft_strcmp((*t_exp)->next->data, max) != 0)
+        if (*t_exp && (*t_exp)->next && ft_strcmp((*t_exp)->data,
+		(*t_exp)->next->data) > 0 && ft_strcmp((*t_exp)->data, max) != 0
+		&& ft_strcmp((*t_exp)->next->data, max) != 0)
             ft_swap(t_exp);
         ft_reverse_rotate(t_exp);
     }
@@ -109,19 +110,18 @@ int	main(int ac, char **av, char **env)
 	vars->finish_line = FALSE;
 	vars->t_env = NULL;
 	vars->t_exp = NULL;
+	vars->store = NULL;
 	ft_set_env(&vars->t_env, env);
 	ft_get_env_name(&vars->t_env, env);
 	ft_set_exp(&vars->t_exp, &vars->t_env);
 	while (vars->shell == RUNNING)
 	{
 		line = readline(PROMPT);
-    //    printf("\033[0;36m\033[1m %s\033[0;m", "Minishell ");
 		add_history(line);
 		parse(line, vars);
 		free(line);
 		tet = vars->tokens;
-		call_command(tet, &vars->t_env, &vars->t_exp);
+		call_command(tet, &vars->t_env, &vars->t_exp, vars->store);
 		ft_lstclear(&vars->tokens, free);
 	}
-//	destroy(vars);
 }

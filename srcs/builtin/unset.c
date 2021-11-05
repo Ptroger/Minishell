@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 void	ft_free_pile(t_sort	**pile_a)
 {
 	t_sort		*temp;
