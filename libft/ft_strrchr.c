@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ptroger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/13 14:09:25 by ptroger           #+#    #+#             */
-/*   Updated: 2020/01/04 17:55:14 by ptroger          ###   ########.fr       */
+/*   Created: 2019/11/06 14:53:44 by ptroger           #+#    #+#             */
+/*   Updated: 2020/01/04 17:50:11 by ptroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-t_list	*ft_lstnew(void *content)
+char	*ft_strrchr(const char *s, int c)
 {
-	t_list	*new_elem;
+	char	*last;
 
-	new_elem = malloc(sizeof(t_list));
-	if (!new_elem)
-		return (NULL);
-	new_elem->token = content;
-	new_elem->next = NULL;
-	return (new_elem);
+	last = NULL;
+	while (1)
+	{
+		if (*s == c)
+			last = (char *)s;
+		if (*s == 0)
+			return (last);
+		s++;
+	}
 }
