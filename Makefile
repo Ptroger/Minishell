@@ -9,6 +9,7 @@ SRCS    =		srcs/token/read.c \
 				srcs/token/ft_lstclear.c \
 				srcs/builtin/call_command.c \
 				srcs/builtin/builtin_utils.c \
+				srcs/builtin/builtin_utils_2.c \
 				srcs/builtin/cd.c \
 				srcs/builtin/echo.c \
 				srcs/builtin/env.c \

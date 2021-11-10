@@ -12,6 +12,51 @@
 
 #include "minishell.h"
 
+char	*ft_return_max(t_sort **pile_a)
+{
+	char	*max;
+	t_sort	*temp;
+
+	temp = *pile_a;
+	max = temp->data;
+	while (temp->next)
+	{
+		temp = temp->next;
+		if (ft_strcmp(max, temp->data) < 0)
+			max = temp->data;
+	}
+	return (max);
+}
+
+void	ft_add_elem(t_sort **sort, char *env)
+{
+	t_sort	*new_elem;
+
+	new_elem = malloc(sizeof(t_sort));
+	if (!new_elem)
+		return ;
+	new_elem->data = env;
+	new_elem->next = *sort;
+	*sort = new_elem;
+}
+
+int	ft_pile_in_order(t_sort **pile_a)
+{
+	char	*tmp;
+	t_sort	*temp;
+
+	temp = *pile_a;
+	tmp = temp->data;
+	while (temp->next)
+	{
+		temp = temp->next;
+		if (ft_strcmp(tmp, temp->data) > 0)
+			return (0);
+		tmp = temp->data;
+	}
+	return (1);
+}
+
 char	*find_path(char *token, char *tab)
 {
 	char	*path;
