@@ -12,6 +12,10 @@
 # define BASIC 0
 # define D_QUOTE 1
 # define S_QUOTE 2
+# define EXTENDING 3
+# define D_STRING 4
+# define S_STRING 5
+# define F_STRING 6
 
 //// TOKEN_TYPES ////
 
@@ -26,4 +30,7 @@
 # define TRUE 1
 # define FALSE 0
 # define TOKENSIZE 1024
+# define END_CHARS " $\"\0\'"
+# define REDIRS_CHARS "<>|"
+# define REDIRS_STRINGS ["<", ">", "|", "<<", ">>"]
 #endif

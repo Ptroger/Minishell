@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 void	init_token(t_vars *vars)
 {
@@ -71,6 +71,7 @@ int	main(int ac, char **av, char **env)
             ft_swap(&t_exp);
         ft_reverse_rotate(&t_exp);
     }
+//	TODO: vars = init_vars();
 	vars = malloc(sizeof(t_vars));
 	vars->shell = RUNNING;
 	vars->state = BASIC;
@@ -88,5 +89,5 @@ int	main(int ac, char **av, char **env)
 		call_command(vars->tokens, &t_env, &t_exp);
 		ft_lstclear(&vars->tokens, free);
 	}
-//	destroy(vars);
+//	TODO: destroy(vars);
 }

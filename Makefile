@@ -2,11 +2,8 @@ NAME    =       minishell
 
 SRCS    =		srcs/token/read.c \
 				srcs/token/parse.c \
-				srcs/token/ft_lstnew.c \
-        		srcs/token/ft_lstadd_back.c	\
+				srcs/token/handle_dollar.c \
 				srcs/token/ft_strcpy.c \
-				srcs/token/ft_lstiter.c \
-				srcs/token/ft_lstclear.c \
 				srcs/builtin/call_command.c \
 				srcs/builtin/cd.c \
 				srcs/builtin/echo.c \
@@ -31,6 +28,8 @@ CFLAGS  =       -Wall -Wextra -Werror -fsanitize=address -g -I ./$(INCLUDE)
 
 LIBS =			-lreadline
 
+LIBFT = 		./libft/libft.a
+
 CC =			gcc
 
 RM =			rm -f
@@ -38,15 +37,21 @@ RM =			rm -f
 %.o : %.c
 	$(CC) $(CFLAGS) -o $@ -c $<
 
-$(NAME):        $(OBJS) $(DIRH)
-	$(CC) $(CFLAGS) $(LIBS) $(OBJS) -o $(NAME)
+$(NAME):	$(LIBFT) $(OBJS) $(DIRH)
+	$(CC) $(CFLAGS) $(LIBS) $(OBJS) -o $(NAME) $(LIBFT)
+
+
+$(LIBFT):
+	@$(MAKE) -s -C libft
 
 all:            $(NAME)
 
 clean:
+	@$(MAKE) -s -C libft clean
 	$(RM) $(OBJS)
 
 fclean:         clean
+	@$(MAKE) -s -C libft fclean
 	$(RM) $(NAME)
 
 re:             fclean all

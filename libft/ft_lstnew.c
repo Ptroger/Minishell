@@ -13,7 +13,7 @@
 #include "libft.h"
 #include <stdlib.h>
 
-t_list	*ft_lstnew(void *content)
+t_list	*ft_lstnew(void *content, int i)
 {
 	t_list	*new_elem;
 
@@ -21,6 +21,7 @@ t_list	*ft_lstnew(void *content)
 	if (!new_elem)
 		return (NULL);
 	new_elem->token = content;
+	new_elem->index = i;
 	new_elem->next = NULL;
 	return (new_elem);
 }

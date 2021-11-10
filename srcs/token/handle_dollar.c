@@ -73,9 +73,7 @@ int	handle_dollar_quoted(t_vars *vars, char *token, char *line, char *name)
 	temp = vars->token_i;
 	if (ft_isalnum(line[vars->parse_i + 1]) == 0)
 	{
-		printf("ici\n");
-		token = add_char_to_token('$', vars, vars->token_i, name);
-		printf("token == %p|\n", &token);
+		token = add_char_to_token('$', vars, vars->token_i, token);
 		return (0);
 	}
 	while (ft_strchr(END_CHARS, line[++vars->parse_i]) == NULL)
@@ -83,12 +81,13 @@ int	handle_dollar_quoted(t_vars *vars, char *token, char *line, char *name)
 		name = add_char_to_token(line[vars->parse_i], vars, j, name);
 		j++;
 	}
-	vars->token_i = temp;
 	name = add_char_to_token('\0', vars, j, name);
+	vars->token_i = temp;
 	token = expand_env(vars, token, name, line[vars->parse_i]);
-	printf("token == %s|\n", token);
 	if (line[vars->parse_i] == '"')
 		return (1);
+	if (line[vars->parse_i] == ' ')
+		token = add_char_to_token(' ', vars, vars->token_i, token);
 	return (0);
 }
 
@@ -102,7 +101,7 @@ void	handle_dollar_unquoted(t_vars *vars, char *token, char *line, char *name)
 	if (!line[vars->parse_i + 1] || line[vars->parse_i + 1] == '"')
 	{
 		token = add_char_to_token(line[vars->parse_i], vars, vars->token_i, token);
-		token = add_char_to_token('\0', vars, vars->token_i + 1, token);
+		token = add_char_to_token('\0', vars, vars->token_i, token);
 		return ;
 	}
 	while (ft_strchr(END_CHARS, line[++vars->parse_i]) == NULL)
@@ -110,10 +109,9 @@ void	handle_dollar_unquoted(t_vars *vars, char *token, char *line, char *name)
 		name = add_char_to_token(line[vars->parse_i], vars, j, name);
 		j++;
 	}
-	vars->token_i = temp;
 	name = add_char_to_token('\0', vars, j, name);
+	vars->token_i = temp;
 	token = expand_env(vars, token, name, line[vars->parse_i]);
-	printf("name == %s\n", name);
 	free(name);
 	return ;
 }
@@ -127,10 +125,7 @@ int	handle_dollar(t_vars *vars, char *token, char *line)
 	if (vars->state == BASIC)
 	{
 		handle_dollar_unquoted(vars, token, line, name);
-		{
-			free(name);
 			return (1);
-		}
 	}
 	else if (vars->state == D_QUOTE)
 	{
@@ -139,7 +134,6 @@ int	handle_dollar(t_vars *vars, char *token, char *line)
 			free(name);
 			return (1);
 		}
-		printf("token == %p|\n", &token);
 	}
 	else if (vars->state == S_QUOTE)
 		token = add_char_to_token('$', vars, vars->token_i, token);

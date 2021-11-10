@@ -17,6 +17,7 @@
 typedef struct	s_list
 {
 	char			*token;
+	int				index;
 	struct s_list	*next;
 }				t_list;
 
