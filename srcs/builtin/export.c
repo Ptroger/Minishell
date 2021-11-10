@@ -131,7 +131,6 @@ void    ft_export(t_list *tokens, t_sort **t_env, t_sort  **t_exp)
 	int		j;
     t_sort  *temp_exp;
     t_sort  *temp_env;
-//	t_sort  *temp_env_2;
 	t_sort	*new_exp;
 	t_sort	*new_env;
 
@@ -139,7 +138,6 @@ void    ft_export(t_list *tokens, t_sort **t_env, t_sort  **t_exp)
 	j = 0;
 	temp_exp = *t_exp;
 	temp_env = *t_env;
-//	temp_env_2 = *t_env;
 	if (tokens->next)
 	{
 		while (tokens->next->token[j] && tokens->next->token[j] != '=')
@@ -148,19 +146,17 @@ void    ft_export(t_list *tokens, t_sort **t_env, t_sort  **t_exp)
 		{
 			j = 0;
 			new_exp = malloc(sizeof(t_sort));
+			if (!new_exp)
+				return ;
 			new_env = malloc(sizeof(t_sort));
+			if (!new_env)
+				return ;
 			while (temp_exp->next)
 				temp_exp = temp_exp->next;
 			while (temp_env->next)
 				temp_env = temp_env->next;
-		/*	while (temp_env->str[0] != 'P' && temp_env->str[1] != 'W' && temp_env->str[2] != 'D')
-				temp_env = temp_env->next;
-			while (temp_env_2->str[0] != 'P' && temp_env_2->str[1] != 'W' && temp_env_2->str[2] != 'D')
-				temp_env_2 = temp_env_2->next;
-			temp_env_2 = temp_env_2->next;
-		*/	temp_exp->next = new_exp;
+			temp_exp->next = new_exp;
 			temp_env->next = new_env;
-		//	new_env->next = temp_env_2;
 			new_exp->data = malloc(sizeof(char) * ft_strlen(tokens->next->token) + 3);
 			new_env->data = ft_strdup(tokens->next->token);
 			new_env->next = NULL;
