@@ -70,7 +70,7 @@ void	ft_swap(t_sort **pile);
 void    ft_pwd();
 void    ft_unset(t_list *tokens, t_sort **t_env, t_sort  **t_exp);
 void	parse(char *line, t_vars *vars);
-int    	call_command(t_list *tokens, t_sort  **t_env, t_sort  **t_exp, t_pipe *pipe);
+int		call_command(t_vars **vars);
 int		ft_error(char *str);
 int		ft_pile_in_order(t_sort **pile_a);
 int  	ft_pipe(t_list *tokens, t_pipe *pipe, char **tab);

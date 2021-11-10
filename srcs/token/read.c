@@ -65,7 +65,8 @@ int	main(int ac, char **av, char **env)
 		parse(line, vars);
 		free(line);
 		tet = vars->tokens;
-		call_command(tet, &vars->t_env, &vars->t_exp, vars->store);
+		call_command(&vars);
+	//	call_command(tet, &vars->t_env, &vars->t_exp, vars->store);
 		ft_lstclear(&vars->tokens, free);
 	}
 }

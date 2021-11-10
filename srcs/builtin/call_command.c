@@ -12,27 +12,27 @@
 
 #include "minishell.h"
 
-void	ft_call_builtin(t_list *tokens, t_sort **t_env, t_sort **t_exp)
+void	ft_call_builtin(t_vars **vars)
 {
-	if (ft_strcmp(tokens->token, "cd") == 0)
-		ft_cd(tokens->next->token);
-	if (ft_strcmp(tokens->token, "echo") == 0)
+	if (ft_strcmp((*vars)->tokens->token, "cd") == 0)
+		ft_cd((*vars)->tokens->next->token);
+	if (ft_strcmp((*vars)->tokens->token, "echo") == 0)
 	{
-		if (ft_strcmp(tokens->next->token, "-n") == 0)
-			ft_echo_n(tokens->next->next->token);
+		if (ft_strcmp((*vars)->tokens->next->token, "-n") == 0)
+			ft_echo_n((*vars)->tokens->next->next->token);
 		else
-			ft_echo(tokens->next->token);
+			ft_echo((*vars)->tokens->next->token);
 	}
-	if (ft_strcmp(tokens->token, "env") == 0)
-		ft_env(t_env);
-	if (ft_strcmp(tokens->token, "exit") == 0)
+	if (ft_strcmp((*vars)->tokens->token, "env") == 0)
+		ft_env(&(*vars)->t_env);
+	if (ft_strcmp((*vars)->tokens->token, "exit") == 0)
 		exit(1);
-	if (ft_strcmp(tokens->token, "export") == 0)
-		ft_export(tokens, t_env, t_exp);
-	if (ft_strcmp(tokens->token, "pwd") == 0)
+	if (ft_strcmp((*vars)->tokens->token, "export") == 0)
+		ft_export((*vars)->tokens, &(*vars)->t_env, &(*vars)->t_exp);
+	if (ft_strcmp((*vars)->tokens->token, "pwd") == 0)
 		ft_pwd();
-	if (ft_strcmp(tokens->token, "unset") == 0 && tokens->next)
-		ft_unset(tokens, t_env, t_exp);
+	if (ft_strcmp((*vars)->tokens->token, "unset") == 0 && (*vars)->tokens->next)
+		ft_unset((*vars)->tokens, &(*vars)->t_env, &(*vars)->t_exp);
 }
 
 int	ft_is_builtin(char *token)
@@ -70,7 +70,7 @@ void	ft_single_command(t_list *tokens, char **cmd, char **tab, int size)
 		ft_find_cmd(tokens->token, cmd, tab);
 }
 
-int	call_command(t_list *tokens, t_sort **t_env, t_sort **t_exp, t_pipe *store)
+int	call_command(t_vars **vars)
 {
 	int		size;
 	char	**cmd;
@@ -79,18 +79,18 @@ int	call_command(t_list *tokens, t_sort **t_env, t_sort **t_exp, t_pipe *store)
 
 	size = 1;
 	tab = ft_split(getenv("PATH"), ':');
-	temp = tokens;
+	temp = (*vars)->tokens;
 	while (temp->next)
 	{
 		if (ft_strcmp(temp->token, "|") == 0)
-			return (ft_pipe(tokens, store, tab));
+			return (ft_pipe((*vars)->tokens, (*vars)->store, tab));
 		temp = temp->next;
 		size++;
 	}
 	cmd = ft_command_size(size);
-	if (ft_is_builtin(tokens->token) == 1)
-		ft_call_builtin(tokens, t_env, t_exp);
+	if (ft_is_builtin((*vars)->tokens->token) == 1)
+		ft_call_builtin(vars);
 	else
-		ft_single_command(tokens, cmd, tab, size);
+		ft_single_command((*vars)->tokens, cmd, tab, size);
 	return (0);
 }
