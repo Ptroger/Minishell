@@ -24,6 +24,8 @@ typedef struct      s_sort
 typedef	struct		s_pipe
 {
 	int				size;
+	char			*token;
+	char			**cmd;
 	char			**cell;
 	struct s_pipe	*next;
 }					t_pipe;
@@ -44,7 +46,9 @@ typedef struct	s_vars
 void	add_token(t_vars *vars);
 void	ft_add_elem(t_sort **sort, char *env);
 void	ft_add_elem_exp(t_sort **sort, char *env);
+void	ft_add_elem_pipe(t_pipe **store);
 void    ft_cd(char *path);
+void	ft_dup(t_pipe *temp_p, int count, int size, int *pfd);
 void    ft_echo(char *str);
 void    ft_echo_n(char *str);
 void    ft_env(t_sort **env);
@@ -64,6 +68,7 @@ void    ft_pwd();
 void    ft_unset(t_list *tokens, t_sort **t_env, t_sort  **t_exp);
 void	parse(char *line, t_vars *vars);
 int    	call_command(t_list *tokens, t_sort  **t_env, t_sort  **t_exp, t_pipe *pipe);
+int		ft_error(char *str);
 int		ft_pile_in_order(t_sort **pile_a);
 int  	ft_pipe(t_list *tokens, t_pipe *pipe, char **tab);
 int     ft_strcmp(const char *s1, const char *s2);
