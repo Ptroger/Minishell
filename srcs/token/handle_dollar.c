@@ -49,15 +49,20 @@ char	*expand_env(t_vars *vars, char *token, char *name, char c)
 
 	i = 0;
 	env = getenv(name);
-	if (!env)
+	if (ft_strcmp("?", name) == 0)
+		token = ft_itoa(vars->exit_status);
+	else
 	{
-		token = add_char_to_token('\0', vars, vars->token_i, token);
-		return (NULL);
-	}
-	while (env[i])
-	{
-		token = add_char_to_token(env[i], vars, vars->token_i, token);
-		i++;
+		if (!env)
+		{
+			token = add_char_to_token('\0', vars, vars->token_i, token);
+			return (NULL);
+		}
+		while (env[i])
+		{
+			token = add_char_to_token(env[i], vars, vars->token_i, token);
+			i++;
+		}
 	}
 	if (vars->state == BASIC || (vars->state == D_QUOTE && c == '"'))
 		token = add_char_to_token('\0', vars, vars->token_i, token);
