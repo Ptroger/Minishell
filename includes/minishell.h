@@ -48,7 +48,7 @@ void	ft_putendl(char *s);
 void	ft_reverse_rotate(t_sort **pile);
 void	ft_strcpy(char *old, char *ne, int i);
 void	ft_swap(t_sort **pile);
-void	add_token(t_vars *vars);
+void	add_token(t_vars *vars, int i);
 int		ft_pile_in_order(t_sort **pile_a);
 int     ft_strcmp(const char *s1, const char *s2);
 char	*ft_return_max(t_sort **pile_a);

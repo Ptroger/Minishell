@@ -20,7 +20,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void*), void (*del)(void*))
 		return (NULL);
 	if (lst)
 	{
-		new_lst = ft_lstnew(f(lst->token));
+		new_lst = ft_lstnew(f(lst->token), 0);
 		new_lst->next = ft_lstmap(lst->next, f, del);
 		return (new_lst);
 	}
