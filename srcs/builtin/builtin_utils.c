@@ -68,7 +68,7 @@ char	*find_path(char *token, char *tab)
 	return (path);
 }
 
-void	ft_find_cmd(char *token, char **cmd, char **tab)
+void	ft_find_cmd(t_vars **vars, char *token, char **cmd, char **tab)
 {
 	int		i;
 
@@ -76,7 +76,7 @@ void	ft_find_cmd(char *token, char **cmd, char **tab)
 	while (tab[i])
 	{
 		cmd[0] = find_path(token, tab[i]);
-		if (execve(cmd[0], cmd, 0) == -1)
+		if (((*vars)->exit_status = execve(cmd[0], cmd, 0) == -1))
 			i++;
 		free(cmd[0]);
 	}

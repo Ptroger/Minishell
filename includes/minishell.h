@@ -36,6 +36,7 @@ typedef struct	s_vars
 	int				name_i;
 	int		token_size;
 	int		finish_line;
+	int		exit_status;
 	t_pipe	*store;
 	t_list	*tokens;
 	t_sort	*t_env;
@@ -53,7 +54,7 @@ void    ft_echo(char *str);
 void    ft_echo_n(char *str);
 void    ft_env(t_sort **env);
 void    ft_export(t_list *tokens, t_sort **t_env, t_sort  **t_exp);
-void    ft_find_cmd(char *token, char **cmd, char **tab);
+void    ft_find_cmd(t_vars **vars, char *token, char **cmd, char **tab);
 void	ft_get_env_name(t_sort  **t_env, char **env);
 void	ft_lstadd_back(t_list **alst, t_list *new);
 void	ft_lstiter(t_list *lst, void (*f)(char *));
