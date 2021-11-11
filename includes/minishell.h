@@ -42,7 +42,7 @@ typedef struct	s_vars
 	t_sort	*t_exp;
 }				t_vars;
 
-void	add_token(t_vars *vars);
+void	add_token(t_vars *vars, int i);
 void	ft_add_elem(t_sort **sort, char *env);
 void	ft_add_elem_exp(t_sort **sort, char *env);
 void	ft_add_elem_exp_2(t_sort **sort, t_sort *new_elem, char *env);
@@ -84,6 +84,6 @@ char	*ft_strcpy_ari(char *dest, char *src);
 char	*ft_strdup(const char *s1);
 char  	**ft_command_size(int size);
 char	**ft_split(const char *str, char c);
-t_list	*ft_lstnew(void *content);
+t_list	*ft_lstnew(void *content, int i);
 
 #endif
