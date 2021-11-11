@@ -6,16 +6,16 @@
 /*   By: aribesni <aribesni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:26:55 by aribesni          #+#    #+#             */
-/*   Updated: 2021/10/15 18:26:58 by aribesni         ###   ########.fr       */
+/*   Updated: 2021/11/10 09:38:11 by aribesni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    ft_pwd()
+void	ft_pwd(void)
 {
-    char    *buf;
+	char	*buf;
 
-    buf = NULL;
-    printf("%s\n", (getcwd(buf, sizeof(buf))));
+	buf = NULL;
+	printf("%s\n", (getcwd(buf, sizeof(buf))));
 }

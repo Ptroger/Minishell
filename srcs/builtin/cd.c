@@ -6,13 +6,13 @@
 /*   By: aribesni <aribesni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 20:12:31 by aribesni          #+#    #+#             */
-/*   Updated: 2021/10/15 20:12:33 by aribesni         ###   ########.fr       */
+/*   Updated: 2021/11/10 09:36:45 by aribesni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    ft_cd(char *path)
+void	ft_cd(char *path)
 {
-    chdir(path);
+	chdir(path);
 }
