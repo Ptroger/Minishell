@@ -45,7 +45,7 @@ int	ft_is_builtin(char *token)
 	return (0);
 }
 
-void	ft_single_command(t_list *tokens, char **cmd, char **tab, int size)
+void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, char **tab, int size)
 {
 	int		i;
 	pid_t	pid;
@@ -67,7 +67,7 @@ void	ft_single_command(t_list *tokens, char **cmd, char **tab, int size)
 	pid = fork();
 	wait(NULL);
 	if (pid == 0)
-		ft_find_cmd(tokens->token, cmd, tab);
+		ft_find_cmd(vars, tokens->token, cmd, tab);
 }
 
 int	call_command(t_vars **vars)
@@ -91,6 +91,6 @@ int	call_command(t_vars **vars)
 	if (ft_is_builtin((*vars)->tokens->token) == 1)
 		ft_call_builtin(vars);
 	else
-		ft_single_command((*vars)->tokens, cmd, tab, size);
+		ft_single_command(vars, (*vars)->tokens, cmd, tab, size);
 	return (0);
 }
