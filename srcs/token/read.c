@@ -1,20 +1,20 @@
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 void	init_token(t_vars *vars)
 {
 	char	*token;
 
 	token = malloc(sizeof(char) * vars->token_size);
-	vars->tokens = ft_lstnew((void *)token);
+	vars->tokens = ft_lstnew((void *)token, 0);
 }
 
-void	add_token(t_vars *vars)
+void	add_token(t_vars *vars, int i)
 {
 	t_list	*list;
 	char	*token;
 
 	token = malloc(sizeof(char) * vars->token_size);
-	list = ft_lstnew((void *)token);
+	list = ft_lstnew((void *)token, i);
 	ft_lstadd_back(&vars->tokens, list);
 }
 
@@ -71,6 +71,7 @@ int	main(int ac, char **av, char **env)
             ft_swap(&t_exp);
         ft_reverse_rotate(&t_exp);
     }
+//	TODO: vars = init_vars();
 	vars = malloc(sizeof(t_vars));
 	vars->shell = RUNNING;
 	vars->state = BASIC;
@@ -88,5 +89,5 @@ int	main(int ac, char **av, char **env)
 		call_command(vars->tokens, &t_env, &t_exp);
 		ft_lstclear(&vars->tokens, free);
 	}
-//	destroy(vars);
+//	TODO: destroy(vars);
 }

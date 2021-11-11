@@ -22,11 +22,11 @@ char	*add_char_to_token(char c, t_vars *vars, int i, char *token)
 	return (token);
 }
 
-static void	finish_token(t_vars *vars, char *token)
+static void	finish_token(t_vars *vars, char *token, int i)
 {
 	t_list	*new_tok;
 
-	new_tok = ft_lstnew((void *)token);
+	new_tok = ft_lstnew((void *)token, i);
 	ft_lstadd_back(&vars->tokens, new_tok);
 	vars->state = BASIC;
 }
@@ -69,7 +69,6 @@ int	handle_space(t_vars *vars, char *token, char *line)
 	else if (vars->parse_i >= 1 && line[vars->parse_i - 1] != ' ' && vars->state == BASIC)
 	{
 		token = add_char_to_token('\0', vars, vars->token_i, token);
-		vars->parse_i += 1;
 		return (1);
 	}
 	return (0);
@@ -79,19 +78,13 @@ int	handlers(t_vars *vars, char *token, char *line)
 {
 	if (line[vars->parse_i] == '$')
 	{
-		printf("vars->parse_i == %d\n", vars->parse_i);
 		if (handle_dollar(vars, token, line) == 1)
-		{
 			return (1);
-		}
-		printf("DANS token %s|\n", token);
-		printf("vars->parse_i == %d\n", vars->parse_i);
 	}
 	else if (line[vars->parse_i] == '\'' || line[vars->parse_i] == '"')
 	{
 		if (handle_quotes(vars, token, line) == 1)
 			return (1);
-		printf("state = %d\n", vars->state);
 	}
 	else if (line[vars->parse_i] == ' ')
 	{
@@ -112,7 +105,10 @@ char	*get_next_token(char *line, t_vars *vars)
 	while (line[vars->parse_i])
 	{
 		if (handlers(vars, token, line) == 1)
+		{
+			vars->parse_i += 1;
 			return (token);
+		}
 		vars->parse_i += 1;
 	}
 	vars->finish_line = TRUE;
@@ -123,12 +119,15 @@ char	*get_next_token(char *line, t_vars *vars)
 void	parse(char *line, t_vars *vars)
 {
 	char	*token;
+	int		i;
 
+	i = 0;
 	while (vars->finish_line == FALSE)
 	{
 		vars->token_i = 0;
 		token = get_next_token(line, vars);
-		finish_token(vars, token);
+		finish_token(vars, token, i);
+		i++;
 	}
 	vars->finish_line = FALSE;
 }
