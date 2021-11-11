@@ -83,7 +83,7 @@ int	call_command(t_vars **vars)
 	while (temp->next)
 	{
 		if (ft_strcmp(temp->token, "|") == 0)
-			return (ft_pipe((*vars)->tokens, (*vars)->store, tab));
+			return (ft_pipe(vars, (*vars)->tokens, (*vars)->store, tab));
 		temp = temp->next;
 		size++;
 	}

@@ -76,7 +76,7 @@ int		call_command(t_vars **vars);
 int		ft_error(char *str);
 void	add_token(t_vars *vars, int i);
 int		ft_pile_in_order(t_sort **pile_a);
-int  	ft_pipe(t_list *tokens, t_pipe *pipe, char **tab);
+int  	ft_pipe(t_vars **vars, t_list *tokens, t_pipe *pipe, char **tab);
 int     ft_strcmp(const char *s1, const char *s2);
 int		ft_strlen(const char *str);
 char    *find_path(char *token, char *tab);
