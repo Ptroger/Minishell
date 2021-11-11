@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstmap.c                                        :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ptroger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/13 14:23:51 by ptroger           #+#    #+#             */
-/*   Updated: 2020/01/05 19:30:10 by ptroger          ###   ########.fr       */
+/*   Created: 2019/11/06 14:51:33 by ptroger           #+#    #+#             */
+/*   Updated: 2019/11/13 12:19:27 by ptroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void*), void (*del)(void*))
+void	ft_bzero(void *s, size_t n)
 {
-	t_list	*new_lst;
-
-	if (!lst || !f)
-		return (NULL);
-	if (lst)
-	{
-		new_lst = ft_lstnew(f(lst->content));
-		new_lst->next = ft_lstmap(lst->next, f, del);
-		return (new_lst);
-	}
-	return (NULL);
+	ft_memset(s, 0, n);
 }

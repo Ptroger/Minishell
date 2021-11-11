@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstiter.c                                       :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ptroger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/13 14:22:49 by ptroger           #+#    #+#             */
-/*   Updated: 2020/01/04 19:41:44 by ptroger          ###   ########.fr       */
+/*   Created: 2019/11/06 14:52:09 by ptroger           #+#    #+#             */
+/*   Updated: 2019/11/06 14:52:10 by ptroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	ft_lstiter(t_list *lst, void (*f)(char *))
+int	ft_isdigit(int c)
 {
-	if (!f)
-		return ;
-	while (lst)
-	{
-		f(lst->token);
-		lst = lst->next;
-	}
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
 }

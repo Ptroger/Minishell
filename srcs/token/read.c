@@ -1,20 +1,20 @@
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 void	init_token(t_vars *vars)
 {
 	char	*token;
 
 	token = malloc(sizeof(char) * vars->token_size);
-	vars->tokens = ft_lstnew((void *)token);
+	vars->tokens = ft_lstnew((void *)token, 0);
 }
 
-void	add_token(t_vars *vars)
+void	add_token(t_vars *vars, int i)
 {
 	t_list	*list;
 	char	*token;
 
 	token = malloc(sizeof(char) * vars->token_size);
-	list = ft_lstnew((void *)token);
+	list = ft_lstnew((void *)token, i);
 	ft_lstadd_back(&vars->tokens, list);
 }
 
@@ -33,7 +33,6 @@ void	ft_putstr_lst(char *token)
 t_vars	*ft_init_vars(void)
 {
 	t_vars	*vars;
-
 	vars = malloc(sizeof(t_vars));
 	vars->shell = RUNNING;
 	vars->state = BASIC;
@@ -60,6 +59,7 @@ int	main(int ac, char **av, char **env)
 	ft_set_exp(&vars->t_exp, &vars->t_env);
 	while (vars->shell == RUNNING)
 	{
+		vars->parse_i = 0;
 		line = readline(PROMPT);
 		add_history(line);
 		parse(line, vars);
@@ -69,4 +69,5 @@ int	main(int ac, char **av, char **env)
 	//	call_command(tet, &vars->t_env, &vars->t_exp, vars->store);
 		ft_lstclear(&vars->tokens, free);
 	}
+//	TODO: destroy(vars);
 }

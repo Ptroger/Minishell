@@ -1,29 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear.c                                      :+:      :+:    :+:   */
+/*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ptroger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/13 14:19:12 by ptroger           #+#    #+#             */
-/*   Updated: 2019/11/13 19:16:58 by ptroger          ###   ########.fr       */
+/*   Created: 2019/11/06 14:52:19 by ptroger           #+#    #+#             */
+/*   Updated: 2019/11/06 14:52:20 by ptroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	ft_lstclear(t_list **lst, void (*del)(void *))
+int	ft_isprint(int c)
 {
-	t_list	*old_elem;
-
-	if (!del)
-		return ;
-	while (*lst)
-	{
-		del((*lst)->token);
-		old_elem = *lst;
-		*lst = old_elem->next;
-		free(old_elem);
-	}
-	*lst = NULL;
+	if (c >= 32 && c <= 126)
+		return (1);
+	return (0);
 }

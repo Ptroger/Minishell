@@ -4,15 +4,11 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "constants.h"
-
-typedef struct		s_list
-{
-	char			*token;
-	struct s_list	*next;
-}					t_list;
+# include "../libft/libft.h"
 
 typedef struct      s_sort
 {
@@ -35,12 +31,15 @@ typedef struct	s_vars
 //	shell = savoir si il faut arrêter minishell
 	int		shell;
 	int		state;
+  	int token_i;
+	int    parse_i;
+	int				name_i;
 	int		token_size;
 	int		finish_line;
+	t_pipe	*store;
 	t_list	*tokens;
 	t_sort	*t_env;
 	t_sort	*t_exp;
-	t_pipe	*store;
 }				t_vars;
 
 void	add_token(t_vars *vars);
@@ -59,6 +58,9 @@ void	ft_get_env_name(t_sort  **t_env, char **env);
 void	ft_lstadd_back(t_list **alst, t_list *new);
 void	ft_lstiter(t_list *lst, void (*f)(char *));
 void	ft_lstclear(t_list **alst, void (*del)(void *));
+void	parse(char *line, t_vars *vars);
+int		handle_dollar(t_vars *vars, char *token, char *line);
+char	*add_char_to_token(char c, t_vars *vars, int i, char *token);
 void	ft_putchar(char c);
 void	ft_putstr(char *str);
 void	ft_putendl(char *s);
@@ -69,16 +71,15 @@ void	ft_strcpy(char *old, char *ne, int i);
 void	ft_swap(t_sort **pile);
 void    ft_pwd();
 void    ft_unset(t_list *tokens, t_sort **t_env, t_sort  **t_exp);
-void	parse(char *line, t_vars *vars);
 int		call_command(t_vars **vars);
 int		ft_error(char *str);
+void	add_token(t_vars *vars, int i);
 int		ft_pile_in_order(t_sort **pile_a);
 int  	ft_pipe(t_list *tokens, t_pipe *pipe, char **tab);
 int     ft_strcmp(const char *s1, const char *s2);
 int		ft_strlen(const char *str);
 char    *find_path(char *token, char *tab);
 char	*ft_return_max(t_sort **pile_a);
-char	*ft_strcat(char *s1, const char *s2);
 char	*ft_strcpy_ari(char *dest, char *src);
 char	*ft_strdup(const char *s1);
 char  	**ft_command_size(int size);
