@@ -49,6 +49,11 @@ char	*expand_env(t_vars *vars, char *token, char *name, char c)
 
 	i = 0;
 	env = getenv(name);
+	if (ft_strcmp("?", name) == 0)
+	{
+		free(token);
+		return (ft_itoa(vars->exit_status));
+	}
 	if (!env)
 	{
 		token = add_char_to_token('\0', vars, vars->token_i, token);

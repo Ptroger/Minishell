@@ -31,9 +31,9 @@ typedef struct	s_vars
 //	shell = savoir si il faut arrêter minishell
 	int		shell;
 	int		state;
-  	int token_i;
-	int    parse_i;
-	int				name_i;
+  	int		token_i;
+	int		parse_i;
+	int		name_i;
 	int		token_size;
 	int		finish_line;
 	int		exit_status;
@@ -86,5 +86,6 @@ char	*ft_strdup(const char *s1);
 char  	**ft_command_size(int size);
 char	**ft_split(const char *str, char c);
 t_list	*ft_lstnew(void *content, int i);
+int	ft_mul_strcmp(const char **s1, const char *s2);
 
 #endif
