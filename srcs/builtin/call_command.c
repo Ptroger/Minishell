@@ -18,7 +18,9 @@ void	ft_call_builtin(t_vars **vars)
 		ft_cd((*vars)->tokens->next->token);
 	if (ft_strcmp((*vars)->tokens->token, "echo") == 0)
 	{
-		if (ft_strcmp((*vars)->tokens->next->token, "-n") == 0)
+        if (!(*vars)->tokens->next)
+            ft_echo("");
+		else if (ft_strcmp((*vars)->tokens->next->token, "-n") == 0)
 			ft_echo_n((*vars)->tokens->next->next->token);
 		else
 			ft_echo((*vars)->tokens->next->token);

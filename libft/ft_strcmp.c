@@ -1,19 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aribesni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/08 09:52:42 by aribesni          #+#    #+#             */
-/*   Updated: 2019/10/08 09:52:44 by aribesni         ###   ########.fr       */
+/*   Created: 2019/10/08 09:53:04 by aribesni          #+#    #+#             */
+/*   Updated: 2021/09/21 09:57:54 by aribesni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	ft_putstr(char *str)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	while (*str)
-		ft_putchar(*str++);
+	int		i;
+
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

@@ -62,7 +62,7 @@ char	*find_path(char *token, char *tab)
 	char	*path;
 
 	path = malloc(sizeof(char) * ft_strlen(token) + ft_strlen(tab) + 2);
-	path = ft_strcpy_ari(path, tab);
+	path = ft_strcpy(path, tab);
 	path = ft_strcat(path, "/");
 	path = ft_strcat(path, token);
 	return (path);
