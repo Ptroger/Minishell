@@ -1,65 +1,25 @@
 #include "../includes/minishell.h"
 #include <string.h>
 
-char	*get_tok_index(t_list *lst, int i)
-{
-	while (lst && lst->index != i)
-		lst = lst->next;
-	if (!lst)
-		return (NULL);
-	return (lst->token);
-}
-
-int	ft_mul_strcmp(const char **s1, const char *s2)
-{
-	int	i;
-
-	i = 0;
-	while (s1[i] != NULL)
-	{
-		if (ft_strcmp(s1[i], s2) == 0)
-			return (TRUE);
-		i++;
-	}
-	return (FALSE);
-}
-
-int	check_redirs(t_vars *vars)
-{
-	t_list	*iter;
-	int	i;
-
-	i = 0;
-	iter = vars->tokens;
-	while (iter)
-	{
-		if (ft_mul_strcmp(REDIRS_STRINGS, iter->token) == TRUE)
-		return (i);
-		iter = iter->next;
-		i++;
-	}
-	return (-1);
-}
-
-void	redirect_input(t_vars *vars, char *token, char *name, int fd)
+void	redirect_input(t_vars *vars, char *name)
 {
 	int	file;
 	int	stdin;
 
+//	printf("name == %s\n", name);
 	file = open(name, O_RDONLY, 0777);
 	if (file == -1)
 	{
-		printf("%s\n", strerror(file));
+		printf("error = %s\n", strerror(file));
 		return ;
 	}
 	stdin = dup2(file, STDIN_FILENO);
+	call_command(&vars, TRUE);
 	close(file);
-//	exec command
-	else
-		wait(NULL);
+	exit(0);
 }
 
-void	redirect_output(t_vars *vars, char *token, char *name, int fd)
+void	redirect_output(t_vars *vars, char *name)
 {
 	int	file;
 	int	stdout;
@@ -71,13 +31,12 @@ void	redirect_output(t_vars *vars, char *token, char *name, int fd)
 		return ;
 	}
 	stdout = dup2(file, STDOUT_FILENO);
+	call_command(&vars, TRUE);
 	close(file);
-//	exec command
-	else
-		wait(NULL);
+	exit(0);
 }
 
-void	redirect(t_vars *vars, char *token, char *name, int fd)
+int	redirect(t_vars *vars, char *token, char *name)
 {
 	int	pid;
 
@@ -85,35 +44,33 @@ void	redirect(t_vars *vars, char *token, char *name, int fd)
 	if (pid == -1)
 	{
 		printf("%s\n", strerror(pid));
-		return ;
+		return (pid);
 	}
 	else if (pid == 0)
 	{
 		if (ft_strcmp(token, "<") == 0)
-			redirect_input(vars, tok, name, fd);
+			redirect_input(vars, name);
 		else if (ft_strcmp(token, ">") == 0)
-			redirect_output(vars, tok, name, fd);
-//		else if (ft_strcmp(token, "|") == 0)
-//			redirect_pipe(vars);
+			redirect_output(vars, name);
 	}
+	else
+	{
+//		printf("je suis papa \n");
+		wait(NULL);
+//		printf("la\n");
+	}
+	return (pid);
 }
 
-void	handle_redirs(t_vars *vars)
+int	handle_redirs(t_vars *vars, t_list *tokens, t_pipe *store, char **tab)
 {
-	int res;
 	char	*token;
 	char	*name;
 
-	token = get_tok_index(vars->tokens, res - 1);
-	name = get_tok_index(vars->tokens, res + 1);
-	res = check_redirs(vars);
-	//		ya r
-	if (res == -1)
-		return ;
-	//		Cas ou on redirige depuis ou vers l'entrée ou la sortie standard
-	else if (res == 0 && ft_lstlast(vars->tokens)->index == 1)
-		redirect(vars, NULL, name, TRUE);
-	//		Cas normal
+	token = get_tok_index(tokens, vars->special_i);
+	name = get_tok_index(tokens, vars->special_i + 1);
+	if (ft_strcmp("|", tokens->token) == 0)
+		return (ft_pipe(&vars, tokens, store, tab));
 	else
-		redirect(vars, token, name, FALSE)
+		return (redirect(vars, token, name));
 }

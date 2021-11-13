@@ -37,6 +37,8 @@ typedef struct	s_vars
 	int		token_size;
 	int		finish_line;
 	int		exit_status;
+	int		special_i;
+	int		size;
 	t_pipe	*store;
 	t_list	*tokens;
 	t_sort	*t_env;
@@ -72,7 +74,7 @@ void	ft_strcpy(char *old, char *ne, int i);
 void	ft_swap(t_sort **pile);
 void    ft_pwd();
 void    ft_unset(t_list *tokens, t_sort **t_env, t_sort  **t_exp);
-int		call_command(t_vars **vars);
+int		call_command(t_vars **vars, int is_child);
 int		ft_error(char *str);
 void	add_token(t_vars *vars, int i);
 int		ft_pile_in_order(t_sort **pile_a);
@@ -86,6 +88,9 @@ char	*ft_strdup(const char *s1);
 char  	**ft_command_size(int size);
 char	**ft_split(const char *str, char c);
 t_list	*ft_lstnew(void *content, int i);
-int	ft_mul_strcmp(const char **s1, const char *s2);
+int		ft_mul_strcmp(const char **s1, const char *s2);
+int 	is_special(t_vars *vars, t_list *tokens);
+char	*get_tok_index(t_list *lst, int i);
+int	handle_redirs(t_vars *vars, t_list *tokens, t_pipe *store, char **tab);
 
 #endif
