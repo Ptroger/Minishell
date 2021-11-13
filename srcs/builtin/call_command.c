@@ -85,8 +85,8 @@ int	call_command(t_vars **vars, int is_child)
 		{
 			if (is_special(*vars, temp) != FALSE)
 			{
-//				printf("temp->token = %s\n", temp->token);
-				return (handle_redirs(*vars, (*vars)->tokens, (*vars)->store, tab));
+				printf("temp->token = %s\n", temp->token);
+				return (handle_redirs(vars, temp, (*vars)->store, tab));
 			}
 			temp = temp->next;
 			(*vars)->size++;
