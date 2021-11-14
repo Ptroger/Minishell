@@ -19,11 +19,11 @@ void	ft_call_builtin(t_vars **vars)
 	if (ft_strcmp((*vars)->tokens->token, "echo") == 0)
 	{
         if (!(*vars)->tokens->next)
-            ft_echo("");
+            ft_putstr("\n");
 		else if (ft_strcmp((*vars)->tokens->next->token, "-n") == 0)
-			ft_echo_n((*vars)->tokens->next->next->token);
+            ft_echo_n((*vars)->tokens->next->next);
 		else
-			ft_echo((*vars)->tokens->next->token);
+            ft_echo((*vars)->tokens->next);
 	}
 	if (ft_strcmp((*vars)->tokens->token, "env") == 0)
 		ft_env(&(*vars)->t_env);
@@ -47,7 +47,7 @@ int	ft_is_builtin(char *token)
 	return (0);
 }
 
-void	ft_single_command(t_list *tokens, char **cmd, char **tab, int size)
+void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
 {
 	int		i;
 	pid_t	pid;
@@ -69,23 +69,22 @@ void	ft_single_command(t_list *tokens, char **cmd, char **tab, int size)
 	pid = fork();
 	wait(NULL);
 	if (pid == 0)
-		ft_find_cmd(tokens->token, cmd, tab);
+		ft_find_cmd(tokens->token, cmd, (*vars)->path);
 }
 
 int	call_command(t_vars **vars)
 {
 	int		size;
 	char	**cmd;
-	char	**tab;
 	t_list	*temp;
 
 	size = 1;
-	tab = ft_split(getenv("PATH"), ':');
+	(*vars)->path = ft_split(getenv("PATH"), ':');
 	temp = (*vars)->tokens;
 	while (temp->next)
 	{
 		if (ft_strcmp(temp->token, "|") == 0)
-			return (ft_pipe((*vars)->tokens, (*vars)->store, tab));
+			return (ft_pipe(vars, (*vars)->tokens, (*vars)->store));
 		temp = temp->next;
 		size++;
 	}
@@ -93,6 +92,6 @@ int	call_command(t_vars **vars)
 	if (ft_is_builtin((*vars)->tokens->token) == 1)
 		ft_call_builtin(vars);
 	else
-		ft_single_command((*vars)->tokens, cmd, tab, size);
+		ft_single_command(vars, (*vars)->tokens, cmd, size);
 	return (0);
 }

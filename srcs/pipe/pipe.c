@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	ft_process(t_pipe *temp_p, char **tab, int size, int *pfd)
+int	ft_process(t_vars **vars, t_pipe *temp_p, int size, int *pfd)
 {
 	int		i;
 	int		count;
@@ -32,7 +32,13 @@ int	ft_process(t_pipe *temp_p, char **tab, int size, int *pfd)
 		if (child == 0)
 		{
 			ft_dup(temp_p, count, size, pfd);
-			ft_find_cmd(temp_p->token, temp_p->cmd, tab);
+			if (ft_is_builtin(temp_p->token) == 1)
+			{
+				ft_call_builtin(vars);
+				exit(1);
+			}
+			else
+				ft_find_cmd(temp_p->token, temp_p->cmd, (*vars)->path);
 		}
 		count += 2;
 		temp_p = temp_p->next;
@@ -40,7 +46,7 @@ int	ft_process(t_pipe *temp_p, char **tab, int size, int *pfd)
 	return (1);
 }
 
-int	ft_child(t_pipe *store, char **tab, int size)
+int	ft_child(t_vars **vars, t_pipe *store, int size)
 {
 	int		i;
 	int		status;
@@ -57,7 +63,7 @@ int	ft_child(t_pipe *store, char **tab, int size)
 		if (pipe(pfd + i * 2) == -1)
 			return (ft_error("pipe failed"));
 	}
-	ft_process(temp_p, tab, size, pfd);
+	ft_process(vars, temp_p, size, pfd);
 	i = -1;
 	while (++i < (2 * (size - 1)))
 		close(pfd[i]);
@@ -112,20 +118,20 @@ void	ft_store_command(t_list *tokens, t_pipe *store)
 	}
 }
 
-int	ft_pipe(t_list *tokens, t_pipe *store, char **tab)
+int	ft_pipe(t_vars **vars, t_list *tokens, t_pipe *store)
 {
 	int		i;
 	int		size;
-	t_list	*temp_1;
+	t_list	*temp;
 
 	i = 0;
 	size = 0;
-	temp_1 = tokens;
-	while (temp_1)
+	temp = tokens;
+	while (temp)
 	{
-		if (ft_strcmp(temp_1->token, "|") == 0)
+		if (ft_strcmp(temp->token, "|") == 0)
 			size++;
-		temp_1 = temp_1->next;
+		temp = temp->next;
 	}
 	size++;
 	while (i < size)
@@ -134,6 +140,6 @@ int	ft_pipe(t_list *tokens, t_pipe *store, char **tab)
 		i++;
 	}
 	ft_store_command(tokens, store);
-	ft_child(store, tab, size);
+	ft_child(vars, store, size);
 	return (0);
 }
