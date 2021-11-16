@@ -72,28 +72,32 @@ void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
 		ft_find_cmd(tokens->token, cmd, (*vars)->path);
 }
 
-int	call_command(t_vars **vars)
+int	call_command(t_vars **vars, int is_child)
 {
-	int		size;
 	char	**cmd;
 	t_list	*temp;
 
-	size = 1;
 	(*vars)->path = ft_split(getenv("PATH"), ':');
 	temp = (*vars)->tokens;
-	while (temp->next)
+	(*vars)->size = 1;
+	if (is_child == FALSE)
 	{
-		if (ft_strcmp(temp->token, "|") == 0)
-			return (ft_pipe(vars, (*vars)->store));
-		temp = temp->next;
-		size++;
+		while (temp->next)
+		{
+			if (is_special(*vars, temp) != FALSE)
+			{
+				printf("temp->token = %s\n", temp->token);
+				return (handle_redirs(vars, temp, (*vars)->store, (*vars)->path));
+			}
+			temp = temp->next;
+			(*vars)->size++;
+		}
 	}
-	cmd = ft_command_size(size);
+	cmd = ft_command_size((*vars)->size);
 	if (ft_is_builtin((*vars)->tokens->token) == 1)
 		ft_call_builtin(vars);
 	else
-		ft_single_command(vars, (*vars)->tokens, cmd, size);
-	free((*vars)->path);
+		ft_single_command(vars, (*vars)->tokens, cmd, (*vars)->size);
 	free(cmd);
 	return (0);
 }

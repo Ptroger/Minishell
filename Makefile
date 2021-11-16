@@ -15,6 +15,8 @@ SRCS    =		srcs/token/read.c \
 				srcs/builtin/unset.c \
 				srcs/pipe/pipe.c \
 				srcs/pipe/pipe_utils.c \
+				srcs/redirect.c \
+				srcs/utils.c \
 
 INCLUDE =       includes/
 

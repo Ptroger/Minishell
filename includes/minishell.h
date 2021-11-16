@@ -31,12 +31,15 @@ typedef struct	s_vars
 //	shell = savoir si il faut arrêter minishell
 	int		shell;
 	int		state;
-  	int token_i;
-	int    parse_i;
-	int				name_i;
+  	int		token_i;
+	int		parse_i;
+	int		name_i;
 	int		token_size;
 	int		finish_line;
 	char	**path;
+	int		exit_status;
+	int		special_i;
+	int		size;
 	t_pipe	*store;
 	t_list	*tokens;
 	t_sort	*t_env;
@@ -67,7 +70,7 @@ void	ft_swap(t_sort **pile);
 void    ft_pwd();
 void    ft_unset(t_list *tokens, t_sort **t_env, t_sort  **t_exp);
 void	parse(char *line, t_vars *vars);
-int		call_command(t_vars **vars);
+int		call_command(t_vars **vars, int is_child);
 int		ft_error(char *str);
 int		ft_is_builtin(char *token);
 int		ft_is_key(char *str);
@@ -78,5 +81,9 @@ char	*add_char_to_token(char c, t_vars *vars, int i, char *token);
 char    *find_path(char *token, char *tab);
 char	*ft_return_max(t_sort **pile_a);
 char  	**ft_command_size(int size);
+int		ft_mul_strcmp(const char **s1, const char *s2);
+int 	is_special(t_vars *vars, t_list *tokens);
+char	*get_tok_index(t_list *lst, int i);
+int	handle_redirs(t_vars **vars, t_list *tokens, t_pipe *store, char **tab);
 
 #endif

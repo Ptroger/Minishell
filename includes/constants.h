@@ -28,9 +28,9 @@
 //// OTHER ////
 
 # define TRUE 1
-# define FALSE 0
+# define FALSE -1
 # define TOKENSIZE 1024
 # define END_CHARS " $\"\0\'"
 # define REDIRS_CHARS "<>|"
-# define REDIRS_STRINGS ["<", ">", "|", "<<", ">>"]
+# define REDIRS_STRINGS (const char **){"<", ">", "|", "<<", ">>"}
 #endif
