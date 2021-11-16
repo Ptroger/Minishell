@@ -78,14 +78,14 @@ void	ft_store_command_2(t_list **temp_2, t_pipe *temp_p, int i)
 	int		j;
 
 	j = 0;
-	while (ft_strcmp((*temp_2)->token, "|") != 0 && j < i + 1)
+	while (j < i && ft_strcmp((*temp_2)->token, "|") != 0)
 	{
 		temp_p->cell[j] = ft_strdup((*temp_2)->token);
 		if ((*temp_2)->next)
 			(*temp_2) = (*temp_2)->next;
 		j++;
 	}
-	if (ft_strcmp((*temp_2)->token, "|") == 0 && (*temp_2)->next)
+	if ((*temp_2)->next && ft_strcmp((*temp_2)->token, "|") == 0)
 		(*temp_2) = (*temp_2)->next;
 	temp_p->size = j;
 }
@@ -110,23 +110,26 @@ void	ft_store_command(t_list *tokens, t_pipe *store)
 		}
 		if (ft_strcmp(temp_1->token, "|") == 0 && temp_1->next)
 			temp_1 = temp_1->next;
-		temp_p->cell = (char **)malloc(sizeof(char *) * i + 1);
+		if (!temp_p->next)
+			i++;
+		temp_p->cell = (char **)malloc(sizeof(char *) * i);
 		if (!temp_p->cell)
 			return ;
+		if (temp_p->next)
+			i++;
 		ft_store_command_2(&temp_2, temp_p, i);
 		temp_p = temp_p->next;
 	}
 }
 
-int	ft_pipe(t_vars **vars, t_list *tokens, t_pipe *store)
+int	ft_pipe(t_vars **vars, t_pipe *store)
 {
 	int		i;
 	int		size;
 	t_list	*temp;
-
 	i = 0;
 	size = 0;
-	temp = tokens;
+	temp = (*vars)->tokens;
 	while (temp)
 	{
 		if (ft_strcmp(temp->token, "|") == 0)
@@ -139,7 +142,7 @@ int	ft_pipe(t_vars **vars, t_list *tokens, t_pipe *store)
 		ft_add_elem_pipe(&store);
 		i++;
 	}
-	ft_store_command(tokens, store);
+	ft_store_command((*vars)->tokens, store);
 	ft_child(vars, store, size);
 	return (0);
 }

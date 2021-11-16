@@ -67,6 +67,9 @@ int	main(int ac, char **av, char **env)
 		tet = vars->tokens;
 		call_command(&vars);
 		ft_lstclear(&vars->tokens, free);
-	}
+	//	ft_free_pile(&vars->t_env);
+	//	ft_free_pile(&vars->t_exp);
+		ft_free_pile_p(&vars->store);
+	}  
 //	TODO: destroy(vars);
 }

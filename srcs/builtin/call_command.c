@@ -84,7 +84,7 @@ int	call_command(t_vars **vars)
 	while (temp->next)
 	{
 		if (ft_strcmp(temp->token, "|") == 0)
-			return (ft_pipe(vars, (*vars)->tokens, (*vars)->store));
+			return (ft_pipe(vars, (*vars)->store));
 		temp = temp->next;
 		size++;
 	}
@@ -93,5 +93,7 @@ int	call_command(t_vars **vars)
 		ft_call_builtin(vars);
 	else
 		ft_single_command(vars, (*vars)->tokens, cmd, size);
+	free((*vars)->path);
+	free(cmd);
 	return (0);
 }

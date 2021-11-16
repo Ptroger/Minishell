@@ -24,6 +24,18 @@ void	ft_free_pile(t_sort **pile_a)
 	}
 }
 
+void	ft_free_pile_p(t_pipe **pile_a)
+{
+	t_pipe		*temp;
+
+	while (*pile_a)
+	{
+		temp = *pile_a;
+		(*pile_a) = (*pile_a)->next;
+		free(temp);
+	}
+}
+
 void	ft_unset_2(t_sort **t_env, int i)
 {
 	int		j;
