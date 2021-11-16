@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	ft_strcpy(char *old, char *new, int i)
+void	ft_strcpy_2(char *old, char *new, int i)
 {
 	int n;
 

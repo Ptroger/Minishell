@@ -18,10 +18,12 @@ void	ft_call_builtin(t_vars **vars)
 		ft_cd((*vars)->tokens->next->token);
 	if (ft_strcmp((*vars)->tokens->token, "echo") == 0)
 	{
-		if (ft_strcmp((*vars)->tokens->next->token, "-n") == 0)
-			ft_echo_n((*vars)->tokens->next->next->token);
+        if (!(*vars)->tokens->next)
+            ft_putstr("\n");
+		else if (ft_strcmp((*vars)->tokens->next->token, "-n") == 0)
+            ft_echo_n((*vars)->tokens->next->next);
 		else
-			ft_echo((*vars)->tokens->next->token);
+            ft_echo((*vars)->tokens->next);
 	}
 	if (ft_strcmp((*vars)->tokens->token, "env") == 0)
 		ft_env(&(*vars)->t_env);
@@ -45,7 +47,7 @@ int	ft_is_builtin(char *token)
 	return (0);
 }
 
-void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, char **tab, int size)
+void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
 {
 	int		i;
 	pid_t	pid;
@@ -67,16 +69,15 @@ void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, char **tab, in
 	pid = fork();
 	wait(NULL);
 	if (pid == 0)
-		ft_find_cmd(vars, tokens->token, cmd, tab);
+		ft_find_cmd(tokens->token, cmd, (*vars)->path);
 }
 
 int	call_command(t_vars **vars, int is_child)
 {
 	char	**cmd;
-	char	**tab;
 	t_list	*temp;
 
-	tab = ft_split(getenv("PATH"), ':');
+	(*vars)->path = ft_split(getenv("PATH"), ':');
 	temp = (*vars)->tokens;
 	(*vars)->size = 1;
 	if (is_child == FALSE)
@@ -86,7 +87,7 @@ int	call_command(t_vars **vars, int is_child)
 			if (is_special(*vars, temp) != FALSE)
 			{
 				printf("temp->token = %s\n", temp->token);
-				return (handle_redirs(vars, temp, (*vars)->store, tab));
+				return (handle_redirs(vars, temp, (*vars)->store, (*vars)->path));
 			}
 			temp = temp->next;
 			(*vars)->size++;
@@ -96,6 +97,7 @@ int	call_command(t_vars **vars, int is_child)
 	if (ft_is_builtin((*vars)->tokens->token) == 1)
 		ft_call_builtin(vars);
 	else
-		ft_single_command(vars, (*vars)->tokens, cmd, tab, (*vars)->size);
+		ft_single_command(vars, (*vars)->tokens, cmd, (*vars)->size);
+	free(cmd);
 	return (0);
 }

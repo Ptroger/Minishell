@@ -13,7 +13,7 @@ char	*add_char_to_token(char c, t_vars *vars, int i, char *token)
 		vars->token_size *= 2;
 		new_token = malloc(sizeof(char) * vars->token_size + 1);
 		new_token[vars->token_size] = '\0';
-		ft_strcpy(token, new_token, i);
+		ft_strcpy_2(token, new_token, i);
 		token = new_token;
 		token[i] = c;
 		free(ptr);

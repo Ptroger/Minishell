@@ -12,12 +12,35 @@
 
 #include "minishell.h"
 
-void	ft_echo(char *str)
+void	ft_echo(t_list *tokens)
 {
-	ft_putendl(str);
+	t_list *temp;
+
+	temp = tokens;
+	while (temp->next && ft_strcmp(temp->token, "|") != 0)
+	{
+		ft_putstr(temp->token);
+		if (temp->next && ft_strcmp(temp->next->token, "|") != 0)
+			ft_putstr(" ");
+		temp = temp->next;
+	}
+	if (ft_strcmp(temp->token, "|") != 0)
+		ft_putstr(temp->token);
+	ft_putstr("\n");
 }
 
-void	ft_echo_n(char *str)
+void	ft_echo_n(t_list *tokens)
 {
-	ft_putstr(str);
+	t_list *temp;
+
+	temp = tokens;
+	while (temp->next && ft_strcmp(temp->token, "|") != 0)
+	{
+		ft_putstr(temp->token);
+		if (temp->next && ft_strcmp(temp->next->token, "|") != 0)
+			ft_putstr(" ");
+		temp = temp->next;
+	}
+	if (ft_strcmp(temp->token, "|") != 0)
+		ft_putstr(temp->token);
 }

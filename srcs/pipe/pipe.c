@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	ft_process(t_vars **vars, t_pipe *temp_p, char **tab, int size, int *pfd)
+int	ft_process(t_vars **vars, t_pipe *temp_p, int size, int *pfd)
 {
 	int		i;
 	int		count;
@@ -32,7 +32,13 @@ int	ft_process(t_vars **vars, t_pipe *temp_p, char **tab, int size, int *pfd)
 		if (child == 0)
 		{
 			ft_dup(temp_p, count, size, pfd);
-			ft_find_cmd(vars, temp_p->token, temp_p->cmd, tab);
+			if (ft_is_builtin(temp_p->token) == 1)
+			{
+				ft_call_builtin(vars);
+				exit(1);
+			}
+			else
+				ft_find_cmd(temp_p->token, temp_p->cmd, (*vars)->path);
 		}
 		count += 2;
 		temp_p = temp_p->next;
@@ -40,7 +46,7 @@ int	ft_process(t_vars **vars, t_pipe *temp_p, char **tab, int size, int *pfd)
 	return (1);
 }
 
-int	ft_child(t_vars **vars, t_pipe *store, char **tab, int size)
+int	ft_child(t_vars **vars, t_pipe *store, int size)
 {
 	int		i;
 	int		status;
@@ -57,7 +63,7 @@ int	ft_child(t_vars **vars, t_pipe *store, char **tab, int size)
 		if (pipe(pfd + i * 2) == -1)
 			return (ft_error("pipe failed"));
 	}
-	ft_process(vars, temp_p, tab, size, pfd);
+	ft_process(vars, temp_p, size, pfd);
 	i = -1;
 	while (++i < (2 * (size - 1)))
 		close(pfd[i]);
@@ -72,14 +78,14 @@ void	ft_store_command_2(t_list **temp_2, t_pipe *temp_p, int i)
 	int		j;
 
 	j = 0;
-	while (ft_strcmp((*temp_2)->token, "|") != 0 && j < i + 1)
+	while (j < i && ft_strcmp((*temp_2)->token, "|") != 0)
 	{
 		temp_p->cell[j] = ft_strdup((*temp_2)->token);
 		if ((*temp_2)->next)
 			(*temp_2) = (*temp_2)->next;
 		j++;
 	}
-	if (ft_strcmp((*temp_2)->token, "|") == 0 && (*temp_2)->next)
+	if ((*temp_2)->next && ft_strcmp((*temp_2)->token, "|") == 0)
 		(*temp_2) = (*temp_2)->next;
 	temp_p->size = j;
 }
@@ -104,28 +110,31 @@ void	ft_store_command(t_list *tokens, t_pipe *store)
 		}
 		if (ft_strcmp(temp_1->token, "|") == 0 && temp_1->next)
 			temp_1 = temp_1->next;
-		temp_p->cell = (char **)malloc(sizeof(char *) * i + 1);
+		if (!temp_p->next)
+			i++;
+		temp_p->cell = (char **)malloc(sizeof(char *) * i);
 		if (!temp_p->cell)
 			return ;
+		if (temp_p->next)
+			i++;
 		ft_store_command_2(&temp_2, temp_p, i);
 		temp_p = temp_p->next;
 	}
 }
 
-int	ft_pipe(t_vars **vars, t_list *tokens, t_pipe *store, char **tab)
+int	ft_pipe(t_vars **vars, t_pipe *store)
 {
 	int		i;
 	int		size;
-	t_list	*temp_1;
-
+	t_list	*temp;
 	i = 0;
 	size = 0;
-	temp_1 = tokens;
-	while (temp_1)
+	temp = (*vars)->tokens;
+	while (temp)
 	{
-		if (ft_strcmp(temp_1->token, "|") == 0)
+		if (ft_strcmp(temp->token, "|") == 0)
 			size++;
-		temp_1 = temp_1->next;
+		temp = temp->next;
 	}
 	size++;
 	while (i < size)
@@ -133,7 +142,7 @@ int	ft_pipe(t_vars **vars, t_list *tokens, t_pipe *store, char **tab)
 		ft_add_elem_pipe(&store);
 		i++;
 	}
-	ft_store_command(tokens, store);
-	ft_child(vars, store, tab, size);
+	ft_store_command((*vars)->tokens, store);
+	ft_child(vars, store, size);
 	return (0);
 }
