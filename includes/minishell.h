@@ -58,7 +58,7 @@ void    ft_echo(t_list *tokens);
 void    ft_echo_n(t_list *tokens);
 void    ft_env(t_sort **env);
 void    ft_export(t_list *tokens, t_sort **t_env, t_sort  **t_exp);
-void    ft_find_cmd(char *token, char **cmd, char **tab);
+void	ft_find_cmd(t_vars **vars, char *token, char **cmd, char **tab);
 void	ft_free_pile(t_sort **pile_a);
 void	ft_free_pile_p(t_pipe **pile_a);
 void	ft_get_env_name(t_sort  **t_env, char **env);
@@ -84,6 +84,6 @@ char  	**ft_command_size(int size);
 int		ft_mul_strcmp(const char **s1, const char *s2);
 int 	is_special(t_vars *vars, t_list *tokens);
 char	*get_tok_index(t_list *lst, int i);
-int	handle_redirs(t_vars **vars, t_list *tokens, t_pipe *store, char **tab);
+int		handle_redirs(t_vars **vars, t_list *tokens, t_pipe *store);
 
 #endif

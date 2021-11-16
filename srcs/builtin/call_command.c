@@ -69,7 +69,7 @@ void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
 	pid = fork();
 	wait(NULL);
 	if (pid == 0)
-		ft_find_cmd(tokens->token, cmd, (*vars)->path);
+		ft_find_cmd(vars, tokens->token, cmd, (*vars)->path);
 }
 
 int	call_command(t_vars **vars, int is_child)
@@ -86,8 +86,8 @@ int	call_command(t_vars **vars, int is_child)
 		{
 			if (is_special(*vars, temp) != FALSE)
 			{
-				printf("temp->token = %s\n", temp->token);
-				return (handle_redirs(vars, temp, (*vars)->store, (*vars)->path));
+	//			printf("temp->token = %s\n", temp->token);
+				return (handle_redirs(vars, temp, (*vars)->store));
 			}
 			temp = temp->next;
 			(*vars)->size++;

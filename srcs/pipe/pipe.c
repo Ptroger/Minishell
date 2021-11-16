@@ -38,7 +38,7 @@ int	ft_process(t_vars **vars, t_pipe *temp_p, int size, int *pfd)
 				exit(1);
 			}
 			else
-				ft_find_cmd(temp_p->token, temp_p->cmd, (*vars)->path);
+				ft_find_cmd(vars, temp_p->token, temp_p->cmd, (*vars)->path);
 		}
 		count += 2;
 		temp_p = temp_p->next;

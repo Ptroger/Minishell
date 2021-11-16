@@ -42,6 +42,7 @@ t_vars	*ft_init_vars(void)
 	vars->t_env = NULL;
 	vars->t_exp = NULL;
 	vars->store = NULL;
+	vars->exit_status = 1;
 	return (vars);
 }
 

@@ -62,16 +62,16 @@ int	redirect(t_vars *vars, char *token, char *name)
 	return (pid);
 }
 
-int	handle_redirs(t_vars **vars, t_list *tokens, t_pipe *store, char **tab)
+int	handle_redirs(t_vars **vars, t_list *tokens, t_pipe *store)
 {
 	char	*token;
 	char	*name;
 
 	token = get_tok_index(tokens, (*vars)->special_i);
 	name = get_tok_index(tokens, (*vars)->special_i + 1);
-	printf("ici token = %s\n", tokens->token);
+//	printf("ici token = %s\n", tokens->token);
 	if (ft_strcmp("|", tokens->token) == 0)
-		return (ft_pipe(vars, (*vars)->tokens, store, tab));
+		return (ft_pipe(vars, store));
 	else
 		return (redirect(*vars, token, name));
 }

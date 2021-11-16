@@ -51,7 +51,7 @@ char	*expand_env(t_vars *vars, char *token, char *name, char c)
 	env = getenv(name);
 	if (ft_strcmp("?", name) == 0)
 	{
-		ft_strcpy_ari(token, ft_itoa(vars->exit_status));
+		ft_strcpy(token, ft_itoa(vars->exit_status));
 		return (token);
 	}
 	if (!env)
