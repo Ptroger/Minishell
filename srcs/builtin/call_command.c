@@ -76,22 +76,47 @@ int	call_command(t_vars **vars, int is_child)
 {
 	char	**cmd;
 	t_list	*temp;
+	pid_t	child;
 
 	(*vars)->path = ft_split(getenv("PATH"), ':');
 	temp = (*vars)->tokens;
 	(*vars)->size = 1;
+	child = 0;
 	if (is_child == FALSE)
 	{
 		while (temp->next)
 		{
-			if (is_special(*vars, temp) != FALSE)
+			if (ft_strcmp("|", temp->token) == 0)
 			{
+				return (ft_pipe(vars, (*vars)->store));
 	//			printf("temp->token = %s\n", temp->token);
-				return (handle_redirs(vars, temp, (*vars)->store));
+	//			return (handle_redirs(vars, temp, (*vars)->store));
 			}
 			temp = temp->next;
 			(*vars)->size++;
 		}
+	}
+	temp = (*vars)->tokens;
+	while (temp->next)
+	{
+		if (ft_strcmp(">", temp->token) == 0 || ft_strcmp("<", temp->token) == 0)
+		{
+			child = fork();
+			if (child == 0)
+			{
+				handle_redirs(vars, temp, (*vars)->store);
+				cmd = ft_command_size((*vars)->size);
+				if (ft_is_builtin((*vars)->tokens->token) == 1)
+					ft_call_builtin(vars);
+				else
+					ft_single_command(vars, (*vars)->tokens, cmd, (*vars)->size);
+				free(cmd);
+				exit(1);
+				return (1);
+			}
+		}
+		temp = temp->next;
+		(*vars)->size++;
 	}
 	cmd = ft_command_size((*vars)->size);
 	if (ft_is_builtin((*vars)->tokens->token) == 1)

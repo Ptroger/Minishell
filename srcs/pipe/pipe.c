@@ -17,6 +17,7 @@ int	ft_process(t_vars **vars, t_pipe *temp_p, int size, int *pfd)
 	int		i;
 	int		count;
 	pid_t	child;
+	t_list	*temp_2;
 
 	count = 0;
 	while (temp_p)
@@ -29,9 +30,20 @@ int	ft_process(t_vars **vars, t_pipe *temp_p, int size, int *pfd)
 		child = fork();
 		if (child < 0)
 			return (ft_error("Fork failed"));
+		temp_2 = (*vars)->tokens;
 		if (child == 0)
 		{
 			ft_dup(temp_p, count, size, pfd);
+			while (temp_2 && ft_strcmp(temp_2->token, "|") != 0)
+			{
+				if (ft_strcmp(temp_2->token, ">") == 0)
+				{
+					handle_redirs(vars, temp_2, (*vars)->store);
+				//	temp_p = temp_p->next;
+				//	exit(1);
+				}
+				temp_2 = temp_2->next;
+			}
 			if (ft_is_builtin(temp_p->token) == 1)
 			{
 				ft_call_builtin(vars);
