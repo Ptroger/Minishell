@@ -76,8 +76,10 @@ void	ft_find_cmd(t_vars **vars, char *token, char **cmd, char **tab)
 	while (tab[i])
 	{
 		cmd[0] = find_path(token, tab[i]);
+		is_executing = TRUE;
 		if (((*vars)->exit_status = execve(cmd[0], cmd, 0) == -1))
 			i++;
+		is_executing = FALSE;
 		free(cmd[0]);
 	}
 }

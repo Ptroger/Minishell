@@ -18,7 +18,7 @@ void	ft_call_builtin(t_vars **vars)
 		ft_cd((*vars)->tokens->next->token);
 	if (ft_strcmp((*vars)->tokens->token, "echo") == 0)
 	{
-		if (ft_strcmp((*vars)->tokens->next->token, "-n") == 0)
+		if ((*vars)->tokens->next && ft_strcmp((*vars)->tokens->next->token, "-n") == 0)
 			ft_echo_n((*vars)->tokens->next->next->token);
 		else
 			ft_echo((*vars)->tokens->next->token);
@@ -81,13 +81,10 @@ int	call_command(t_vars **vars, int is_child)
 	(*vars)->size = 1;
 	if (is_child == FALSE)
 	{
-		while (temp->next)
+		while (temp && temp->next)
 		{
 			if (is_special(*vars, temp) != FALSE)
-			{
-				printf("temp->token = %s\n", temp->token);
 				return (handle_redirs(vars, temp, (*vars)->store, tab));
-			}
 			temp = temp->next;
 			(*vars)->size++;
 		}

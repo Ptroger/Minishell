@@ -19,12 +19,15 @@ void	redirect_input(t_vars *vars, char *name)
 	exit(0);
 }
 
-void	redirect_output(t_vars *vars, char *name)
+void	redirect_output(t_vars *vars, char *name, char *token)
 {
 	int	file;
 	int	stdout;
 
-	file = open(name, O_WRONLY | O_CREAT, 0777);
+	if (ft_strcmp(token, ">>") == 0)
+		file = open(name, O_WRONLY | O_CREAT | O_APPEND, 0777);
+	else
+		file = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (file == -1)
 	{
 		printf("%s\n", strerror(file));
@@ -34,6 +37,28 @@ void	redirect_output(t_vars *vars, char *name)
 	call_command(&vars, TRUE);
 	close(file);
 	exit(0);
+}
+
+void	read_until(t_vars *vars, char *name, char *token)
+{
+	char	*line;
+
+	(void)vars;
+	printf("token == %s\n", token);
+//	token = malloc(jesaispasdecombienencore);
+	line = readline("heredoc> ");
+	token = ft_strcpy_ari(token, line);
+	while (ft_strcmp(line, name) != 0)
+	{
+		token = ft_strcat(token, (const char *)line);
+		free(line);
+		line = readline("heredoc> ");
+		printf("line == |%s|\n", line);
+	}
+	free(line);
+	printf("token = %s\n", token);
+	call_command(&vars, TRUE);
+//	TODO: voir avec Aristide pour call command dans quel token je dois rentrer le nouveau token
 }
 
 int	redirect(t_vars *vars, char *token, char *name)
@@ -48,17 +73,15 @@ int	redirect(t_vars *vars, char *token, char *name)
 	}
 	else if (pid == 0)
 	{
-		if (ft_strcmp(token, "<") == 0)
+		if (ft_strcmp(token, "<<") == 0)
+			read_until(vars, name, token);
+		else if (ft_strcmp(token, "<") == 0)
 			redirect_input(vars, name);
-		else if (ft_strcmp(token, ">") == 0)
-			redirect_output(vars, name);
+		else if (ft_strcmp(token, ">") == 0 || ft_strcmp(token, ">>") == 0)
+			redirect_output(vars, name, token);
 	}
 	else
-	{
-//		printf("je suis papa \n");
 		wait(NULL);
-//		printf("la\n");
-	}
 	return (pid);
 }
 
@@ -69,7 +92,7 @@ int	handle_redirs(t_vars **vars, t_list *tokens, t_pipe *store, char **tab)
 
 	token = get_tok_index(tokens, (*vars)->special_i);
 	name = get_tok_index(tokens, (*vars)->special_i + 1);
-	printf("ici token = %s\n", tokens->token);
+//	printf("ici token = %s\n", tokens->token);
 	if (ft_strcmp("|", tokens->token) == 0)
 		return (ft_pipe(vars, (*vars)->tokens, store, tab));
 	else

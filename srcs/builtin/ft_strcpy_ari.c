@@ -17,7 +17,7 @@ char	*ft_strcpy_ari(char *dest, char *src)
 	int		i;
 
 	i = 0;
-	while (src[i])
+	while (src && src[i])
 	{
 		dest[i] = src[i];
 		i++;

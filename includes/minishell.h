@@ -2,6 +2,7 @@
 # define MINISHELL_H
 
 # include <stdio.h>
+# include  <signal.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
@@ -9,6 +10,8 @@
 # include <readline/history.h>
 # include "constants.h"
 # include "../libft/libft.h"
+
+int	is_executing;
 
 typedef struct      s_sort
 {
@@ -91,6 +94,9 @@ t_list	*ft_lstnew(void *content, int i);
 int		ft_mul_strcmp(const char **s1, const char *s2);
 int 	is_special(t_vars *vars, t_list *tokens);
 char	*get_tok_index(t_list *lst, int i);
-int	handle_redirs(t_vars **vars, t_list *tokens, t_pipe *store, char **tab);
+int		handle_redirs(t_vars **vars, t_list *tokens, t_pipe *store, char **tab);
+void	sig_c(int sig);
+void	sig_q(int sig);
+
 
 #endif
