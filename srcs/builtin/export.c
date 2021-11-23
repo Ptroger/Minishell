@@ -80,6 +80,7 @@ void	ft_set_list_2(t_list *tokens, t_sort *new_env, t_sort *new_exp)
 		i++;
 	}
 	new_env->name[i] = '\0';
+	i++;
 	while (new_env->data[i])
 	{
 		new_env->info[j] = new_env->data[i];
