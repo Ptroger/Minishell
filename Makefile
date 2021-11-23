@@ -4,6 +4,7 @@ SRCS    =		srcs/token/read.c \
 				srcs/token/parse.c \
 				srcs/token/handle_dollar.c \
 				srcs/token/ft_strcpy.c \
+				srcs/token/destroy.c \
 				srcs/builtin/call_command.c \
 				srcs/builtin/builtin_utils.c \
 				srcs/builtin/builtin_utils_2.c \
