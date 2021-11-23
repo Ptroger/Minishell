@@ -68,9 +68,6 @@ int	main(int ac, char **av, char **env)
 	{
 		vars->parse_i = 0;
 		line = readline(PROMPT);
-		if (line)
-		{
-		}
 		if (line && *line)
 		{
 			add_history(line);

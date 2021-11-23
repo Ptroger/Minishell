@@ -43,6 +43,7 @@ typedef struct	s_vars
 	int		exit_status;
 	int		special_i;
 	int		size;
+	char	**path;
 	t_pipe	*store;
 	t_list	*tokens;
 	t_sort	*t_env;
@@ -56,8 +57,8 @@ void	ft_add_elem_exp_2(t_sort **sort, t_sort *new_elem, char *env);
 void	ft_add_elem_pipe(t_pipe **store);
 void    ft_cd(char *path);
 void	ft_dup(t_pipe *temp_p, int count, int size, int *pfd);
-void    ft_echo(char *str);
-void    ft_echo_n(char *str);
+void    ft_echo(t_list *tokens);
+void    ft_echo_n(t_list *tokens);
 void    ft_env(t_sort **env);
 void    ft_export(t_list *tokens, t_sort **t_env, t_sort  **t_exp);
 void    ft_find_cmd(t_vars **vars, char *token, char **cmd, char **tab);
@@ -82,7 +83,7 @@ int		call_command(t_vars **vars, int is_child);
 int		ft_error(char *str);
 void	add_token(t_vars *vars, int i);
 int		ft_pile_in_order(t_sort **pile_a);
-int  	ft_pipe(t_vars **vars, t_list *tokens, t_pipe *pipe, char **tab);
+int  	ft_pipe(t_vars **vars, t_pipe *pipe);
 int     ft_strcmp(const char *s1, const char *s2);
 int		ft_strlen(const char *str);
 char    *find_path(char *token, char *tab);
@@ -99,5 +100,8 @@ void	sig_c(int sig);
 void	sig_q(int sig);
 void	destroy_vars(t_vars *vars);
 int		handle_redirs(t_vars **vars, t_list *tokens, t_pipe *store, int *file);
+int		ft_is_key(char *str);
+void	ft_call_builtin(t_vars **vars);
+int	ft_is_builtin(char *token);
 
 #endif

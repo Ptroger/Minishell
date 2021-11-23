@@ -26,9 +26,9 @@ void	redirect_output(t_vars *vars, char *name, int *file, char *token)
 	int	stdout;
 
 	if (ft_strcmp(token, ">>") == 0)
-		file = open(name, O_WRONLY | O_CREAT | O_APPEND, 0777);
+		*file = open(name, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	else
-		file = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		*file = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	(void)vars;
 	*file = open(name, O_WRONLY | O_CREAT, 0777);
 	if (*file == -1)
@@ -50,7 +50,7 @@ void	read_until(t_vars *vars, char *name, char *token)
 	printf("token == %s\n", token);
 //	token = malloc(jesaispasdecombienencore);
 	line = readline("heredoc> ");
-	token = ft_strcpy_ari(token, line);
+	token = ft_strcpy(token, line);
 	while (ft_strcmp(line, name) != 0)
 	{
 		token = ft_strcat(token, (const char *)line);
@@ -79,10 +79,10 @@ int	redirect_pid(t_vars *vars, char *token, char *name, int *file)
 
 		if (ft_strcmp(token, "<") == 0)
 			redirect_input(vars, name, file);
-		else if (ft_strcmp(token, ">") == 0)
-			redirect_output(vars, name, file);
 		else if (ft_strcmp(token, ">") == 0 || ft_strcmp(token, ">>") == 0)
 			redirect_output(vars, name, file, token);
+		else if (ft_strcmp(token, "<<") == 0)
+			read_until(vars, name, token);
 	}
 /*	else
 	{
@@ -108,8 +108,10 @@ int	redirect(t_vars *vars, char *token, char *name, int *file)
 	{
 */		if (ft_strcmp(token, "<") == 0)
 			redirect_input(vars, name, file);
-		else if (ft_strcmp(token, ">") == 0)
-			redirect_output(vars, name, file);
+		else if (ft_strcmp(token, ">") == 0 || ft_strcmp(token, ">>") == 0)
+			redirect_output(vars, name, file, token);
+		else if (ft_strcmp(token, "<<") == 0)
+			read_until(vars, name, token);
 /*	}
 	else
 	{

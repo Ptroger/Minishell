@@ -12,15 +12,6 @@ SRCS    =		srcs/token/read.c \
 				srcs/builtin/echo.c \
 				srcs/builtin/env.c \
 				srcs/builtin/export.c \
-				srcs/builtin/ft_split.c \
-				srcs/builtin/ft_putchar.c \
-				srcs/builtin/ft_putendl.c \
-				srcs/builtin/ft_putstr.c \
-				srcs/builtin/ft_strcat.c \
-				srcs/builtin/ft_strcpy_ari.c \
-				srcs/builtin/ft_strcmp.c \
-				srcs/builtin/ft_strdup.c \
-				srcs/builtin/ft_strlen.c \
 				srcs/builtin/pwd.c \
 				srcs/builtin/unset.c \
 				srcs/pipe/pipe.c \
@@ -33,7 +24,7 @@ INCLUDE =       includes/
 
 OBJS    =       $(SRCS:%.c=%.o)
 
-CFLAGS  =       -Wall -Wextra -Werror -g -I ./$(INCLUDE) #-fsanitize=address
+CFLAGS  =       -Wall -Wextra -Werror -g -I ./$(INCLUDE) -fsanitize=address
 
 LIBS =			-lreadline -L /usr/local/Cellar/readline/8.1.1/lib -I /usr/local/Cellar/readline/8.1.1/include
 
