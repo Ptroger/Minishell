@@ -24,10 +24,13 @@ char	*add_char_to_token(char c, t_vars *vars, int i, char *token)
 
 static void	finish_token(t_vars *vars, char *token, int i)
 {
-	t_list	*new_tok;
+	if (token[0])
+	{
+		t_list *new_tok;
 
-	new_tok = ft_lstnew((void *)token, i);
-	ft_lstadd_back(&vars->tokens, new_tok);
+		new_tok = ft_lstnew((void *) token, i);
+		ft_lstadd_back(&vars->tokens, new_tok);
+	}
 	vars->state = BASIC;
 }
 
@@ -126,6 +129,7 @@ void	parse(char *line, t_vars *vars)
 	{
 		vars->token_i = 0;
 		token = get_next_token(line, vars);
+//		printf("token == |%s|\n", token);
 		finish_token(vars, token, i);
 		i++;
 	}

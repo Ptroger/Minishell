@@ -18,12 +18,10 @@ void	ft_call_builtin(t_vars **vars)
 		ft_cd((*vars)->tokens->next->token);
 	if (ft_strcmp((*vars)->tokens->token, "echo") == 0)
 	{
-        if (!(*vars)->tokens->next)
-            ft_putstr("\n");
-		else if (ft_strcmp((*vars)->tokens->next->token, "-n") == 0)
-            ft_echo_n((*vars)->tokens->next->next);
+		if ((*vars)->tokens->next && ft_strcmp((*vars)->tokens->next->token, "-n") == 0)
+			ft_echo_n((*vars)->tokens->next->next->token);
 		else
-            ft_echo((*vars)->tokens->next);
+			ft_echo((*vars)->tokens->next->token);
 	}
 	if (ft_strcmp((*vars)->tokens->token, "env") == 0)
 		ft_env(&(*vars)->t_env);
@@ -47,7 +45,7 @@ int	ft_is_builtin(char *token)
 	return (0);
 }
 
-void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
+void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, char **tab, int size)
 {
 	int		i;
 	pid_t	pid;
@@ -69,26 +67,24 @@ void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
 	pid = fork();
 	wait(NULL);
 	if (pid == 0)
-		ft_find_cmd(vars, tokens->token, cmd, (*vars)->path);
+		ft_find_cmd(vars, tokens->token, cmd, tab);
 }
 
 int	call_command(t_vars **vars, int is_child)
 {
 	char	**cmd;
+	char	**tab;
 	t_list	*temp;
 
-	(*vars)->path = ft_split(getenv("PATH"), ':');
+	tab = ft_split(getenv("PATH"), ':');
 	temp = (*vars)->tokens;
 	(*vars)->size = 1;
 	if (is_child == FALSE)
 	{
-		while (temp->next)
+		while (temp && temp->next)
 		{
 			if (is_special(*vars, temp) != FALSE)
-			{
-	//			printf("temp->token = %s\n", temp->token);
-				return (handle_redirs(vars, temp, (*vars)->store));
-			}
+				return (handle_redirs(vars, temp, (*vars)->store, tab));
 			temp = temp->next;
 			(*vars)->size++;
 		}
@@ -97,7 +93,6 @@ int	call_command(t_vars **vars, int is_child)
 	if (ft_is_builtin((*vars)->tokens->token) == 1)
 		ft_call_builtin(vars);
 	else
-		ft_single_command(vars, (*vars)->tokens, cmd, (*vars)->size);
-	free(cmd);
+		ft_single_command(vars, (*vars)->tokens, cmd, tab, (*vars)->size);
 	return (0);
 }

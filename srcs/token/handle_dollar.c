@@ -1,46 +1,18 @@
 #include "../../includes/minishell.h"
 
-//static int	handle_space(t_vars *vars, char *token)
-//{
-//	if (vars->state == BASIC || vars->state == F_STRING)
-//		return (1);
-//	else
-//		token = add_char_to_token(' ', vars, vars->token_i, token);
-//	return (0);
-//}
-//
-//static int	handle_quotes(t_vars *vars, char *token, char *line)
-//{
-//	if (vars->state == EXTENDING)
-//		return (1);
-//	if (vars->state == BASIC)
-//	{
-//		if (line[vars->parse_i] == '"')
-//		{
-//			token = add_char_to_token('$', vars, vars->token_i, token);
-//			vars->token_i++;
-//			vars->state = D_STRING;
-//		}
-//		else
-//			vars->state = S_STRING;
-//	}
-//	else
-//	{
-//		if ((vars->state == D_QUOTE || vars->state == D_STRING) && line[vars->parse_i] == '"')
-//		{
-//			vars->state = F_STRING;
-//			return (0);
-//		}
-//		else if ((vars->state == S_QUOTE || vars->state == S_STRING) && line[vars->parse_i] == '\'')
-//		{
-//			vars->state = F_STRING;
-//			return (0);
-//		}
-//		token = add_char_to_token(line[vars->parse_i], vars, vars->token_i, token);
-//		vars->token_i++;
-//	}
-//	return (0);
-//}
+char	*my_get_env(t_vars *vars, char *name)
+{
+	t_sort *envs;
+
+	envs = vars->t_env;
+	while (envs)
+	{
+		if (ft_strcmp((const char *)name, (const char *)envs->name) == 0)
+			return (envs->info);
+		envs = envs->next;
+	}
+	return (NULL);
+}
 
 char	*expand_env(t_vars *vars, char *token, char *name, char c)
 {
@@ -48,7 +20,7 @@ char	*expand_env(t_vars *vars, char *token, char *name, char c)
 	int		i;
 
 	i = 0;
-	env = getenv(name);
+	env = my_get_env(vars, name);
 	if (ft_strcmp("?", name) == 0)
 	{
 		ft_strcpy(token, ft_itoa(vars->exit_status));
@@ -90,7 +62,10 @@ int	handle_dollar_quoted(t_vars *vars, char *token, char *line, char *name)
 	vars->token_i = temp;
 	token = expand_env(vars, token, name, line[vars->parse_i]);
 	if (line[vars->parse_i] == '"')
+	{
+		printf("ici\n");
 		return (1);
+	}
 	if (line[vars->parse_i] == ' ')
 		token = add_char_to_token(' ', vars, vars->token_i, token);
 	return (0);
@@ -118,6 +93,7 @@ void	handle_dollar_unquoted(t_vars *vars, char *token, char *line, char *name)
 	vars->token_i = temp;
 	token = expand_env(vars, token, name, line[vars->parse_i]);
 	free(name);
+	vars->parse_i--;
 	return ;
 }
 

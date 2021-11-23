@@ -3,7 +3,8 @@ NAME    =       minishell
 SRCS    =		srcs/token/read.c \
 				srcs/token/parse.c \
 				srcs/token/handle_dollar.c \
-				srcs/token/ft_strcpy_2.c \
+				srcs/token/ft_strcpy.c \
+				srcs/token/destroy.c \
 				srcs/builtin/call_command.c \
 				srcs/builtin/builtin_utils.c \
 				srcs/builtin/builtin_utils_2.c \
@@ -11,12 +12,22 @@ SRCS    =		srcs/token/read.c \
 				srcs/builtin/echo.c \
 				srcs/builtin/env.c \
 				srcs/builtin/export.c \
+				srcs/builtin/ft_split.c \
+				srcs/builtin/ft_putchar.c \
+				srcs/builtin/ft_putendl.c \
+				srcs/builtin/ft_putstr.c \
+				srcs/builtin/ft_strcat.c \
+				srcs/builtin/ft_strcpy_ari.c \
+				srcs/builtin/ft_strcmp.c \
+				srcs/builtin/ft_strdup.c \
+				srcs/builtin/ft_strlen.c \
 				srcs/builtin/pwd.c \
 				srcs/builtin/unset.c \
 				srcs/pipe/pipe.c \
 				srcs/pipe/pipe_utils.c \
 				srcs/redirect.c \
 				srcs/utils.c \
+				srcs/signals.c \
 
 INCLUDE =       includes/
 
@@ -24,7 +35,7 @@ OBJS    =       $(SRCS:%.c=%.o)
 
 CFLAGS  =       -Wall -Wextra -Werror -g -I ./$(INCLUDE) -fsanitize=address
 
-LIBS =			-lreadline
+LIBS =			-lreadline -L /usr/local/Cellar/readline/8.1.1/lib -I /usr/local/Cellar/readline/8.1.1/include
 
 LIBFT = 		./libft/libft.a
 

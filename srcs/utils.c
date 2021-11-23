@@ -22,6 +22,7 @@ char	*get_tok_index(t_list *lst, int i)
 	return (lst->token);
 }
 
+
 int	ft_mul_strcmp(const char **s1, const char *s2)
 {
 	int	i;
