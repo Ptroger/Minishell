@@ -51,15 +51,17 @@ void	ft_get_env_name(t_sort **t_env, char **env)
 {
 	int		i;
 	int		j;
+	int		k;
 	t_sort	*temp;
 
 	i = 0;
-	j = 0;
 	temp = *t_env;
 	while (env[i])
 	{
 		j = 0;
+		k = 0;
 		temp->name = malloc(sizeof(char) * ft_strlen(env[i]));
+		temp->info = malloc(sizeof(char) * ft_strlen(env[i]));
 		if (!temp->name)
 			return ;
 		while (env[i][j] != '=')
@@ -68,6 +70,14 @@ void	ft_get_env_name(t_sort **t_env, char **env)
 			j++;
 		}
 		temp->name[j] = '\0';
+		j++;
+		while (env[i][j])
+		{
+			temp->info[k] = env[i][j];
+			j++;
+			k++;
+		}
+		temp->info[k] = '\0';
 		temp = temp->next;
 		i++;
 	}

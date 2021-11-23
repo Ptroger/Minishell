@@ -17,7 +17,7 @@ typedef struct      s_sort
 {
 	char			*name;
     char            *data;
-    char			*info;
+	char			*info;
     struct s_sort   *next;
 }                   t_sort;
 
@@ -95,10 +95,9 @@ t_list	*ft_lstnew(void *content, int i);
 int		ft_mul_strcmp(const char **s1, const char *s2);
 int 	is_special(t_vars *vars, t_list *tokens);
 char	*get_tok_index(t_list *lst, int i);
-int		handle_redirs(t_vars **vars, t_list *tokens, t_pipe *store, char **tab);
 void	sig_c(int sig);
 void	sig_q(int sig);
 void	destroy_vars(t_vars *vars);
-
+int		handle_redirs(t_vars **vars, t_list *tokens, t_pipe *store, int *file);
 
 #endif

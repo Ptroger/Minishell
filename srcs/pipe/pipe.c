@@ -16,10 +16,12 @@ int	ft_process(t_vars **vars, t_pipe *temp_p, int size, int *pfd)
 {
 	int		i;
 	int		count;
+	int		file;
 	pid_t	child;
 	t_list	*temp_2;
 
 	count = 0;
+	file = 0;
 	while (temp_p)
 	{
 		i = -1;
@@ -38,8 +40,9 @@ int	ft_process(t_vars **vars, t_pipe *temp_p, int size, int *pfd)
 			{
 				if (ft_strcmp(temp_2->token, ">") == 0)
 				{
-					handle_redirs(vars, temp_2, (*vars)->store);
+					handle_redirs(vars, temp_2, (*vars)->store, &file);
 				//	temp_p = temp_p->next;
+				//	close(file);
 				//	exit(1);
 				}
 				temp_2 = temp_2->next;
