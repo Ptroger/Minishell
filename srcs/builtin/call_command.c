@@ -18,10 +18,12 @@ void	ft_call_builtin(t_vars **vars)
 		ft_cd((*vars)->tokens->next->token);
 	if (ft_strcmp((*vars)->tokens->token, "echo") == 0)
 	{
-		if ((*vars)->tokens->next && ft_strcmp((*vars)->tokens->next->token, "-n") == 0)
-			ft_echo_n((*vars)->tokens->next->next->token);
+        if (!(*vars)->tokens->next)
+            ft_putstr("\n");
+		else if (ft_strcmp((*vars)->tokens->next->token, "-n") == 0)
+            ft_echo_n((*vars)->tokens->next->next);
 		else
-			ft_echo((*vars)->tokens->next->token);
+            ft_echo((*vars)->tokens->next);
 	}
 	if (ft_strcmp((*vars)->tokens->token, "env") == 0)
 		ft_env(&(*vars)->t_env);
@@ -45,7 +47,7 @@ int	ft_is_builtin(char *token)
 	return (0);
 }
 
-void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, char **tab, int size)
+void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
 {
 	int		i;
 	pid_t	pid;
@@ -67,32 +69,60 @@ void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, char **tab, in
 	pid = fork();
 	wait(NULL);
 	if (pid == 0)
-		ft_find_cmd(vars, tokens->token, cmd, tab);
+		ft_find_cmd(vars, tokens->token, cmd, (*vars)->path);
 }
 
 int	call_command(t_vars **vars, int is_child)
 {
 	char	**cmd;
-	char	**tab;
 	t_list	*temp;
+	pid_t	child;
 
-	tab = ft_split(getenv("PATH"), ':');
+	(*vars)->path = ft_split(getenv("PATH"), ':');
 	temp = (*vars)->tokens;
 	(*vars)->size = 1;
+	child = 0;
 	if (is_child == FALSE)
 	{
-		while (temp && temp->next)
+		while (temp->next)
 		{
-			if (is_special(*vars, temp) != FALSE)
-				return (handle_redirs(vars, temp, (*vars)->store, tab));
+			if (ft_strcmp("|", temp->token) == 0)
+			{
+				return (ft_pipe(vars, (*vars)->store));
+	//			printf("temp->token = %s\n", temp->token);
+	//			return (handle_redirs(vars, temp, (*vars)->store));
+			}
 			temp = temp->next;
 			(*vars)->size++;
 		}
+	}
+	temp = (*vars)->tokens;
+	while (temp->next)
+	{
+		if (ft_strcmp(">", temp->token) == 0 || ft_strcmp("<", temp->token) == 0)
+		{
+			child = fork();
+			if (child == 0)
+			{
+				handle_redirs(vars, temp, (*vars)->store);
+				cmd = ft_command_size((*vars)->size);
+				if (ft_is_builtin((*vars)->tokens->token) == 1)
+					ft_call_builtin(vars);
+				else
+					ft_single_command(vars, (*vars)->tokens, cmd, (*vars)->size);
+				free(cmd);
+				exit(1);
+				return (1);
+			}
+		}
+		temp = temp->next;
+		(*vars)->size++;
 	}
 	cmd = ft_command_size((*vars)->size);
 	if (ft_is_builtin((*vars)->tokens->token) == 1)
 		ft_call_builtin(vars);
 	else
-		ft_single_command(vars, (*vars)->tokens, cmd, tab, (*vars)->size);
+		ft_single_command(vars, (*vars)->tokens, cmd, (*vars)->size);
+	free(cmd);
 	return (0);
 }

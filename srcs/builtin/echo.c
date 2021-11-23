@@ -17,10 +17,10 @@ void	ft_echo(t_list *tokens)
 	t_list *temp;
 
 	temp = tokens;
-	while (temp->next && ft_is_key(temp->token) != 0)
+	while (temp->next && ft_is_key(temp->token) == 0)
 	{
 		ft_putstr(temp->token);
-		if (temp->next && ft_is_key(temp->token) != 0)
+		if (temp->next && ft_is_key(temp->next->token) == 0)
 			ft_putstr(" ");
 		temp = temp->next;
 	}
@@ -34,13 +34,13 @@ void	ft_echo_n(t_list *tokens)
 	t_list *temp;
 
 	temp = tokens;
-	while (temp->next && ft_strcmp(temp->token, "|") != 0)
+	while (temp->next && ft_is_key(temp->token) == 0)
 	{
 		ft_putstr(temp->token);
-		if (temp->next && ft_strcmp(temp->next->token, "|") != 0)
+		if (temp->next && ft_is_key(temp->next->token) == 0)
 			ft_putstr(" ");
 		temp = temp->next;
 	}
-	if (ft_strcmp(temp->token, "|") != 0)
+	if (ft_is_key(temp->token) == 0)
 		ft_putstr(temp->token);
 }
