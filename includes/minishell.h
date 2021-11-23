@@ -14,6 +14,7 @@ typedef struct      s_sort
 {
 	char			*name;
     char            *data;
+	char			*info;
     struct s_sort   *next;
 }                   t_sort;
 
@@ -84,6 +85,6 @@ char  	**ft_command_size(int size);
 int		ft_mul_strcmp(const char **s1, const char *s2);
 int 	is_special(t_vars *vars, t_list *tokens);
 char	*get_tok_index(t_list *lst, int i);
-int		handle_redirs(t_vars **vars, t_list *tokens, t_pipe *store);
+int		handle_redirs(t_vars **vars, t_list *tokens, t_pipe *store, int *file);
 
 #endif

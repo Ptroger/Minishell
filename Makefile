@@ -22,7 +22,7 @@ INCLUDE =       includes/
 
 OBJS    =       $(SRCS:%.c=%.o)
 
-CFLAGS  =       -Wall -Wextra -Werror -g -I ./$(INCLUDE) -fsanitize=address
+CFLAGS  =       -Wall -Wextra -Werror -g -I ./$(INCLUDE) #-fsanitize=address
 
 LIBS =			-lreadline
 

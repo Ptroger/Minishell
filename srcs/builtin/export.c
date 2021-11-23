@@ -62,13 +62,16 @@ void	ft_fill_data(t_list *tokens, t_sort *new_exp)
 void	ft_set_list_2(t_list *tokens, t_sort *new_env, t_sort *new_exp)
 {
 	int		i;
+	int		j;
 
 	i = 0;
+	j = 0;
 	new_exp->data = malloc(sizeof(char) * ft_strlen(tokens->next->token) + 3);
 	if (!new_exp->data)
 		return ;
 	new_env->data = ft_strdup(tokens->next->token);
 	new_env->name = malloc(sizeof(char) * ft_strlen(new_env->data));
+	new_env->info = malloc(sizeof(char) * ft_strlen(new_env->data));
 	if (!new_env->name)
 		return ;
 	while (new_env->data[i] != '=')
@@ -77,6 +80,13 @@ void	ft_set_list_2(t_list *tokens, t_sort *new_env, t_sort *new_exp)
 		i++;
 	}
 	new_env->name[i] = '\0';
+	while (new_env->data[i])
+	{
+		new_env->info[j] = new_env->data[i];
+		i++;
+		j++;
+	}
+	new_env->info[j] = '\0';
 	new_env->next = NULL;
 }
 

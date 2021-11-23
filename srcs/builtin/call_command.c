@@ -74,6 +74,8 @@ void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
 
 int	call_command(t_vars **vars, int is_child)
 {
+	int		file;
+	int		status;
 	char	**cmd;
 	t_list	*temp;
 	pid_t	child;
@@ -82,20 +84,32 @@ int	call_command(t_vars **vars, int is_child)
 	temp = (*vars)->tokens;
 	(*vars)->size = 1;
 	child = 0;
+	file = 0;
+//	(void)is_child;
 	if (is_child == FALSE)
 	{
 		while (temp->next)
 		{
 			if (ft_strcmp("|", temp->token) == 0)
 			{
-				return (ft_pipe(vars, (*vars)->store));
-	//			printf("temp->token = %s\n", temp->token);
-	//			return (handle_redirs(vars, temp, (*vars)->store));
+	//			child = fork();
+	//			if (child == 0)
+	//			{
+					return (ft_pipe(vars, (*vars)->store));
+	//				close(file);
+	//				exit(0);
+				//	return (ft_pipe(vars, (*vars)->store));
+		//			printf("temp->token = %s\n", temp->token);
+		//			return (handle_redirs(vars, temp, (*vars)->store));
+	//			}
+	//			wait(&status);
+	//			return (1);
 			}
 			temp = temp->next;
 			(*vars)->size++;
 		}
 	}
+	(*vars)->size = 1;
 	temp = (*vars)->tokens;
 	while (temp->next)
 	{
@@ -104,16 +118,18 @@ int	call_command(t_vars **vars, int is_child)
 			child = fork();
 			if (child == 0)
 			{
-				handle_redirs(vars, temp, (*vars)->store);
+				handle_redirs(vars, temp, (*vars)->store, &file);
 				cmd = ft_command_size((*vars)->size);
 				if (ft_is_builtin((*vars)->tokens->token) == 1)
 					ft_call_builtin(vars);
 				else
 					ft_single_command(vars, (*vars)->tokens, cmd, (*vars)->size);
 				free(cmd);
-				exit(1);
-				return (1);
+				close(file);
+				exit(0);
 			}
+			wait(&status);
+			return (1);
 		}
 		temp = temp->next;
 		(*vars)->size++;
