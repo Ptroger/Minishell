@@ -74,7 +74,7 @@ void	ft_putendl(char *s);
 void	ft_reverse_rotate(t_sort **pile);
 void	ft_set_env(t_sort  **t_env, char **env);
 void	ft_set_exp(t_sort  **t_exp, t_sort  **t_env);
-void	ft_strcpy(char *old, char *ne, int i);
+void	ft_strcpy_2(char *old, char *ne, int i);
 void	ft_swap(t_sort **pile);
 void    ft_pwd();
 void    ft_unset(t_list *tokens, t_sort **t_env, t_sort  **t_exp);
