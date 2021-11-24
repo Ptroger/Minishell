@@ -39,12 +39,7 @@ int	ft_process(t_vars **vars, t_pipe *temp_p, int size, int *pfd)
 			while (temp_2 && ft_strcmp(temp_2->token, "|") != 0)
 			{
 				if (ft_strcmp(temp_2->token, ">") == 0)
-				{
-					handle_redirs(vars, temp_2, (*vars)->store, &file);
-				//	temp_p = temp_p->next;
-				//	close(file);
-				//	exit(1);
-				}
+					handle_redirs(temp_2, &file);
 				temp_2 = temp_2->next;
 			}
 			if (ft_is_builtin(temp_p->token) == 1)
