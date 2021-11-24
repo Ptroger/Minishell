@@ -13,6 +13,8 @@
 
 int	is_executing;
 
+pid_t	g_pid;
+
 typedef struct      s_sort
 {
 	char			*name;

@@ -3,11 +3,9 @@
 
 void	redirect_input(t_vars *vars, char *name, int *file)
 {
-//	int	file;
 	int	stdin;
 
 	(void)vars;
-//	printf("name == %s\n", name);
 	*file = open(name, O_RDONLY, 0777);
 	if (*file == -1)
 	{
@@ -15,14 +13,10 @@ void	redirect_input(t_vars *vars, char *name, int *file)
 		return ;
 	}
 	stdin = dup2(*file, STDIN_FILENO);
-//	call_command(&vars, TRUE);
-//	close(file);
-//	exit(0);
 }
 
 void	redirect_output(t_vars *vars, char *name, int *file, char *token)
 {
-//	int	file;
 	int	stdout;
 
 	if (ft_strcmp(token, ">>") == 0)
@@ -37,9 +31,6 @@ void	redirect_output(t_vars *vars, char *name, int *file, char *token)
 		return ;
 	}
 	stdout = dup2(*file, STDOUT_FILENO);
-//	call_command(&vars, TRUE);
-//	close(file);
-//	exit(0);
 }
 
 void	read_until(t_vars *vars, char *name, char *token)
@@ -84,43 +75,18 @@ int	redirect_pid(t_vars *vars, char *token, char *name, int *file)
 		else if (ft_strcmp(token, "<<") == 0)
 			read_until(vars, name, token);
 	}
-/*	else
-	{
-//		printf("je suis papa \n");
-		wait(NULL);
-//		printf("la\n");
-	}
-*/	return (pid);
-//	return (1);
+	return (pid);
 }
 
 int	redirect(t_vars *vars, char *token, char *name, int *file)
 {
-/*	int	pid;
-
-	pid = fork();
-	if (pid == -1)
-	{
-		printf("%s\n", strerror(pid));
-		return (pid);
-	}
-	else if (pid == 0)
-	{
-*/		if (ft_strcmp(token, "<") == 0)
-			redirect_input(vars, name, file);
-		else if (ft_strcmp(token, ">") == 0 || ft_strcmp(token, ">>") == 0)
-			redirect_output(vars, name, file, token);
-		else if (ft_strcmp(token, "<<") == 0)
-			read_until(vars, name, token);
-/*	}
-	else
-	{
-//		printf("je suis papa \n");
-		wait(NULL);
-//		printf("la\n");
-	}
-	return (pid);
-*/	return (1);
+	if (ft_strcmp(token, "<") == 0)
+		redirect_input(vars, name, file);
+	else if (ft_strcmp(token, ">") == 0 || ft_strcmp(token, ">>") == 0)
+		redirect_output(vars, name, file, token);
+	else if (ft_strcmp(token, "<<") == 0)
+		read_until(vars, name, token);
+	return (1);
 }
 
 int	handle_redirs(t_vars **vars, t_list *tokens, t_pipe *store, int *file)
@@ -129,20 +95,10 @@ int	handle_redirs(t_vars **vars, t_list *tokens, t_pipe *store, int *file)
 	char	*name;
 	t_list	*temp;
 
-	temp = tokens;
-//	token = get_tok_index(tokens, (*vars)->special_i);
-	token = ft_strdup(tokens->token);
-//	printf("token : %s\n", token);
-//	name = get_tok_index(tokens, (*vars)->special_i + 1);
-	name = ft_strdup(tokens->next->token);
-//	printf("name : %s\n", name);
-//	printf("ici token = %s\n", tokens->token);
-//	if (ft_strcmp("|", tokens->token) == 0)
-//		return (ft_pipe(vars, store));
-//	else
 	(void)store;
-//	printf("name : %s\n", name);
-//	printf("token : %s\n", token);
+	temp = tokens;
+	token = ft_strdup(tokens->token);
+	name = ft_strdup(tokens->next->token);
 	while (temp && ft_strcmp(temp->token, "|") != 0)
 		temp = temp->next;
 	if (temp && ft_strcmp(temp->token, "|") == 0)

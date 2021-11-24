@@ -47,7 +47,6 @@ t_vars	*ft_init_vars(void)
 
 int	main(int ac, char **av, char **env)
 {
-
 	char	*line;
 	struct sigaction	sac;
 //	struct sigaction	saq;
@@ -56,6 +55,7 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
+	g_pid = 0;
 	vars = ft_init_vars();
 	ft_set_env(&vars->t_env, env);
 	ft_get_env_name(&vars->t_env, env);
