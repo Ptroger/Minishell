@@ -53,7 +53,7 @@ int	handle_dollar_quoted(t_vars *vars, char *token, char *line, char *name)
 		token = add_char_to_token('$', vars, vars->token_i, token);
 		return (0);
 	}
-	while (ft_strchr(END_CHARS, line[++vars->parse_i]) == NULL)
+	while (ft_strchr(END_CHARS, line[++vars->parse_i]) == NULL && ft_isalnum(line[vars->parse_i]))
 	{
 		name = add_char_to_token(line[vars->parse_i], vars, j, name);
 		j++;
@@ -62,29 +62,28 @@ int	handle_dollar_quoted(t_vars *vars, char *token, char *line, char *name)
 	vars->token_i = temp;
 	token = expand_env(vars, token, name, line[vars->parse_i]);
 	if (line[vars->parse_i] == '"')
-	{
-		printf("ici\n");
 		return (1);
-	}
 	if (line[vars->parse_i] == ' ')
 		token = add_char_to_token(' ', vars, vars->token_i, token);
 	return (0);
 }
 
-void	handle_dollar_unquoted(t_vars *vars, char *token, char *line, char *name)
+int	handle_dollar_unquoted(t_vars *vars, char *token, char *line, char *name)
 {
 	int	j;
 	int	temp;
 
 	temp = vars->token_i;
 	j = 0;
-	if (!line[vars->parse_i + 1] || line[vars->parse_i + 1] == '"')
+	if (ft_isalnum(line[vars->parse_i + 1]) == 0 && line[vars->parse_i + 1] != '?')
 	{
 		token = add_char_to_token(line[vars->parse_i], vars, vars->token_i, token);
+		if (line[vars->parse_i + 1] == '"')
+			return (0);
 		token = add_char_to_token('\0', vars, vars->token_i, token);
-		return ;
+		return (1);
 	}
-	while (ft_strchr(END_CHARS, line[++vars->parse_i]) == NULL)
+	while (ft_strchr(END_CHARS, line[++vars->parse_i]) == NULL && ft_isalnum(line[vars->parse_i]))
 	{
 		name = add_char_to_token(line[vars->parse_i], vars, j, name);
 		j++;
@@ -94,7 +93,7 @@ void	handle_dollar_unquoted(t_vars *vars, char *token, char *line, char *name)
 	token = expand_env(vars, token, name, line[vars->parse_i]);
 	free(name);
 	vars->parse_i--;
-	return ;
+	return (1);
 }
 
 int	handle_dollar(t_vars *vars, char *token, char *line)
@@ -105,8 +104,11 @@ int	handle_dollar(t_vars *vars, char *token, char *line)
 	name[vars->token_size] = '\0';
 	if (vars->state == BASIC)
 	{
-		handle_dollar_unquoted(vars, token, line, name);
+		if (handle_dollar_unquoted(vars, token, line, name) == 1)
+		{
+			free(name);
 			return (1);
+		}
 	}
 	else if (vars->state == D_QUOTE)
 	{
