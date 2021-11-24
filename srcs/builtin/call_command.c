@@ -14,11 +14,11 @@
 
 void	ft_call_builtin(t_vars **vars)
 {
+	if (ft_strcmp((*vars)->tokens->token, "cd") == 0)
+		ft_cd((*vars)->tokens->next->token);
 	g_pid = fork();
 	if (g_pid == 0)
 	{
-		if (ft_strcmp((*vars)->tokens->token, "cd") == 0)
-			ft_cd((*vars)->tokens->next->token);
 		if (ft_strcmp((*vars)->tokens->token, "echo") == 0)
 		{
 			if (!(*vars)->tokens->next)
