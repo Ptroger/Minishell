@@ -14,9 +14,9 @@
 
 void	ft_call_builtin(t_vars **vars)
 {
-	if (ft_strcmp((*vars)->tokens->token, "cd") == 0)
+	if (ft_strcmp((*vars)->tokens->token, "cd") == 0 || ft_strcmp((*vars)->tokens->token, "/usr/bin/cd") == 0)
 		ft_cd((*vars)->tokens->next->token);
-	if (ft_strcmp((*vars)->tokens->token, "echo") == 0)
+	if (ft_strcmp((*vars)->tokens->token, "echo") == 0 || ft_strcmp((*vars)->tokens->token, "/bin/echo") == 0)
 	{
         if (!(*vars)->tokens->next)
             ft_putstr("\n");
@@ -25,13 +25,13 @@ void	ft_call_builtin(t_vars **vars)
 		else
             ft_echo((*vars)->tokens->next);
 	}
-	if (ft_strcmp((*vars)->tokens->token, "env") == 0)
+	if (ft_strcmp((*vars)->tokens->token, "env") == 0 || ft_strcmp((*vars)->tokens->token, "/usr/bin/env") == 0)
 		ft_env(&(*vars)->t_env);
 	if (ft_strcmp((*vars)->tokens->token, "exit") == 0)
 		exit(1);
 	if (ft_strcmp((*vars)->tokens->token, "export") == 0)
 		ft_export((*vars)->tokens, &(*vars)->t_env, &(*vars)->t_exp);
-	if (ft_strcmp((*vars)->tokens->token, "pwd") == 0)
+	if (ft_strcmp((*vars)->tokens->token, "pwd") == 0 || ft_strcmp((*vars)->tokens->token, "/bin/pwd") == 0)
 		ft_pwd();
 	if (ft_strcmp((*vars)->tokens->token, "unset") == 0 && (*vars)->tokens->next)
 		ft_unset((*vars)->tokens, &(*vars)->t_env, &(*vars)->t_exp);
@@ -39,9 +39,9 @@ void	ft_call_builtin(t_vars **vars)
 
 int	ft_is_builtin(char *token)
 {
-	if (ft_strcmp(token, "cd") == 0 || ft_strcmp(token, "echo") == 0
-		|| ft_strcmp(token, "env") == 0 || ft_strcmp(token, "exit") == 0
-		|| ft_strcmp(token, "export") == 0 || ft_strcmp(token, "pwd") == 0
+	if (ft_strcmp(token, "cd") == 0 || ft_strcmp(token, "/usr/bin/cd") == 0 || ft_strcmp(token, "echo") == 0 || ft_strcmp(token, "/bin/echo") == 0
+		|| ft_strcmp(token, "env") == 0 || ft_strcmp(token, "/usr/bin/env") == 0 || ft_strcmp(token, "exit") == 0
+		|| ft_strcmp(token, "export") == 0 || ft_strcmp(token, "pwd") == 0 || ft_strcmp(token, "/bin/pwd") == 0
 		|| ft_strcmp(token, "unset") == 0)
 		return (1);
 	return (0);

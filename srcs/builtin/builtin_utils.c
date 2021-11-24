@@ -73,11 +73,16 @@ void	ft_find_cmd(t_vars **vars, char *token, char **cmd, char **tab)
 	int		i;
 
 	i = 0;
-	while (tab[i])
+	cmd[0] = ft_strdup(token);
+	if (execve(cmd[0], cmd, 0) == -1)
 	{
-		cmd[0] = find_path(token, tab[i]);
-		if (((*vars)->exit_status = execve(cmd[0], cmd, 0) == -1))
-			i++;
 		free(cmd[0]);
+		while (tab[i])
+		{
+			cmd[0] = find_path(token, tab[i]);
+			if (((*vars)->exit_status = execve(cmd[0], cmd, 0) == -1))
+				i++;
+			free(cmd[0]);
+		}
 	}
 }
