@@ -13,7 +13,7 @@
 typedef struct      s_sort
 {
 	char			*name;
-    char            *data;
+    char			*data;
 	char			*info;
     struct s_sort   *next;
 }                   t_sort;

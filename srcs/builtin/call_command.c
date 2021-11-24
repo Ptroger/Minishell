@@ -77,10 +77,17 @@ int	call_command(t_vars **vars, int is_child)
 	int		file;
 	int		status;
 	char	**cmd;
-	t_list	*temp;
 	pid_t	child;
+	t_list	*temp;
+	t_sort	*temp_env;
 
-	(*vars)->path = ft_split(getenv("PATH"), ':');
+	temp_env = (*vars)->t_env;
+	while (temp_env && ft_strcmp(temp_env->name, "PATH") != 0)
+		temp_env = temp_env->next;
+	if (temp_env && ft_strcmp(temp_env->name, "PATH") == 0)
+		(*vars)->path = ft_split(getenv("PATH"), ':');
+	else
+		(*vars)->path = NULL;
 	temp = (*vars)->tokens;
 	(*vars)->size = 1;
 	child = 0;
