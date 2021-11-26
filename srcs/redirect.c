@@ -57,15 +57,13 @@ void	read_until(t_vars *vars, char *name, char *token)
 
 int	redirect_pid(t_vars *vars, char *token, char *name, int *file)
 {
-	int	pid;
-
-	pid = fork();
-	if (pid == -1)
+	g.pid = fork();
+	if (g.pid == -1)
 	{
-		printf("%s\n", strerror(pid));
-		return (pid);
+		printf("%s\n", strerror(g.pid));
+		return (g.pid);
 	}
-	else if (pid == 0)
+	else if (g.pid == 0)
 	{
 
 		if (ft_strcmp(token, "<") == 0)
@@ -75,7 +73,7 @@ int	redirect_pid(t_vars *vars, char *token, char *name, int *file)
 		else if (ft_strcmp(token, "<<") == 0)
 			read_until(vars, name, token);
 	}
-	return (pid);
+	return (g.pid);
 }
 
 int	redirect(t_vars *vars, char *token, char *name, int *file)

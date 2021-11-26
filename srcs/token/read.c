@@ -42,31 +42,32 @@ t_vars	*ft_init_vars(void)
 	vars->t_env = NULL;
 	vars->t_exp = NULL;
 	vars->store = NULL;
+	g.ret = 0;
+	g.pid = 0;
+	g.sig_int = FALSE;
+	g.sig_q = FALSE;
 	return (vars);
 }
 
 int	main(int ac, char **av, char **env)
 {
 	char	*line;
-	struct sigaction	sac;
-//	struct sigaction	saq;
+	struct sigaction	sa;
 	t_vars	*vars;
 	t_list	*tet;
 
 	(void)ac;
 	(void)av;
-	g_pid = 0;
 	vars = ft_init_vars();
 	ft_set_env(&vars->t_env, env);
 	ft_get_env_name(&vars->t_env, env);
 	ft_set_exp(&vars->t_exp, &vars->t_env);
-	sac.sa_handler = sig_c;
-//	saq.sa_handler = sig_q;
-	sigaction(SIGINT, &sac, NULL);
-//	sigaction(SIGQUIT, &saq, NULL);
+	sa.sa_handler = sig_handler;
+	sigaction(SIGINT, &sa, NULL);
 	while (vars->shell == RUNNING)
 	{
 		vars->parse_i = 0;
+		signal(SIGQUIT, SIG_IGN);
 		line = readline(PROMPT);
 		if (line && *line)
 		{
@@ -74,10 +75,11 @@ int	main(int ac, char **av, char **env)
 			parse(line, vars);
 			free(line);
 			tet = vars->tokens;
+			signal(SIGQUIT, sig_handler);
 			call_command(&vars, FALSE);
 			ft_lstclear(&vars->tokens, free);
 		}
-		else
+		else if (!line)
 			exit(0);
 	}
 //	TODO: destroy(vars);

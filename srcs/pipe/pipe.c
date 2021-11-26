@@ -29,11 +29,11 @@ int	ft_process(t_vars **vars, t_pipe *temp_p, int size, int *pfd)
 		temp_p->cmd = ft_command_size(temp_p->size + 1);
 		while (++i < temp_p->size - 1 && temp_p->size > 1)
 			temp_p->cmd[i + 1] = ft_strdup(temp_p->cell[i + 1]);
-		g_pid = fork();
-		if (g_pid < 0)
+		g.pid = fork();
+		if (g.pid < 0)
 			return (ft_error("Fork failed"));
 		temp_2 = (*vars)->tokens;
-		if (g_pid == 0)
+		if (g.pid == 0)
 		{
 			ft_dup(temp_p, count, size, pfd);
 			while (temp_2 && ft_strcmp(temp_2->token, "|") != 0)
