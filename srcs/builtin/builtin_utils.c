@@ -79,7 +79,7 @@ void	ft_find_cmd(t_vars **vars, char *token, char **cmd, char **tab)
 		free(cmd[0]);
 		if (!tab)
 		{
-			printf("NO PATH\n");
+			printf("Error : path could not be found\n");
 			return ;
 		}
 		while (tab[i])

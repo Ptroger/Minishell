@@ -43,6 +43,7 @@ t_vars	*ft_init_vars(void)
 	vars->t_exp = NULL;
 	vars->store = NULL;
 	vars->exit_status = 1;
+	vars->prompt = ft_strdup("\033[0;36m\033[1mMinishell> \033[0;m");
 	return (vars);
 }
 
@@ -60,8 +61,11 @@ int	main(int ac, char **av, char **env)
 	ft_set_exp(&vars->t_exp, &vars->t_env);
 	while (vars->shell == RUNNING)
 	{
+		printf("1\n");
 		vars->parse_i = 0;
-		line = readline(PROMPT);
+	//	line = readline(PROMPT);
+		line = readline(vars->prompt);
+		printf("2\n");
 		add_history(line);
 		parse(line, vars);
 		free(line);
