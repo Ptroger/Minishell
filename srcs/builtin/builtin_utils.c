@@ -74,12 +74,21 @@ void	ft_find_cmd(t_vars **vars, char *token, char **cmd, char **tab)
 
 	i = 0;
 	(void)vars;
-	while (tab[i])
+	cmd[0] = ft_strdup(token);
+	if (execve(cmd[0], cmd, 0) == -1)
 	{
-		cmd[0] = find_path(token, tab[i]);
-		if ((g.ret = printf("es == %d\n", execve(cmd[0], cmd, 0) == -1)))
-			i++;
 		free(cmd[0]);
-//		printf("es == %d\n", (*vars)->exit_status);
+		if (!tab)
+		{
+			printf("Error : path could not be found\n");
+			return ;
+		}
+		while (tab[i])
+		{
+			cmd[0] = find_path(token, tab[i]);
+			if ((g.ret = execve(cmd[0], cmd, 0) == -1))
+				i++;
+			free(cmd[0]);
+		}
 	}
 }

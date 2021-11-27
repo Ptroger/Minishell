@@ -14,6 +14,7 @@ SRCS    =		srcs/token/read.c \
 				srcs/builtin/export.c \
 				srcs/builtin/pwd.c \
 				srcs/builtin/unset.c \
+				srcs/pipe/new_readline.c \
 				srcs/pipe/pipe.c \
 				srcs/pipe/pipe_utils.c \
 				srcs/redirect.c \

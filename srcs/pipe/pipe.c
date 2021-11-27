@@ -17,24 +17,34 @@ int	ft_process(t_vars **vars, t_pipe *temp_p, int size, int *pfd)
 	int		i;
 	int		count;
 	int		file;
-//	pid_t	child;
+	pid_t	child;
+	t_list	*temp_1;
 	t_list	*temp_2;
+	t_list	*temp_3;
 
 	count = 0;
 	file = 0;
+	temp_1 = (*vars)->tokens;
 	while (temp_p)
 	{
 		i = -1;
 		temp_p->token = ft_strdup(temp_p->cell[0]);
 		temp_p->cmd = ft_command_size(temp_p->size + 1);
-		while (++i < temp_p->size - 1 && temp_p->size > 1)
+		while (++i < temp_p->size - 1 && temp_p->size > 1 && is_redir(temp_p->cell[i + 1]) == FALSE)
 			temp_p->cmd[i + 1] = ft_strdup(temp_p->cell[i + 1]);
 		g.pid = fork();
 		if (g.pid < 0)
 			return (ft_error("Fork failed"));
 		temp_2 = (*vars)->tokens;
+		temp_3 = (*vars)->tokens;
 		if (g.pid == 0)
 		{
+			while (temp_3 && ft_strcmp(temp_3->token, "|") != 0)
+				temp_3 = temp_3->next;
+			if (ft_strcmp(temp_3->token, "|") == 0 && !temp_3->next)
+			{
+				return(ft_new_readline(vars));
+			}
 			ft_dup(temp_p, count, size, pfd);
 			while (temp_2 && ft_strcmp(temp_2->token, "|") != 0)
 			{
@@ -44,12 +54,16 @@ int	ft_process(t_vars **vars, t_pipe *temp_p, int size, int *pfd)
 			}
 			if (ft_is_builtin(temp_p->token) == 1)
 			{
-				ft_call_builtin(vars);
+				ft_call_builtin(vars, temp_1);
 				exit(1);
 			}
 			else
 				ft_find_cmd(vars, temp_p->token, temp_p->cmd, (*vars)->path);
 		}
+		while (temp_1 && ft_strcmp(temp_1->token, "|") != 0)
+			temp_1 = temp_1->next;
+		if (temp_1 && temp_1->next)
+			temp_1 = temp_1->next;
 		count += 2;
 		temp_p = temp_p->next;
 	}
@@ -137,6 +151,7 @@ int	ft_pipe(t_vars **vars, t_pipe *store)
 	int		i;
 	int		size;
 	t_list	*temp;
+
 	i = 0;
 	size = 0;
 	temp = (*vars)->tokens;

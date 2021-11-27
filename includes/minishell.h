@@ -22,7 +22,7 @@ typedef struct		s_glob
 typedef struct      s_sort
 {
 	char			*name;
-    char            *data;
+    char			*data;
 	char			*info;
     struct s_sort   *next;
 }                   t_sort;
@@ -50,6 +50,7 @@ typedef struct	s_vars
 	int		special_i;
 	int		size;
 	char	**path;
+	char	*prompt;
 	t_pipe	*store;
 	t_list	*tokens;
 	t_sort	*t_env;
@@ -64,6 +65,7 @@ void	ft_add_elem(t_sort **sort, char *env);
 void	ft_add_elem_exp(t_sort **sort, char *env);
 void	ft_add_elem_exp_2(t_sort **sort, t_sort *new_elem, char *env);
 void	ft_add_elem_pipe(t_pipe **store);
+void	ft_call_builtin(t_vars **vars, t_list *tokens);
 void    ft_cd(char *path);
 void	ft_dup(t_pipe *temp_p, int count, int size, int *pfd);
 void    ft_echo(t_list *tokens);
@@ -90,26 +92,20 @@ void    ft_pwd();
 void    ft_unset(t_list *tokens, t_sort **t_env, t_sort  **t_exp);
 int		call_command(t_vars **vars, int is_child);
 int		ft_error(char *str);
-void	add_token(t_vars *vars, int i);
+//int		ft_is_builtin(char *token);
+int		ft_is_key(char *str);
+int		ft_mul_strcmp(const char **s1, const char *s2);
+int		ft_new_readline(t_vars **vars);
 int		ft_pile_in_order(t_sort **pile_a);
 int  	ft_pipe(t_vars **vars, t_pipe *pipe);
-int     ft_strcmp(const char *s1, const char *s2);
-int		ft_strlen(const char *str);
+int		handle_dollar(t_vars *vars, char *token, char *line);
+int		handle_redirs(t_list *tokens, int *file);
+int		is_redir(char *token);
+int 	is_special(t_vars *vars, t_list *tokens);
+char	*add_char_to_token(char c, t_vars *vars, int i, char *token);
 char    *find_path(char *token, char *tab);
 char	*ft_return_max(t_sort **pile_a);
-char	*ft_strcpy_ari(char *dest, char *src);
-char	*ft_strdup(const char *s1);
-char  	**ft_command_size(int size);
-char	**ft_split(const char *str, char c);
-t_list	*ft_lstnew(void *content, int i);
-int		ft_mul_strcmp(const char **s1, const char *s2);
-int 	is_special(t_vars *vars, t_list *tokens);
 char	*get_tok_index(t_list *lst, int i);
-void	sig_handler(int sig);
-void	destroy_vars(t_vars *vars);
-int		handle_redirs(t_vars **vars, t_list *tokens, t_pipe *store, int *file);
-int		ft_is_key(char *str);
-void	ft_call_builtin(t_vars **vars);
-int		ft_is_builtin(char *token);
+char  	**ft_command_size(int size);
 
 #endif

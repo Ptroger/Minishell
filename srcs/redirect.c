@@ -1,11 +1,10 @@
 #include "../includes/minishell.h"
 #include <string.h>
 
-void	redirect_input(t_vars *vars, char *name, int *file)
+void	redirect_input(char *name, int *file)
 {
 	int	stdin;
 
-	(void)vars;
 	*file = open(name, O_RDONLY, 0777);
 	if (*file == -1)
 	{
@@ -15,7 +14,7 @@ void	redirect_input(t_vars *vars, char *name, int *file)
 	stdin = dup2(*file, STDIN_FILENO);
 }
 
-void	redirect_output(t_vars *vars, char *name, int *file, char *token)
+void	redirect_output(char *name, int *file, char *token)
 {
 	int	stdout;
 
@@ -26,7 +25,6 @@ void	redirect_output(t_vars *vars, char *name, int *file, char *token)
 	}
 	else
 		*file = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	(void)vars;
 	if (*file == -1)
 	{
 		printf("%s\n", strerror(*file));
@@ -64,9 +62,9 @@ int	redirect_pid(t_vars *vars, char *token, char *name, int *file)
 	{
 
 		if (ft_strcmp(token, "<") == 0)
-			redirect_input(vars, name, file);
+			redirect_input(name, file);
 		else if (ft_strcmp(token, ">") == 0 || ft_strcmp(token, ">>") == 0)
-			redirect_output(vars, name, file, token);
+			redirect_output(name, file, token);
 		else if (ft_strcmp(token, "<<") == 0)
 		{
 			write_file(name, file);
@@ -76,21 +74,21 @@ int	redirect_pid(t_vars *vars, char *token, char *name, int *file)
 	return (g.pid);
 }
 
-int	redirect(t_vars *vars, char *token, char *name, int *file)
+int	redirect(char *token, char *name, int *file)
 {
 	if (ft_strcmp(token, "<") == 0)
-		redirect_input(vars, name, file);
+		redirect_input(name, file);
 	else if (ft_strcmp(token, ">") == 0 || ft_strcmp(token, ">>") == 0)
-		redirect_output(vars, name, file, token);
+		redirect_output(name, file, token);
 	else if (ft_strcmp(token, "<<") == 0)
 	{
 		write_file(name, file);
-		redirect_input(vars, name, file);
+		redirect_input(name, file);
 	}
 	return (1);
 }
 
-int	handle_redirs(t_vars **vars, t_list *tokens, t_pipe *store, int *file)
+int	handle_redirs(t_list *tokens, int *file)
 {
 	char	*token;
 	char	*name;
@@ -103,6 +101,6 @@ int	handle_redirs(t_vars **vars, t_list *tokens, t_pipe *store, int *file)
 	while (temp && ft_strcmp(temp->token, "|") != 0)
 		temp = temp->next;
 	if (temp && ft_strcmp(temp->token, "|") == 0)
-		return(redirect_pid(*vars, token, name, file));
-	return(redirect(*vars, token, name, file));
+		return(redirect_pid(token, name, file));
+	return(redirect(token, name, file));
 }
