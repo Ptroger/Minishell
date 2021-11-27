@@ -22,7 +22,8 @@ char	*expand_env(t_vars *vars, char *token, char *name, char c)
 	i = 0;
 	if (ft_strcmp("?", name) == 0)
 	{
-		ft_strcpy(token, ft_itoa(g.ret));
+		token[vars->token_i] = '\0';
+		token = ft_strcat(token, ft_itoa(g.ret));
 		return (token);
 	}
 	env = my_get_env(vars, name);
@@ -62,7 +63,9 @@ int	handle_dollar_quoted(t_vars *vars, char *token, char *line, char *name)
 	vars->token_i = temp;
 	token = expand_env(vars, token, name, line[vars->parse_i]);
 	if (line[vars->parse_i] == '"')
+	{
 		return (1);
+	}
 	if (line[vars->parse_i] == ' ')
 		token = add_char_to_token(' ', vars, vars->token_i, token);
 	return (0);

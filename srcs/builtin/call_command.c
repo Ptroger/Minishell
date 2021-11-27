@@ -137,7 +137,6 @@ int	call_command(t_vars **vars, int is_child)
 	int		file;
 	int		status;
 	char	**cmd;
-	pid_t	child;
 	t_list	*temp;
 	t_sort	*temp_env;
 

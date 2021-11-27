@@ -92,7 +92,7 @@ void    ft_pwd();
 void    ft_unset(t_list *tokens, t_sort **t_env, t_sort  **t_exp);
 int		call_command(t_vars **vars, int is_child);
 int		ft_error(char *str);
-//int		ft_is_builtin(char *token);
+int		ft_is_builtin(char *token);
 int		ft_is_key(char *str);
 int		ft_mul_strcmp(const char **s1, const char *s2);
 int		ft_new_readline(t_vars **vars);
@@ -107,5 +107,6 @@ char    *find_path(char *token, char *tab);
 char	*ft_return_max(t_sort **pile_a);
 char	*get_tok_index(t_list *lst, int i);
 char  	**ft_command_size(int size);
+void	sig_handler(int sig);
 
 #endif

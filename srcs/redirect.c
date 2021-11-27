@@ -50,7 +50,7 @@ void	write_file(char *name, int *file)
 	close(*file);
 }
 
-int	redirect_pid(t_vars *vars, char *token, char *name, int *file)
+int	redirect_pid(char *token, char *name, int *file)
 {
 	g.pid = fork();
 	if (g.pid == -1)
@@ -68,7 +68,7 @@ int	redirect_pid(t_vars *vars, char *token, char *name, int *file)
 		else if (ft_strcmp(token, "<<") == 0)
 		{
 			write_file(name, file);
-			redirect_input(vars, "temp", file);
+			redirect_input("temp", file);
 		}
 	}
 	return (g.pid);
@@ -94,7 +94,6 @@ int	handle_redirs(t_list *tokens, int *file)
 	char	*name;
 	t_list	*temp;
 
-	(void)store;
 	temp = tokens;
 	token = ft_strdup(tokens->token);
 	name = ft_strdup(tokens->next->token);

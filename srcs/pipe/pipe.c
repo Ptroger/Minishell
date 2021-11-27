@@ -17,7 +17,6 @@ int	ft_process(t_vars **vars, t_pipe *temp_p, int size, int *pfd)
 	int		i;
 	int		count;
 	int		file;
-	pid_t	child;
 	t_list	*temp_1;
 	t_list	*temp_2;
 	t_list	*temp_3;
@@ -49,7 +48,7 @@ int	ft_process(t_vars **vars, t_pipe *temp_p, int size, int *pfd)
 			while (temp_2 && ft_strcmp(temp_2->token, "|") != 0)
 			{
 				if (is_special(*vars, temp_2) == TRUE)
-					handle_redirs(vars, temp_2, (*vars)->store, &file);
+					handle_redirs(temp_2, &file);
 				temp_2 = temp_2->next;
 			}
 			if (ft_is_builtin(temp_p->token) == 1)
