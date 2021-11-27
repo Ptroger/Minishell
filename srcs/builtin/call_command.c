@@ -29,6 +29,8 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 	wd = NULL;
 	temp = (*vars)->t_env;
 	temp_env = (*vars)->t_env;
+	if (ft_strcmp(tokens->token, "exit") == 0)
+		exit(1);
 	if (ft_strcmp(tokens->token, "cd") == 0 || ft_strcmp(tokens->token, "/usr/bin/cd") == 0)
 	{
 		buf = NULL;
@@ -81,8 +83,6 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 		}
 		if (ft_strcmp(tokens->token, "env") == 0 || ft_strcmp(tokens->token, "/usr/bin/env") == 0)
 			ft_env(&(*vars)->t_env);
-		if (ft_strcmp(tokens->token, "exit") == 0)
-			exit(1);
 		if (ft_strcmp(tokens->token, "export") == 0)
 			ft_export(tokens, &(*vars)->t_env, &(*vars)->t_exp);
 		if (ft_strcmp(tokens->token, "pwd") == 0 || ft_strcmp(tokens->token, "/bin/pwd") == 0)
