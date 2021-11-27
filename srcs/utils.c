@@ -2,8 +2,7 @@
 
 int	is_special(t_vars *vars, t_list *tokens)
 {
-	if (ft_strcmp("|", tokens->token) == 0 || ft_strcmp("<", tokens->token) == 0
-		|| ft_strcmp(">", tokens->token) == 0 || ft_strcmp("<<", tokens->token) == 0
+	if (ft_strcmp("<", tokens->token) == 0 || ft_strcmp(">", tokens->token) == 0 || ft_strcmp("<<", tokens->token) == 0
 		|| ft_strcmp(">>", tokens->token) == 0)
 	{
 		vars->special_i = tokens->index;

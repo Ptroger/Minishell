@@ -16,8 +16,8 @@ void	ft_call_builtin(t_vars **vars)
 {
 	if (ft_strcmp((*vars)->tokens->token, "cd") == 0)
 		ft_cd((*vars)->tokens->next->token);
-	g_pid = fork();
-	if (g_pid == 0)
+	g.pid = fork();
+	if (g.pid == 0)
 	{
 		if (ft_strcmp((*vars)->tokens->token, "echo") == 0)
 		{
@@ -70,10 +70,13 @@ void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
 			i++;
 		}
 	}
-	g_pid = fork();
-	wait(NULL);
-	if (g_pid == 0)
+	g.pid = fork();
+	if (g.pid == 0)
+	{
+ 		signal(SIGQUIT, &sig_handler);
 		ft_find_cmd(vars, tokens->token, cmd, (*vars)->path);
+	}
+	wait(NULL);
 }
 
 int	call_command(t_vars **vars, int is_child)
@@ -101,10 +104,10 @@ int	call_command(t_vars **vars, int is_child)
 	temp = (*vars)->tokens;
 	while (temp->next)
 	{
-		if (ft_strcmp(">", temp->token) == 0 || ft_strcmp("<", temp->token) == 0)
+		if (is_special(*vars, temp) == TRUE)
 		{
-			g_pid = fork();
-			if (g_pid == 0)
+			g.pid = fork();
+			if (g.pid == 0)
 			{
 				handle_redirs(vars, temp, (*vars)->store, &file);
 				cmd = ft_command_size((*vars)->size);

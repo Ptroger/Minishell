@@ -11,9 +11,13 @@
 # include "constants.h"
 # include "../libft/libft.h"
 
-int	is_executing;
-
-pid_t	g_pid;
+typedef struct		s_glob
+{
+	pid_t	pid;
+	int		ret;
+	int		sig_q;
+	int		sig_int;
+}					t_glob;
 
 typedef struct      s_sort
 {
@@ -51,6 +55,9 @@ typedef struct	s_vars
 	t_sort	*t_env;
 	t_sort	*t_exp;
 }				t_vars;
+
+t_glob	g;
+
 
 void	add_token(t_vars *vars, int i);
 void	ft_add_elem(t_sort **sort, char *env);
@@ -98,12 +105,11 @@ t_list	*ft_lstnew(void *content, int i);
 int		ft_mul_strcmp(const char **s1, const char *s2);
 int 	is_special(t_vars *vars, t_list *tokens);
 char	*get_tok_index(t_list *lst, int i);
-void	sig_c(int sig);
-void	sig_q(int sig);
+void	sig_handler(int sig);
 void	destroy_vars(t_vars *vars);
 int		handle_redirs(t_vars **vars, t_list *tokens, t_pipe *store, int *file);
 int		ft_is_key(char *str);
 void	ft_call_builtin(t_vars **vars);
-int	ft_is_builtin(char *token);
+int		ft_is_builtin(char *token);
 
 #endif

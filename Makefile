@@ -24,9 +24,9 @@ INCLUDE =       includes/
 
 OBJS    =       $(SRCS:%.c=%.o)
 
-CFLAGS  =       -Wall -Wextra -Werror -g -I ./$(INCLUDE) #-fsanitize=address
+CFLAGS  =       -Wall -Wextra -Werror -g -I ./$(INCLUDE) -fsanitize=address
 
-LIBS =			-lreadline -L /usr/local/Cellar/readline/8.1.1/lib -I /usr/local/Cellar/readline/8.1.1/include
+LIBS =			-lreadline -L /usr/local/opt/readline/lib -I /usr/local/opt/readline/include
 
 LIBFT = 		./libft/libft.a
 

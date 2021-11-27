@@ -20,12 +20,12 @@ char	*expand_env(t_vars *vars, char *token, char *name, char c)
 	int		i;
 
 	i = 0;
-	env = my_get_env(vars, name);
 	if (ft_strcmp("?", name) == 0)
 	{
-		ft_strcpy(token, ft_itoa(vars->exit_status));
+		ft_strcpy(token, ft_itoa(g.ret));
 		return (token);
 	}
+	env = my_get_env(vars, name);
 	if (!env)
 	{
 		token = add_char_to_token('\0', vars, vars->token_i, token);
@@ -48,7 +48,7 @@ int	handle_dollar_quoted(t_vars *vars, char *token, char *line, char *name)
 
 	j = 0;
 	temp = vars->token_i;
-	if (ft_isalnum(line[vars->parse_i + 1]) == 0 && line[vars->parse_i + 1] != '?')
+	if (ft_isalnum(line[vars->parse_i + 1]) == 0)
 	{
 		token = add_char_to_token('$', vars, vars->token_i, token);
 		return (0);
@@ -75,13 +75,10 @@ int	handle_dollar_unquoted(t_vars *vars, char *token, char *line, char *name)
 
 	temp = vars->token_i;
 	j = 0;
-	if (ft_isalnum(line[vars->parse_i + 1]) == 0 && line[vars->parse_i + 1] != '?')
+	if (ft_isalnum(line[vars->parse_i + 1]) == 0)
 	{
 		token = add_char_to_token(line[vars->parse_i], vars, vars->token_i, token);
-		if (line[vars->parse_i + 1] == '"')
-			return (0);
-		token = add_char_to_token('\0', vars, vars->token_i, token);
-		return (1);
+		return (0);
 	}
 	while (ft_strchr(END_CHARS, line[++vars->parse_i]) == NULL && ft_isalnum(line[vars->parse_i]))
 	{
@@ -91,7 +88,6 @@ int	handle_dollar_unquoted(t_vars *vars, char *token, char *line, char *name)
 	name = add_char_to_token('\0', vars, j, name);
 	vars->token_i = temp;
 	token = expand_env(vars, token, name, line[vars->parse_i]);
-	free(name);
 	vars->parse_i--;
 	return (1);
 }

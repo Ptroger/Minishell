@@ -58,7 +58,6 @@ int	handle_quotes(t_vars *vars, char *token, char *line)
 {
 	if (set_state(line[vars->parse_i], vars, token, line) == 1)
 	{
-		vars->parse_i += 1;
 		token = add_char_to_token('\0', vars, vars->token_i, token);
 		return (1);
 	}
