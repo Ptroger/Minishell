@@ -73,11 +73,13 @@ void	ft_find_cmd(t_vars **vars, char *token, char **cmd, char **tab)
 	int		i;
 
 	i = 0;
+	(void)vars;
 	while (tab[i])
 	{
 		cmd[0] = find_path(token, tab[i]);
-		if (((*vars)->exit_status = execve(cmd[0], cmd, 0) == -1))
+		if ((g.ret = printf("es == %d\n", execve(cmd[0], cmd, 0) == -1)))
 			i++;
 		free(cmd[0]);
+//		printf("es == %d\n", (*vars)->exit_status);
 	}
 }

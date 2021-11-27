@@ -20,11 +20,13 @@ void	redirect_output(t_vars *vars, char *name, int *file, char *token)
 	int	stdout;
 
 	if (ft_strcmp(token, ">>") == 0)
+	{
 		*file = open(name, O_WRONLY | O_CREAT | O_APPEND, 0777);
+		printf("ici\n");
+	}
 	else
 		*file = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	(void)vars;
-	*file = open(name, O_WRONLY | O_CREAT, 0777);
 	if (*file == -1)
 	{
 		printf("%s\n", strerror(*file));
@@ -33,26 +35,21 @@ void	redirect_output(t_vars *vars, char *name, int *file, char *token)
 	stdout = dup2(*file, STDOUT_FILENO);
 }
 
-void	read_until(t_vars *vars, char *name, char *token)
+void	write_file(char *name, int *file)
 {
 	char	*line;
 
-	(void)vars;
-	printf("token == %s\n", token);
-//	token = malloc(jesaispasdecombienencore);
+	*file = open("temp", O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	line = readline("heredoc> ");
-	token = ft_strcpy(token, line);
 	while (ft_strcmp(line, name) != 0)
 	{
-		token = ft_strcat(token, (const char *)line);
 		free(line);
 		line = readline("heredoc> ");
-		printf("line == |%s|\n", line);
+		if (ft_strcmp(line, name) != 0)
+			ft_putstr_fd(line, *file);
 	}
 	free(line);
-	printf("token = %s\n", token);
-	call_command(&vars, TRUE);
-//	TODO: voir avec Aristide pour call command dans quel token je dois rentrer le nouveau token
+	close(*file);
 }
 
 int	redirect_pid(t_vars *vars, char *token, char *name, int *file)
@@ -71,7 +68,10 @@ int	redirect_pid(t_vars *vars, char *token, char *name, int *file)
 		else if (ft_strcmp(token, ">") == 0 || ft_strcmp(token, ">>") == 0)
 			redirect_output(vars, name, file, token);
 		else if (ft_strcmp(token, "<<") == 0)
-			read_until(vars, name, token);
+		{
+			write_file(name, file);
+			redirect_input(vars, "temp", file);
+		}
 	}
 	return (g.pid);
 }
@@ -83,7 +83,10 @@ int	redirect(t_vars *vars, char *token, char *name, int *file)
 	else if (ft_strcmp(token, ">") == 0 || ft_strcmp(token, ">>") == 0)
 		redirect_output(vars, name, file, token);
 	else if (ft_strcmp(token, "<<") == 0)
-		read_until(vars, name, token);
+	{
+		write_file(name, file);
+		redirect_input(vars, name, file);
+	}
 	return (1);
 }
 

@@ -39,6 +39,7 @@ t_vars	*ft_init_vars(void)
 	vars->token_size = TOKENSIZE;
 	vars->tokens = NULL;
 	vars->finish_line = FALSE;
+	vars->exit_status = 0;
 	vars->t_env = NULL;
 	vars->t_exp = NULL;
 	vars->store = NULL;

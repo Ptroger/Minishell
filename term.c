@@ -2,14 +2,6 @@
 
 int main()
 {
-	g.pid = fork();
-	signal(SIGQUIT, SIG_IGN);
-	if (g.pid == 0)
-	{
-		signal(SIGQUIT, sig_handler);
-		printf("ici\n");
-		while (1)
-			;
-	}
-	wait(NULL);
+	char *ls = "ls";
+	printf("ret == %d\n", execve(ls, &ls, 0));
 }
