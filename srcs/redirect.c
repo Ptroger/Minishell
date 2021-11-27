@@ -8,7 +8,7 @@ void	redirect_input(char *name, int *file)
 	*file = open(name, O_RDONLY, 0777);
 	if (*file == -1)
 	{
-		printf("error = %s\n", strerror(*file));
+		printf("error input = %s\n", strerror(*file));
 		return ;
 	}
 	stdin = dup2(*file, STDIN_FILENO);
@@ -41,10 +41,13 @@ void	write_file(char *name, int *file)
 	line = readline("heredoc> ");
 	while (ft_strcmp(line, name) != 0)
 	{
+		if (ft_strcmp(line, name) != 0)
+		{
+			ft_putstr_fd(line, *file);
+			ft_putchar_fd('\n', *file);
+		}
 		free(line);
 		line = readline("heredoc> ");
-		if (ft_strcmp(line, name) != 0)
-			ft_putstr_fd(line, *file);
 	}
 	free(line);
 	close(*file);
@@ -83,7 +86,7 @@ int	redirect(char *token, char *name, int *file)
 	else if (ft_strcmp(token, "<<") == 0)
 	{
 		write_file(name, file);
-		redirect_input(name, file);
+		redirect_input("temp", file);
 	}
 	return (1);
 }

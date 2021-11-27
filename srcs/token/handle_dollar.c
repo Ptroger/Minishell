@@ -14,6 +14,11 @@ char	*my_get_env(t_vars *vars, char *name)
 	return (NULL);
 }
 
+//void	cat_after(char *token, char *value, int i)
+//{
+//
+//}
+
 char	*expand_env(t_vars *vars, char *token, char *name, char c)
 {
 	char	*env;
