@@ -47,7 +47,6 @@ t_vars	*ft_init_vars(void)
 	g.pid = 0;
 	g.sig_int = FALSE;
 	g.sig_q = FALSE;
-	vars->prompt = ft_strdup("\033[0;36m\033[1mMinishell> \033[0;m");
 	return (vars);
 }
 
@@ -68,7 +67,6 @@ int	main(int ac, char **av, char **env)
 	sigaction(SIGINT, &sa, NULL);
 	while (vars->shell == RUNNING)
 	{
-		printf("1\n");
 		vars->parse_i = 0;
 		signal(SIGQUIT, SIG_IGN);
 		line = readline(PROMPT);

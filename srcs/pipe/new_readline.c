@@ -14,6 +14,30 @@
 
 int ft_new_readline(t_vars **vars)
 {
-    (*vars)->prompt = ft_strdup("pipe> ");
+    char	*line;
+    char    *tmp;
+    t_list  *temp;
+
+    temp = (*vars)->tokens;
+	line = readline("pipe> ");
+    tmp = malloc(sizeof(char) * ft_strlen(line) + 1);
+    while (temp)
+    {
+        tmp = ft_strjoin(tmp, temp->token);
+        tmp = ft_strjoin(tmp, " ");
+        temp = temp->next;
+    }
+	while (line[ft_strlen(line) - 1] == '|')
+	{
+        tmp = ft_strjoin(tmp, line);
+        tmp = ft_strjoin(tmp, " ");
+		free(line);
+		line = readline("pipe> ");
+	}
+    tmp = ft_strjoin(tmp, line);
+    tmp = ft_strjoin(tmp, " ");
+	free(line);
+    parse(tmp, *vars);
+    call_command(vars, FALSE);
     return (1);
 }

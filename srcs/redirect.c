@@ -19,10 +19,7 @@ void	redirect_output(char *name, int *file, char *token)
 	int	stdout;
 
 	if (ft_strcmp(token, ">>") == 0)
-	{
 		*file = open(name, O_WRONLY | O_CREAT | O_APPEND, 0777);
-		printf("ici\n");
-	}
 	else
 		*file = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (*file == -1)

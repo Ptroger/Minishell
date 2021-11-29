@@ -27,6 +27,11 @@ int	ft_process(t_vars **vars, t_pipe *temp_p, int size, int *pfd)
 	while (temp_p)
 	{
 		i = -1;
+		temp_3 = (*vars)->tokens;
+		while (temp_3 && ft_strcmp(temp_3->token, "|") != 0)
+			temp_3 = temp_3->next;
+		if (ft_strcmp(temp_3->token, "|") == 0 && !temp_3->next)
+			return (ft_new_readline(vars));
 		temp_p->token = ft_strdup(temp_p->cell[0]);
 		temp_p->cmd = ft_command_size(temp_p->size + 1);
 		while (++i < temp_p->size - 1 && temp_p->size > 1 && is_redir(temp_p->cell[i + 1]) == FALSE)
@@ -38,13 +43,14 @@ int	ft_process(t_vars **vars, t_pipe *temp_p, int size, int *pfd)
 		temp_3 = (*vars)->tokens;
 		if (g.pid == 0)
 		{
-			while (temp_3 && ft_strcmp(temp_3->token, "|") != 0)
+/*			while (temp_3 && ft_strcmp(temp_3->token, "|") != 0)
 				temp_3 = temp_3->next;
 			if (ft_strcmp(temp_3->token, "|") == 0 && !temp_3->next)
 			{
-				return(ft_new_readline(vars));
+				return (ft_new_readline(vars));
+				exit (1);
 			}
-			ft_dup(temp_p, count, size, pfd);
+*/			ft_dup(temp_p, count, size, pfd);
 			while (temp_2 && ft_strcmp(temp_2->token, "|") != 0)
 			{
 				if (is_special(*vars, temp_2) == TRUE)
@@ -66,6 +72,7 @@ int	ft_process(t_vars **vars, t_pipe *temp_p, int size, int *pfd)
 		count += 2;
 		temp_p = temp_p->next;
 	}
+//	exit (1);
 	return (1);
 }
 
