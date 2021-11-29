@@ -71,5 +71,4 @@ void	destroy_vars(t_vars *vars)
 		destroy_store(vars->store);
 		free(vars);
 	}
-
 }

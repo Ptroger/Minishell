@@ -1,10 +1,10 @@
 NAME    =       minishell
 
-SRCS    =		srcs/token/read.c \
-				srcs/token/parse.c \
+SRCS    =		srcs/token/parse.c \
 				srcs/token/handle_dollar.c \
-				srcs/token/ft_strcpy_2.c \
-				srcs/token/destroy.c \
+				srcs/token/handle_quotes.c \
+				srcs/token/dollar_utils.c \
+				srcs/token/parse_utils.c \
 				srcs/builtin/call_command.c \
 				srcs/builtin/builtin_utils.c \
 				srcs/builtin/builtin_utils_2.c \
@@ -17,9 +17,12 @@ SRCS    =		srcs/token/read.c \
 				srcs/pipe/new_readline.c \
 				srcs/pipe/pipe.c \
 				srcs/pipe/pipe_utils.c \
-				srcs/redirect.c \
-				srcs/utils.c \
-				srcs/signals.c \
+				srcs/redir/redirect.c \
+				srcs/redir/redirs_utils.c \
+				srcs/redir/utils.c \
+				srcs/shell/signals.c \
+				srcs/shell/read.c \
+				srcs/shell/destroy.c \
 
 INCLUDE =       includes/
 

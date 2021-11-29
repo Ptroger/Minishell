@@ -47,7 +47,7 @@ int	ft_process(t_vars **vars, t_pipe *temp_p, int size, int *pfd)
 			ft_dup(temp_p, count, size, pfd);
 			while (temp_2 && ft_strcmp(temp_2->token, "|") != 0)
 			{
-				if (is_special(*vars, temp_2) == TRUE)
+				if (is_special(temp_2) == TRUE)
 					handle_redirs(temp_2, &file);
 				temp_2 = temp_2->next;
 			}

@@ -1,14 +1,11 @@
 #include "minishell.h"
 
-int	is_special(t_vars *vars, t_list *tokens)
+int	is_special(t_list *tokens)
 {
-	if (ft_strcmp("<", tokens->token) == 0 || ft_strcmp(">", tokens->token) == 0 || ft_strcmp("<<", tokens->token) == 0
+	if (ft_strcmp("<", tokens->token) == 0 || ft_strcmp(">", tokens->token) == 0
+		|| ft_strcmp("<<", tokens->token) == 0
 		|| ft_strcmp(">>", tokens->token) == 0)
-	{
-		vars->special_i = tokens->index;
 		return (TRUE);
-	}
-
 	return (FALSE);
 }
 
@@ -29,7 +26,6 @@ char	*get_tok_index(t_list *lst, int i)
 		return (NULL);
 	return (lst->token);
 }
-
 
 int	ft_mul_strcmp(const char **s1, const char *s2)
 {

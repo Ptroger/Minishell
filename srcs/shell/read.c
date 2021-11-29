@@ -8,16 +8,6 @@ void	init_token(t_vars *vars)
 	vars->tokens = ft_lstnew((void *)token, 0);
 }
 
-void	add_token(t_vars *vars, int i)
-{
-	t_list	*list;
-	char	*token;
-
-	token = malloc(sizeof(char) * vars->token_size);
-	list = ft_lstnew((void *)token, i);
-	ft_lstadd_back(&vars->tokens, list);
-}
-
 void	ft_putstr_lst(char *token)
 {
 	int	i;
@@ -33,6 +23,7 @@ void	ft_putstr_lst(char *token)
 t_vars	*ft_init_vars(void)
 {
 	t_vars	*vars;
+
 	vars = malloc(sizeof(t_vars));
 	vars->shell = RUNNING;
 	vars->state = BASIC;
@@ -51,12 +42,33 @@ t_vars	*ft_init_vars(void)
 	return (vars);
 }
 
-int	main(int ac, char **av, char **env)
+void	read_loop(t_vars *vars)
 {
 	char	*line;
+
+	while (vars->shell == RUNNING)
+	{
+		vars->parse_i = 0;
+		signal(SIGQUIT, SIG_IGN);
+		line = readline(PROMPT);
+		if (line && *line)
+		{
+			add_history(line);
+			parse(line, vars);
+			free(line);
+			signal(SIGQUIT, sig_handler);
+			call_command(&vars, FALSE);
+			ft_lstclear(&vars->tokens, free);
+		}
+		else if (!line)
+			exit(0);
+	}
+}
+
+int	main(int ac, char **av, char **env)
+{
 	struct sigaction	sa;
-	t_vars	*vars;
-	t_list	*tet;
+	t_vars				*vars;
 
 	(void)ac;
 	(void)av;
@@ -66,24 +78,6 @@ int	main(int ac, char **av, char **env)
 	ft_set_exp(&vars->t_exp, &vars->t_env);
 	sa.sa_handler = sig_handler;
 	sigaction(SIGINT, &sa, NULL);
-	while (vars->shell == RUNNING)
-	{
-		printf("1\n");
-		vars->parse_i = 0;
-		signal(SIGQUIT, SIG_IGN);
-		line = readline(PROMPT);
-		if (line && *line)
-		{
-			add_history(line);
-			parse(line, vars);
-			free(line);
-			tet = vars->tokens;
-			signal(SIGQUIT, sig_handler);
-			call_command(&vars, FALSE);
-			ft_lstclear(&vars->tokens, free);
-		}
-		else if (!line)
-			exit(0);
-	}
-//	TODO: destroy(vars);
+	read_loop(vars);
+	destroy_vars(vars);
 }

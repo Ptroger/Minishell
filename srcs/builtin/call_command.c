@@ -19,6 +19,7 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 	char	*user;
 	char	*pwd;
 	char	*old_pwd;
+	int		status;
 	t_sort	*temp;
 	t_sort	*temp_env;
 
@@ -90,7 +91,8 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 		if (ft_strcmp(tokens->token, "unset") == 0 && tokens->next)
 			ft_unset(tokens, &(*vars)->t_env, &(*vars)->t_exp);
 	}
-	wait(NULL);
+	wait(&status);
+	g.ret = WEXITSTATUS(status);
 }
 
 int	ft_is_builtin(char *token)
@@ -106,7 +108,7 @@ int	ft_is_builtin(char *token)
 void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
 {
 	int		i;
-//	pid_t	pid;
+	int		status;
 	t_list	*temp;
 
 	i = 1;
@@ -115,7 +117,7 @@ void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
 		temp = temp->next;
 	if (size > 1)
 	{
-		while (temp && is_special(*vars, temp) == FALSE)
+		while (temp && is_special(temp) == FALSE)
 		{
 			cmd[i] = temp->token;
 			temp = temp->next;
@@ -128,7 +130,8 @@ void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
  		signal(SIGQUIT, &sig_handler);
 		ft_find_cmd(vars, tokens->token, cmd, (*vars)->path);
 	}
-	wait(NULL);
+	wait(&status);
+	g.ret = WEXITSTATUS(status);
 }
 
 int	call_command(t_vars **vars, int is_child)
@@ -176,7 +179,7 @@ int	call_command(t_vars **vars, int is_child)
 	temp = (*vars)->tokens;
 	while (temp->next)
 	{
-		if (is_special(*vars, temp) == TRUE)
+		if (is_special(temp) == TRUE)
 		{
 			g.pid = fork();
 			if (g.pid == 0)

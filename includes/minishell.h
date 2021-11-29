@@ -8,6 +8,7 @@
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <string.h>
 # include "constants.h"
 # include "../libft/libft.h"
 
@@ -38,7 +39,6 @@ typedef	struct		s_pipe
 
 typedef struct	s_vars
 {
-//	shell = savoir si il faut arrêter minishell
 	int		shell;
 	int		state;
   	int		token_i;
@@ -59,54 +59,68 @@ typedef struct	s_vars
 
 t_glob	g;
 
+// TOKENS FUNCTIONS
+void	parse(char *line, t_vars *vars);
+int		handle_dollar(t_vars *vars, char *token, char *line);
+int		handle_quotes(t_vars *vars, char *token, char *line);
+int		handle_space(t_vars *vars, char *token, char *line);
 
+// TOKEN UTILS
 void	add_token(t_vars *vars, int i);
-void	ft_add_elem(t_sort **sort, char *env);
-void	ft_add_elem_exp(t_sort **sort, char *env);
-void	ft_add_elem_exp_2(t_sort **sort, t_sort *new_elem, char *env);
+char	*add_c_tok(char c, t_vars *vars, int i, char *token);
+char	*my_get_env(t_vars *vars, char *name);
+int		is_valid(t_vars *vars, char *line);
+void	cat_ret(char *token, t_vars *vars);
+int		ft_mul_strcmp(const char **s1, const char *s2);
+void	ft_strcpy_2(char *old, char *ne, int i);
+char	*get_tok_index(t_list *lst, int i);
+void	finish_token(t_vars *vars, char *token, int i);
+
+// REDIRECTIONS
+void	redirect_input(char *name, int *file);
+void	redirect_output(char *name, int *file, char *token);
+int		handle_redirs(t_list *tokens, int *file);
+int		is_redir(char *token);
+int 	is_special(t_list *tokens);
+int  	ft_pipe(t_vars **vars, t_pipe *pipe);
 void	ft_add_elem_pipe(t_pipe **store);
-void	ft_call_builtin(t_vars **vars, t_list *tokens);
+
+// EXECUTION
+int		call_command(t_vars **vars, int is_child);
+void    ft_find_cmd(t_vars **vars, char *token, char **cmd, char **tab);
+
+
+// ENVS
+void	ft_get_env_name(t_sort  **t_env, char **env);
+void	ft_set_env(t_sort  **t_env, char **env);
+
+// BUILTINS
 void    ft_cd(char *path);
+void    ft_pwd();
 void	ft_dup(t_pipe *temp_p, int count, int size, int *pfd);
 void    ft_echo(t_list *tokens);
 void    ft_echo_n(t_list *tokens);
 void    ft_env(t_sort **env);
-void    ft_export(t_list *tokens, t_sort **t_env, t_sort  **t_exp);
-void    ft_find_cmd(t_vars **vars, char *token, char **cmd, char **tab);
-void	ft_get_env_name(t_sort  **t_env, char **env);
-void	ft_lstadd_back(t_list **alst, t_list *new);
-void	ft_lstiter(t_list *lst, void (*f)(char *));
-void	ft_lstclear(t_list **alst, void (*del)(void *));
-void	parse(char *line, t_vars *vars);
-int		handle_dollar(t_vars *vars, char *token, char *line);
-char	*add_char_to_token(char c, t_vars *vars, int i, char *token);
-void	ft_putchar(char c);
-void	ft_putstr(char *str);
-void	ft_putendl(char *s);
-void	ft_reverse_rotate(t_sort **pile);
-void	ft_set_env(t_sort  **t_env, char **env);
-void	ft_set_exp(t_sort  **t_exp, t_sort  **t_env);
-void	ft_strcpy_2(char *old, char *ne, int i);
-void	ft_swap(t_sort **pile);
-void    ft_pwd();
 void    ft_unset(t_list *tokens, t_sort **t_env, t_sort  **t_exp);
-int		call_command(t_vars **vars, int is_child);
-int		ft_error(char *str);
+void    ft_export(t_list *tokens, t_sort **t_env, t_sort  **t_exp);
+void	ft_call_builtin(t_vars **vars, t_list *tokens);
 int		ft_is_builtin(char *token);
+
+// OTHERS
+void	sig_handler(int sig);
+void	ft_add_elem(t_sort **sort, char *env);
+void	ft_add_elem_exp(t_sort **sort, char *env);
+void	ft_add_elem_exp_2(t_sort **sort, t_sort *new_elem, char *env);
+void	ft_reverse_rotate(t_sort **pile);
+void	ft_set_exp(t_sort  **t_exp, t_sort  **t_env);
+void	ft_swap(t_sort **pile);
+int		ft_error(char *str);
 int		ft_is_key(char *str);
-int		ft_mul_strcmp(const char **s1, const char *s2);
 int		ft_new_readline(t_vars **vars);
 int		ft_pile_in_order(t_sort **pile_a);
-int  	ft_pipe(t_vars **vars, t_pipe *pipe);
-int		handle_dollar(t_vars *vars, char *token, char *line);
-int		handle_redirs(t_list *tokens, int *file);
-int		is_redir(char *token);
-int 	is_special(t_vars *vars, t_list *tokens);
-char	*add_char_to_token(char c, t_vars *vars, int i, char *token);
 char    *find_path(char *token, char *tab);
 char	*ft_return_max(t_sort **pile_a);
-char	*get_tok_index(t_list *lst, int i);
 char  	**ft_command_size(int size);
-void	sig_handler(int sig);
+void	destroy_vars(t_vars *vars);
 
 #endif

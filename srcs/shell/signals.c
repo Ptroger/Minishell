@@ -1,23 +1,6 @@
 #include "../includes/minishell.h"
 
-//const struct sigaction	setup_handler(void (*handler)(int))
-//{
-//	struct sigaction	sa;
-//
-//	sa.sa_flags = flag;
-//	sa.sa_handler = handler;
-//	return ((const struct sigaction )sa);
-//}
-//void	sig_q(int sig)
-//{
-//	if (sig == SIGQUIT)
-//	{
-//		if (term == INTERACTIVE)
-//			return ;
-//	}
-//}
-
-void	sig_c()
+void	sig_c(void)
 {
 	printf("\n");
 	rl_on_new_line();
@@ -46,7 +29,6 @@ void	process(int sig)
 
 void	sig_handler(int sig)
 {
-//	printf("UNUNUNC\n");
 	if ((sig == SIGINT || sig == SIGQUIT) && g.pid != 0)
 		process(sig);
 	else
@@ -54,9 +36,6 @@ void	sig_handler(int sig)
 		if (sig == SIGINT)
 			sig_c();
 		else if (sig == SIGQUIT)
-		{
-//			printf("je ne dois jamais voir ca\n");
 			ft_putstr_fd("\r", 1);
-		}
 	}
 }
