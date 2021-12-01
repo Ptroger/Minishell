@@ -14,6 +14,7 @@
 
 void	ft_call_builtin(t_vars **vars, t_list *tokens)
 {
+	int		ret;
 	char	*buf;
 	char	*wd;
 	char	*user;
@@ -22,6 +23,7 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 	t_sort	*temp;
 	t_sort	*temp_env;
 
+	ret = 0;
 	user = NULL;
 	pwd = NULL;
 	old_pwd = NULL;
@@ -31,6 +33,14 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 	temp_env = (*vars)->t_env;
 	if (ft_strcmp(tokens->token, "exit") == 0)
 		exit(1);
+	while (temp && ft_strcmp(temp->name, "USER") != 0)
+		temp = temp->next;
+	if (ft_strcmp(temp->name, "USER") == 0)
+	{
+		user = (char *)malloc(sizeof(char) * ft_strlen(temp->info) + 8);
+		user = ft_strcpy(user, "/Users/");
+		user = ft_strcat(user, temp->info);
+	}
 	if (ft_strcmp(tokens->token, "cd") == 0 || ft_strcmp(tokens->token, "/usr/bin/cd") == 0)
 	{
 		buf = NULL;
@@ -48,8 +58,8 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 				ft_cd(old_pwd);
 			}
 		}
-		else
-			ft_cd(tokens->next->token);
+		else if (ft_cd(tokens->next->token) == -1)
+			ret = errno;
 		while (temp_env && ft_strcmp(temp_env->name, "OLDPWD") != 0)
 			temp_env = temp_env->next;
 		temp_env->info = ft_strdup(wd);
@@ -59,18 +69,11 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 		temp_env->data = ft_strcpy(temp_env->data, "OLDPWD");
 		temp_env->data = ft_strcat(temp_env->data, "=");
 		temp_env->data = ft_strcat(temp_env->data, temp_env->info);
+		return ;
 	}
 	g.pid = fork();
 	if (g.pid == 0)
 	{
-		while (temp && ft_strcmp(temp->name, "USER") != 0)
-			temp = temp->next;
-		if (ft_strcmp(temp->name, "USER") == 0)
-		{
-			user = (char *) malloc(sizeof(char) * ft_strlen(temp->info) + 8);
-			user = ft_strcpy(user, "/Users/");
-			user = ft_strcat(user, temp->info);
-		}
 		temp = (*vars)->t_env;
 		if (ft_strcmp(tokens->token, "echo") == 0 || ft_strcmp(tokens->token, "/bin/echo") == 0)
 		{
@@ -80,15 +83,42 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 				ft_echo_n(tokens->next->next);
 			else
 				ft_echo(tokens->next);
+			exit(1);
 		}
 		if (ft_strcmp(tokens->token, "env") == 0 || ft_strcmp(tokens->token, "/usr/bin/env") == 0)
-			ft_env(&(*vars)->t_env);
+		{
+			if (tokens->next && (ft_strcmp(tokens->next->token, "yes") == 0 || ft_strcmp(tokens->next->token, "YES") == 0))
+			{
+				while (1)
+					printf("y\n");
+				exit (0);
+			}
+			if (tokens->next && ft_is_key(tokens->next->token) == 0)
+			{
+				printf("env: %s: No such file or directory\n", tokens->next->token);
+				exit(errno);
+			}
+			else
+			{
+				ft_env(&(*vars)->t_env);
+				exit(0);
+			}
+		}
 		if (ft_strcmp(tokens->token, "export") == 0)
+		{
 			ft_export(tokens, &(*vars)->t_env, &(*vars)->t_exp);
+			exit(1);
+		}
 		if (ft_strcmp(tokens->token, "pwd") == 0 || ft_strcmp(tokens->token, "/bin/pwd") == 0)
+		{
 			ft_pwd();
+			exit(1);
+		}
 		if (ft_strcmp(tokens->token, "unset") == 0 && tokens->next)
+		{
 			ft_unset(tokens, &(*vars)->t_env, &(*vars)->t_exp);
+			exit(1);
+		}
 	}
 	wait(NULL);
 }
@@ -106,7 +136,6 @@ int	ft_is_builtin(char *token)
 void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
 {
 	int		i;
-//	pid_t	pid;
 	t_list	*temp;
 
 	i = 1;
@@ -126,7 +155,7 @@ void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
 	if (g.pid == 0)
 	{
  		signal(SIGQUIT, &sig_handler);
-		ft_find_cmd(vars, tokens->token, cmd, (*vars)->path);
+		ft_find_cmd(tokens->token, cmd, (*vars)->path);
 	}
 	wait(NULL);
 }
@@ -185,6 +214,10 @@ int	call_command(t_vars **vars, int is_child)
 				cmd = ft_command_size((*vars)->size);
 				if (ft_is_builtin((*vars)->tokens->token) == 1)
 					ft_call_builtin(vars, (*vars)->tokens);
+				else if (is_special(*vars, temp) == TRUE && temp->next && temp->next->next && ft_is_builtin((*vars)->tokens->next->next->token) == 1)
+					ft_call_builtin(vars, (*vars)->tokens->next->next);
+				else if (is_special(*vars, temp) == TRUE && temp->next && temp->next->next) 
+					ft_single_command(vars, (*vars)->tokens->next->next, cmd, (*vars)->size);
 				else
 					ft_single_command(vars, (*vars)->tokens, cmd, (*vars)->size);
 				free(cmd);

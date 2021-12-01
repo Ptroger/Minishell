@@ -12,15 +12,6 @@ int	is_special(t_vars *vars, t_list *tokens)
 	return (FALSE);
 }
 
-int	is_redir(char *token)
-{
-	if (ft_strcmp("|", token) == 0 || ft_strcmp("<", token) == 0
-		|| ft_strcmp(">", token) == 0 || ft_strcmp("<<", token) == 0
-		|| ft_strcmp(">>", token) == 0)
-		return (TRUE);
-	return (FALSE);
-}
-
 char	*get_tok_index(t_list *lst, int i)
 {
 	while (lst->next && lst->index != i)

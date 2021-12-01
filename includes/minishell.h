@@ -2,10 +2,12 @@
 # define MINISHELL_H
 
 # include <stdio.h>
-# include  <signal.h>
+# include <signal.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <errno.h>
+# include <sys/errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "constants.h"
@@ -65,13 +67,13 @@ void	ft_add_elem_exp(t_sort **sort, char *env);
 void	ft_add_elem_exp_2(t_sort **sort, t_sort *new_elem, char *env);
 void	ft_add_elem_pipe(t_pipe **store);
 void	ft_call_builtin(t_vars **vars, t_list *tokens);
-void    ft_cd(char *path);
+int	    ft_cd(char *path);
 void	ft_dup(t_pipe *temp_p, int count, int size, int *pfd);
 void    ft_echo(t_list *tokens);
 void    ft_echo_n(t_list *tokens);
 void    ft_env(t_sort **env);
 void    ft_export(t_list *tokens, t_sort **t_env, t_sort  **t_exp);
-void    ft_find_cmd(t_vars **vars, char *token, char **cmd, char **tab);
+void    ft_find_cmd(char *token, char **cmd, char **tab);
 void	ft_get_env_name(t_sort  **t_env, char **env);
 void	ft_lstadd_back(t_list **alst, t_list *new);
 void	ft_lstiter(t_list *lst, void (*f)(char *));
@@ -99,7 +101,6 @@ int		ft_pile_in_order(t_sort **pile_a);
 int  	ft_pipe(t_vars **vars, t_pipe *pipe);
 int		handle_dollar(t_vars *vars, char *token, char *line);
 int		handle_redirs(t_list *tokens, int *file);
-int		is_redir(char *token);
 int 	is_special(t_vars *vars, t_list *tokens);
 char	*add_char_to_token(char c, t_vars *vars, int i, char *token);
 char    *find_path(char *token, char *tab);
