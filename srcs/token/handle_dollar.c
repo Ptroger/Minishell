@@ -12,21 +12,16 @@ char	*expand_env(t_vars *vars, char *token, char *name, char c)
 		return (token);
 	}
 	env = my_get_env(vars, name);
-	printf("env == |%s|\n", env);
 	if (!env)
 	{
 		token = add_c_tok('\0', vars, vars->token_i, token);
 		return (NULL);
 	}
-	printf("token == %s\n", token);
 	while (env[i])
 	{
-		printf("env[%c]\n", env[i]);
 		token = add_c_tok(env[i], vars, vars->token_i, token);
-		printf("token[%c]\n", token[vars->token_i - 1]);
 		i++;
 	}
-	printf("env == |%s|\n", token);
 	if (vars->state == BASIC || (vars->state == D_QUOTE && c == '"'))
 		token = add_c_tok('\0', vars, vars->token_i, token);
 	return (token);
