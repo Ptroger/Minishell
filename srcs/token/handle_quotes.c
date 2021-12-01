@@ -20,19 +20,19 @@ static int	set_state(char c, t_vars *vars, char *token, char *line)
 		if (vars->state == D_QUOTE && c == '"')
 		{
 			if (t == '\0' || t == ' ')
-				return (1);
+				return (FINISHED);
 			vars->state = BASIC;
 		}
 		else if (vars->state == S_QUOTE && c == '\'')
 		{
 			if (t == '\0' || t == ' ')
-				return (1);
+				return (FINISHED);
 			vars->state = BASIC;
 		}
 		else
 			token = add_c_tok(line[vars->parse_i], vars, vars->token_i, token);
 	}
-	return (0);
+	return (CONTINUE);
 }
 
 int	handle_quotes(t_vars *vars, char *token, char *line)
@@ -40,7 +40,7 @@ int	handle_quotes(t_vars *vars, char *token, char *line)
 	if (set_state(line[vars->parse_i], vars, token, line) == 1)
 	{
 		token = add_c_tok('\0', vars, vars->token_i, token);
-		return (1);
+		return (FINISHED);
 	}
-	return (0);
+	return (CONTINUE);
 }

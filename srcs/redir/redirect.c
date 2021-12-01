@@ -20,14 +20,11 @@ void	write_file(char *name, int *file)
 	close(*file);
 }
 
-int	redirect_pid(char *token, char *name, int *file)
+int	redirect_pid(t_vars *vars, char *token, char *name, int *file)
 {
 	g.pid = fork();
-	if (g.pid == -1)
-	{
-		printf("%s\n", strerror(g.pid));
-		return (g.pid);
-	}
+	if (g.pid < 0)
+		throw_error(vars, NULL, g.pid);
 	else if (g.pid == 0)
 	{
 		if (ft_strcmp(token, "<") == 0)
@@ -57,18 +54,18 @@ int	redirect(char *token, char *name, int *file)
 	return (1);
 }
 
-int	handle_redirs(t_list *tokens, int *file)
+int	handle_redirs(t_vars *vars, t_list *tokens, int *file)
 {
 	char	*token;
 	char	*name;
 	t_list	*temp;
 
 	temp = tokens;
-	token = ft_strdup(tokens->token);
-	name = ft_strdup(tokens->next->token);
+	token = tokens->token;
+	name = tokens->next->token;
 	while (temp && ft_strcmp(temp->token, "|") != 0)
 		temp = temp->next;
 	if (temp && ft_strcmp(temp->token, "|") == 0)
-		return (redirect_pid(token, name, file));
+		return (redirect_pid(vars, token, name, file));
 	return (redirect(token, name, file));
 }

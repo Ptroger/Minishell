@@ -35,7 +35,9 @@ void	ft_add_elem(t_sort **sort, char *env)
 	new_elem = malloc(sizeof(t_sort));
 	if (!new_elem)
 		return ;
-	new_elem->data = env;
+	new_elem->data = ft_strdup(env);
+	new_elem->info = ft_strdup("toto");
+	new_elem->name = ft_strdup("toto");
 	new_elem->next = *sort;
 	*sort = new_elem;
 }

@@ -22,7 +22,9 @@ SRCS    =		srcs/token/parse.c \
 				srcs/redir/utils.c \
 				srcs/shell/signals.c \
 				srcs/shell/read.c \
-				srcs/shell/destroy.c \
+				srcs/shell/memory.c \
+				srcs/shell/errors.c \
+				srcs/shell/utils.c \
 
 INCLUDE =       includes/
 

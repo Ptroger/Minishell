@@ -2,7 +2,7 @@
 # define MINISHELL_H
 
 # include <stdio.h>
-# include  <signal.h>
+# include <signal.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
@@ -16,8 +16,6 @@ typedef struct		s_glob
 {
 	pid_t	pid;
 	int		ret;
-	int		sig_q;
-	int		sig_int;
 }					t_glob;
 
 typedef struct      s_sort
@@ -79,7 +77,7 @@ void	finish_token(t_vars *vars, char *token, int i);
 // REDIRECTIONS
 void	redirect_input(char *name, int *file);
 void	redirect_output(char *name, int *file, char *token);
-int		handle_redirs(t_list *tokens, int *file);
+int		handle_redirs(t_vars *vars, t_list *tokens, int *file);
 int		is_redir(char *token);
 int 	is_special(t_list *tokens);
 int  	ft_pipe(t_vars **vars, t_pipe *pipe);
@@ -106,8 +104,13 @@ void    ft_export(t_list *tokens, t_sort **t_env, t_sort  **t_exp);
 void	ft_call_builtin(t_vars **vars, t_list *tokens);
 int		ft_is_builtin(char *token);
 
+// MEMORY
+void	destroy_vars(t_vars *vars);
+t_vars	*ft_init_vars(void);
+
 // OTHERS
 void	sig_handler(int sig);
+void	throw_error(t_vars *vars, char *err, int errcode);
 void	ft_add_elem(t_sort **sort, char *env);
 void	ft_add_elem_exp(t_sort **sort, char *env);
 void	ft_add_elem_exp_2(t_sort **sort, t_sort *new_elem, char *env);
@@ -121,6 +124,5 @@ int		ft_pile_in_order(t_sort **pile_a);
 char    *find_path(char *token, char *tab);
 char	*ft_return_max(t_sort **pile_a);
 char  	**ft_command_size(int size);
-void	destroy_vars(t_vars *vars);
 
 #endif

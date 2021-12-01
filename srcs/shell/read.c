@@ -1,47 +1,5 @@
 #include "../../includes/minishell.h"
 
-void	init_token(t_vars *vars)
-{
-	char	*token;
-
-	token = malloc(sizeof(char) * vars->token_size);
-	vars->tokens = ft_lstnew((void *)token, 0);
-}
-
-void	ft_putstr_lst(char *token)
-{
-	int	i;
-
-	i = 0;
-	while (token[i])
-	{
-		write(1, &token[i], 1);
-		i++;
-	}
-}
-
-t_vars	*ft_init_vars(void)
-{
-	t_vars	*vars;
-
-	vars = malloc(sizeof(t_vars));
-	vars->shell = RUNNING;
-	vars->state = BASIC;
-	vars->token_size = TOKENSIZE;
-	vars->tokens = NULL;
-	vars->finish_line = FALSE;
-	vars->exit_status = 0;
-	vars->t_env = NULL;
-	vars->t_exp = NULL;
-	vars->store = NULL;
-	g.ret = 0;
-	g.pid = 0;
-	g.sig_int = FALSE;
-	g.sig_q = FALSE;
-	vars->prompt = ft_strdup("\033[0;36m\033[1mMinishell> \033[0;m");
-	return (vars);
-}
-
 void	read_loop(t_vars *vars)
 {
 	char	*line;
@@ -61,7 +19,10 @@ void	read_loop(t_vars *vars)
 			ft_lstclear(&vars->tokens, free);
 		}
 		else if (!line)
+		{
+			destroy_vars(vars);
 			exit(0);
+		}
 	}
 }
 

@@ -184,7 +184,7 @@ int	call_command(t_vars **vars, int is_child)
 			g.pid = fork();
 			if (g.pid == 0)
 			{
-				handle_redirs(temp, &file);
+				handle_redirs(*vars, temp, &file);
 				cmd = ft_command_size((*vars)->size);
 				if (ft_is_builtin((*vars)->tokens->token) == 1)
 					ft_call_builtin(vars, (*vars)->tokens);

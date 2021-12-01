@@ -5,22 +5,22 @@ int	handlers(t_vars *vars, char *token, char *line)
 	if (line[vars->parse_i] == '$')
 	{
 		if (handle_dollar(vars, token, line) == 1)
-			return (1);
+			return (FINISHED);
 	}
 	else if (line[vars->parse_i] == '\'' || line[vars->parse_i] == '"')
 	{
 		if (handle_quotes(vars, token, line) == 1)
-			return (1);
+			return (FINISHED);
 	}
 	else if (line[vars->parse_i] == ' ')
 	{
 		if (handle_space(vars, token, line) == 1)
-			return (1);
+			return (FINISHED);
 	}
 	else if (line[vars->parse_i] != ' ' || vars->state == D_QUOTE
 		|| vars->state == S_QUOTE)
 		token = add_c_tok(line[vars->parse_i], vars, vars->token_i, token);
-	return (0);
+	return (CONTINUE);
 }
 
 char	*get_next_token(char *line, t_vars *vars)
@@ -31,7 +31,7 @@ char	*get_next_token(char *line, t_vars *vars)
 	token[vars->token_size] = '\0';
 	while (line[vars->parse_i])
 	{
-		if (handlers(vars, token, line) == 1)
+		if (handlers(vars, token, line) == FINISHED)
 		{
 			vars->parse_i += 1;
 			return (token);
