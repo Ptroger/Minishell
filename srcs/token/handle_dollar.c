@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	*expand_env(t_vars *vars, char *token, char *name, char c)
+char	*expand_env(t_vars *vars, char *token, char *name)
 {
 	char	*env;
 	int		i;
@@ -22,7 +22,7 @@ char	*expand_env(t_vars *vars, char *token, char *name, char c)
 		token = add_c_tok(env[i], vars, vars->token_i, token);
 		i++;
 	}
-	if (vars->state == BASIC || (vars->state == D_QUOTE && c == '"'))
+	if (vars->state == BASIC)
 		token = add_c_tok('\0', vars, vars->token_i, token);
 	return (token);
 }
@@ -50,8 +50,7 @@ int	parse_env(t_vars *vars, char *token, char *line, char *name)
 			vars->parse_i++;
 		}
 	}
-	if (line[vars->parse_i] == '\0')
-		vars->parse_i--;
+	vars->parse_i--;
 	name = add_c_tok('\0', vars, vars->special_i, name);
 	return (TRUE);
 }
@@ -64,10 +63,14 @@ int	handle_dollar_quoted(t_vars *vars, char *token, char *line, char *name)
 	if (parse_env(vars, token, line, name) == FALSE)
 		return (CONTINUE);
 	vars->token_i = temp;
-	token = expand_env(vars, token, name, line[vars->parse_i]);
-	if (line[vars->parse_i] == '"' && line[vars->parse_i + 1] == '\0')
+	token = expand_env(vars, token, name);
+	if (line[vars->parse_i + 1] == '"' && line[vars->parse_i + 2] == '\0')
+	{
+		token = add_c_tok('\0', vars, vars->token_i, token);
+		vars->parse_i++;
 		return (FINISHED);
-	if (line[vars->parse_i] == ' ')
+	}
+	if (line[vars->parse_i + 1] == ' ')
 		token = add_c_tok(' ', vars, vars->token_i, token);
 	return (CONTINUE);
 }
@@ -82,7 +85,7 @@ int	handle_dollar_unquoted(t_vars *vars, char *token, char *line, char *name)
 	if (parse_env(vars, token, line, name) == FALSE)
 		return (CONTINUE);
 	vars->token_i = temp;
-	token = expand_env(vars, token, name, line[vars->parse_i]);
+	token = expand_env(vars, token, name);
 	if (c != '\0' && c != ' ')
 		return (CONTINUE);
 	token = add_c_tok('\0', vars, vars->token_i, token);
@@ -98,22 +101,22 @@ int	handle_dollar(t_vars *vars, char *token, char *line)
 	vars->special_i = 0;
 	if (vars->state == BASIC)
 	{
-		if (handle_dollar_unquoted(vars, token, line, name) == 1)
+		if (handle_dollar_unquoted(vars, token, line, name) == FINISHED)
 		{
 			free(name);
-			return (1);
+			return (FINISHED);
 		}
 	}
 	else if (vars->state == D_QUOTE)
 	{
-		if (handle_dollar_quoted(vars, token, line, name) == 1)
+		if (handle_dollar_quoted(vars, token, line, name) == FINISHED)
 		{
 			free(name);
-			return (1);
+			return (FINISHED);
 		}
 	}
 	else if (vars->state == S_QUOTE)
 		token = add_c_tok('$', vars, vars->token_i, token);
 	free(name);
-	return (0);
+	return (CONTINUE);
 }

@@ -31,12 +31,12 @@ int	ft_process(t_vars **vars, t_pipe *temp_p, int size, int *pfd)
 		temp_p->cmd = ft_command_size(temp_p->size + 1);
 		while (++i < temp_p->size - 1 && temp_p->size > 1 && is_redir(temp_p->cell[i + 1]) == FALSE)
 			temp_p->cmd[i + 1] = ft_strdup(temp_p->cell[i + 1]);
-		g.pid = fork();
-		if (g.pid < 0)
-			return (ft_error("Fork failed"));
+		g_g.pid = fork();
+		if (g_g.pid < 0)
+			return (throw_error(*vars, NULL, g_g.pid));
 		temp_2 = (*vars)->tokens;
 		temp_3 = (*vars)->tokens;
-		if (g.pid == 0)
+		if (g_g.pid == 0)
 		{
 			while (temp_3 && ft_strcmp(temp_3->token, "|") != 0)
 				temp_3 = temp_3->next;

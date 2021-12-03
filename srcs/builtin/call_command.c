@@ -61,8 +61,8 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 		temp_env->data = ft_strcat(temp_env->data, "=");
 		temp_env->data = ft_strcat(temp_env->data, temp_env->info);
 	}
-	g.pid = fork();
-	if (g.pid == 0)
+	g_g.pid = fork();
+	if (g_g.pid == 0)
 	{
 		while (temp && ft_strcmp(temp->name, "USER") != 0)
 			temp = temp->next;
@@ -92,7 +92,7 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 			ft_unset(tokens, &(*vars)->t_env, &(*vars)->t_exp);
 	}
 	wait(&status);
-	g.ret = WEXITSTATUS(status);
+	g_g.ret = WEXITSTATUS(status);
 }
 
 int	ft_is_builtin(char *token)
@@ -124,14 +124,14 @@ void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
 			i++;
 		}
 	}
-	g.pid = fork();
-	if (g.pid == 0)
+	g_g.pid = fork();
+	if (g_g.pid == 0)
 	{
  		signal(SIGQUIT, &sig_handler);
 		ft_find_cmd(vars, tokens->token, cmd, (*vars)->path);
 	}
 	wait(&status);
-	g.ret = WEXITSTATUS(status);
+	g_g.ret = WEXITSTATUS(status);
 }
 
 int	call_command(t_vars **vars, int is_child)
@@ -145,7 +145,7 @@ int	call_command(t_vars **vars, int is_child)
 
 	buf = NULL;
 	temp_env = (*vars)->t_env;
-	while (temp_env && ft_strcmp(temp_env->name, "PWD") != 0)
+	while (temp_env && ft_strcmp(temp_env->name, "PWD") != 0 && temp_env->next)
 		temp_env = temp_env->next;
 	temp_env->info = ft_strdup(getcwd(buf, sizeof(buf)));
 	temp_env->data = (char *)malloc(sizeof(char) * ft_strlen(temp_env->info) + 6);
@@ -181,8 +181,8 @@ int	call_command(t_vars **vars, int is_child)
 	{
 		if (is_special(temp) == TRUE)
 		{
-			g.pid = fork();
-			if (g.pid == 0)
+			g_g.pid = fork();
+			if (g_g.pid == 0)
 			{
 				handle_redirs(*vars, temp, &file);
 				cmd = ft_command_size((*vars)->size);

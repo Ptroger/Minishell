@@ -54,7 +54,7 @@ int	handle_space(t_vars *vars, char *token, char *line)
 		!= ' ' && vars->state == BASIC)
 	{
 		token = add_c_tok('\0', vars, vars->token_i, token);
-		return (1);
+		return (FINISHED);
 	}
-	return (0);
+	return (CONTINUE);
 }

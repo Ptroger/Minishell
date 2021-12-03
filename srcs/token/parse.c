@@ -4,17 +4,17 @@ int	handlers(t_vars *vars, char *token, char *line)
 {
 	if (line[vars->parse_i] == '$')
 	{
-		if (handle_dollar(vars, token, line) == 1)
+		if (handle_dollar(vars, token, line) == FINISHED)
 			return (FINISHED);
 	}
 	else if (line[vars->parse_i] == '\'' || line[vars->parse_i] == '"')
 	{
-		if (handle_quotes(vars, token, line) == 1)
+		if (handle_quotes(vars, token, line) == FINISHED)
 			return (FINISHED);
 	}
 	else if (line[vars->parse_i] == ' ')
 	{
-		if (handle_space(vars, token, line) == 1)
+		if (handle_space(vars, token, line) == FINISHED)
 			return (FINISHED);
 	}
 	else if (line[vars->parse_i] != ' ' || vars->state == D_QUOTE
@@ -49,7 +49,7 @@ void	parse(char *line, t_vars *vars)
 	int		i;
 
 	i = 0;
-	while (vars->finish_line == FALSE)
+	while (vars->finish_line == FALSE && line[vars->parse_i])
 	{
 		vars->token_i = 0;
 		token = get_next_token(line, vars);

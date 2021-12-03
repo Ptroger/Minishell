@@ -17,6 +17,7 @@ void	read_loop(t_vars *vars)
 			signal(SIGQUIT, sig_handler);
 			call_command(&vars, FALSE);
 			ft_lstclear(&vars->tokens, free);
+			unlink("./temp");
 		}
 		else if (!line)
 		{

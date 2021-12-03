@@ -22,10 +22,10 @@ void	write_file(char *name, int *file)
 
 int	redirect_pid(t_vars *vars, char *token, char *name, int *file)
 {
-	g.pid = fork();
-	if (g.pid < 0)
-		throw_error(vars, NULL, g.pid);
-	else if (g.pid == 0)
+	g_g.pid = fork();
+	if (g_g.pid < 0)
+		throw_error(vars, NULL, g_g.pid);
+	else if (g_g.pid == 0)
 	{
 		if (ft_strcmp(token, "<") == 0)
 			redirect_input(name, file);
@@ -37,7 +37,7 @@ int	redirect_pid(t_vars *vars, char *token, char *name, int *file)
 			redirect_input("temp", file);
 		}
 	}
-	return (g.pid);
+	return (g_g.pid);
 }
 
 int	redirect(char *token, char *name, int *file)

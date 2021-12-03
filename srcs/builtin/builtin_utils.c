@@ -88,8 +88,8 @@ void	ft_find_cmd(t_vars **vars, char *token, char **cmd, char **tab)
 		while (tab[i])
 		{
 			cmd[0] = find_path(token, tab[i]);
-			g.ret = execve(cmd[0], cmd, 0);
-			if (g.ret == -1)
+			g_g.ret = execve(cmd[0], cmd, 0);
+			if (g_g.ret == -1)
 				i++;
 			free(cmd[0]);
 		}

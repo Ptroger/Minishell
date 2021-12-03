@@ -14,9 +14,9 @@ t_vars	*ft_init_vars(void)
 	vars->t_env = NULL;
 	vars->t_exp = NULL;
 	vars->store = NULL;
-	g.ret = 0;
-	g.pid = 0;
-	vars->prompt = ft_strdup("\033[0;36m\033[1mMinishell> \033[0;m");
+	vars->prompt = ft_strdup("salutcoucou");
+	g_g.ret = 0;
+	g_g.pid = 0;
 	return (vars);
 }
 

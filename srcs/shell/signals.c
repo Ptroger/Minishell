@@ -10,17 +10,17 @@ void	sig_c(void)
 
 void	process(int sig)
 {
-	if (!kill(g.pid, sig))
+	if (!kill(g_g.pid, sig))
 	{
 		if (sig == SIGQUIT)
 		{
 			ft_putstr_fd("Quit: Core dumped\n", 1);
-			g.ret = 131;
+			g_g.ret = 131;
 		}
 		else if (sig == SIGINT)
 		{
 			ft_putchar_fd('\n', 1);
-			g.ret = 130;
+			g_g.ret = 130;
 		}
 	}
 	if (sig == SIGINT)
@@ -29,7 +29,7 @@ void	process(int sig)
 
 void	sig_handler(int sig)
 {
-	if ((sig == SIGINT || sig == SIGQUIT) && g.pid != 0)
+	if ((sig == SIGINT || sig == SIGQUIT) && g_g.pid != 0)
 		process(sig);
 	else
 	{
