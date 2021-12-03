@@ -27,13 +27,13 @@ void	destroy_env(t_sort **envs)
 	while (*envs)
 	{
 		temp = *envs;
-		if (*temp->data)
+		if (temp->data)
 			free(temp->data);
-		if (*temp->name)
+		if (temp->name)
 			free(temp->name);
-		if (*temp->info)
+		if (temp->info)
 			free(temp->info);
-		*envs = temp->next;
+		*envs = (*envs)->next;
 		free(temp);
 	}
 	*envs = NULL;
@@ -69,7 +69,6 @@ void	destroy_vars(t_vars *vars)
 {
 	if (vars)
 	{
-		printf("par ici\n");
 		ft_lstclear(&vars->tokens, free);
 		destroy_env(&vars->t_exp);
 		destroy_env(&vars->t_env);

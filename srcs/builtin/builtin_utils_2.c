@@ -64,6 +64,8 @@ void	ft_add_elem_exp(t_sort **sort, char *env)
 	new_elem->data = malloc(sizeof(char) * ft_strlen(env) + 3);
 	if (!new_elem->data)
 		return ;
+	new_elem->info = NULL;
+	new_elem->name = NULL;
 	ft_add_elem_exp_2(sort, new_elem, env);
 }
 
