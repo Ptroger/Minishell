@@ -69,7 +69,6 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 		temp_env->data = ft_strcpy(temp_env->data, "OLDPWD");
 		temp_env->data = ft_strcat(temp_env->data, "=");
 		temp_env->data = ft_strcat(temp_env->data, temp_env->info);
-		return ;
 	}
 	g.pid = fork();
 	if (g.pid == 0)

@@ -100,6 +100,6 @@ int	handle_redirs(t_list *tokens, int *file)
 	while (temp && ft_strcmp(temp->token, "|") != 0)
 		temp = temp->next;
 	if (temp && ft_strcmp(temp->token, "|") == 0)
-		return(redirect_pid(token, name, file));
-	return(redirect(token, name, file));
+		return (redirect_pid(token, name, file));
+	return (redirect(token, name, file));
 }

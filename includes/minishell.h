@@ -6,6 +6,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <string.h>
 # include <errno.h>
 # include <sys/errno.h>
 # include <readline/readline.h>
