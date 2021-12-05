@@ -32,7 +32,10 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 	temp = (*vars)->t_env;
 	temp_env = (*vars)->t_env;
 	if (ft_strcmp(tokens->token, "exit") == 0)
-		exit(1);
+	{
+		printf("exit\n");
+		exit(0);
+	}
 	while (temp && ft_strcmp(temp->name, "USER") != 0)
 		temp = temp->next;
 	if (ft_strcmp(temp->name, "USER") == 0)
@@ -69,6 +72,7 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 		temp_env->data = ft_strcpy(temp_env->data, "OLDPWD");
 		temp_env->data = ft_strcat(temp_env->data, "=");
 		temp_env->data = ft_strcat(temp_env->data, temp_env->info);
+		return ;
 	}
 	g.pid = fork();
 	if (g.pid == 0)
@@ -82,7 +86,7 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 				ft_echo_n(tokens->next->next);
 			else
 				ft_echo(tokens->next);
-			exit(1);
+			exit(0);
 		}
 		if (ft_strcmp(tokens->token, "env") == 0 || ft_strcmp(tokens->token, "/usr/bin/env") == 0)
 		{
@@ -95,7 +99,7 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 			if (tokens->next && ft_is_key(tokens->next->token) == 0)
 			{
 				printf("env: %s: No such file or directory\n", tokens->next->token);
-				exit(errno);
+				exit(127);
 			}
 			else
 			{
@@ -106,17 +110,17 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 		if (ft_strcmp(tokens->token, "export") == 0)
 		{
 			ft_export(tokens, &(*vars)->t_env, &(*vars)->t_exp);
-			exit(1);
+			exit(0);
 		}
 		if (ft_strcmp(tokens->token, "pwd") == 0 || ft_strcmp(tokens->token, "/bin/pwd") == 0)
 		{
 			ft_pwd();
-			exit(1);
+			exit(0);
 		}
 		if (ft_strcmp(tokens->token, "unset") == 0 && tokens->next)
 		{
 			ft_unset(tokens, &(*vars)->t_env, &(*vars)->t_exp);
-			exit(1);
+			exit(0);
 		}
 	}
 	wait(NULL);
