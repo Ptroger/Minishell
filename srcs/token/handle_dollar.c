@@ -49,8 +49,8 @@ int	parse_env(t_vars *vars, char *token, char *line, char *name)
 			vars->special_i++;
 			vars->parse_i++;
 		}
+		vars->parse_i--;
 	}
-	vars->parse_i--;
 	name = add_c_tok('\0', vars, vars->special_i, name);
 	return (TRUE);
 }
