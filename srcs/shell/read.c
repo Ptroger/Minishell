@@ -9,6 +9,7 @@ void	read_loop(t_vars *vars)
 		vars->parse_i = 0;
 		signal(SIGQUIT, SIG_IGN);
 		line = readline(PROMPT);
+//		ft_putnbr_fd(g_g.pid, 1);
 		if (line && *line)
 		{
 			add_history(line);

@@ -32,8 +32,8 @@ OBJS    =       $(SRCS:%.c=%.o)
 
 CFLAGS  =       -Wall -Wextra -Werror -g -I ./$(INCLUDE) -fsanitize=address
 
-LIBS =			-lreadline -L /usr/local/opt/readline/lib -I /usr/local/opt/readline/include
-
+LIBS =			-lreadline -L /Users/$(USER)/.brew/opt/readline/lib
+LIB_INC = 		-I /Users/$(USER)/.brew/opt/readline/include
 LIBFT = 		./libft/libft.a
 
 CC =			gcc
@@ -41,10 +41,10 @@ CC =			gcc
 RM =			rm -f
 
 %.o : %.c
-	$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) $(CFLAGS) -o $@ -c $< $(LIB_INC)
 
-$(NAME):	$(LIBFT) $(OBJS) $(DIRH)
-	$(CC) $(CFLAGS) $(LIBS) $(OBJS) -o $(NAME) $(LIBFT)
+$(NAME):	$(OBJS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LIBS) $(LIBFT)
 
 
 $(LIBFT):
