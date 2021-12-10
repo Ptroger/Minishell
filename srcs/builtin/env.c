@@ -94,3 +94,24 @@ void	ft_env(t_sort **t_env)
 		temp = temp->next;
 	}
 }
+
+void	ft_call_env(t_vars **vars, t_list *tokens)
+{
+	if (tokens->next && (ft_strcmp(tokens->next->token, "yes") == 0
+		|| ft_strcmp(tokens->next->token, "YES") == 0))
+	{
+		while (1)
+			printf("y\n");
+		exit(0);
+	}
+	if (tokens->next && ft_is_key(tokens->next->token) == 0)
+	{
+		printf("env: %s: No such file or directory\n", tokens->next->token);
+		exit(127);
+	}
+	else
+	{
+		ft_env(&(*vars)->t_env);
+		exit(0);
+	}
+}

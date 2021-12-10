@@ -17,6 +17,7 @@ SRCS    =		srcs/token/read.c \
 				srcs/pipe/new_readline.c \
 				srcs/pipe/pipe.c \
 				srcs/pipe/pipe_utils.c \
+				srcs/pipe/pipe_utils_2.c \
 				srcs/redirect.c \
 				srcs/utils.c \
 				srcs/signals.c \

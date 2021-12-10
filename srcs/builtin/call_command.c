@@ -12,101 +12,18 @@
 
 #include "minishell.h"
 
-void	ft_call_builtin(t_vars **vars, t_list *tokens)
+void	ft_call_builtin_2(t_vars **vars, t_list *tokens)
 {
-	int		ret;
-	char	*buf;
-	char	*wd;
-	char	*user;
-	char	*pwd;
-	char	*old_pwd;
-	t_sort	*temp;
-	t_sort	*temp_env;
-
-	ret = 0;
-	user = NULL;
-	pwd = NULL;
-	old_pwd = NULL;
-	buf = NULL;
-	wd = NULL;
-	temp = (*vars)->t_env;
-	temp_env = (*vars)->t_env;
-	if (ft_strcmp(tokens->token, "exit") == 0)
-	{
-		printf("exit\n");
-		exit(0);
-	}
-	while (temp && ft_strcmp(temp->name, "USER") != 0)
-		temp = temp->next;
-	if (ft_strcmp(temp->name, "USER") == 0)
-	{
-		user = (char *)malloc(sizeof(char) * ft_strlen(temp->info) + 8);
-		user = ft_strcpy(user, "/Users/");
-		user = ft_strcat(user, temp->info);
-	}
-	if (ft_strcmp(tokens->token, "cd") == 0 || ft_strcmp(tokens->token, "/usr/bin/cd") == 0)
-	{
-		buf = NULL;
-		wd = ft_strdup(getcwd(buf, sizeof(buf)));
-		if (!tokens->next || ft_strcmp(tokens->next->token, "~") == 0)
-			ft_cd(user);
-		else if (ft_strcmp(tokens->next->token, "-") == 0)
-		{
-			while (temp && ft_strcmp(temp->name, "OLDPWD") != 0)
-				temp = temp->next;
-			if (ft_strcmp(temp->name, "OLDPWD") == 0)
-			{
-				old_pwd = ft_strdup(temp->info);
-				printf("%s\n", old_pwd);
-				ft_cd(old_pwd);
-			}
-		}
-		else if (ft_cd(tokens->next->token) == -1)
-			ret = errno;
-		while (temp_env && ft_strcmp(temp_env->name, "OLDPWD") != 0)
-			temp_env = temp_env->next;
-		temp_env->info = ft_strdup(wd);
-		temp_env->data = (char *)malloc(sizeof(char) * ft_strlen(temp_env->info) + 6);
-		if (!temp_env->data)
-			return ;
-		temp_env->data = ft_strcpy(temp_env->data, "OLDPWD");
-		temp_env->data = ft_strcat(temp_env->data, "=");
-		temp_env->data = ft_strcat(temp_env->data, temp_env->info);
-		return ;
-	}
 	g.pid = fork();
 	if (g.pid == 0)
 	{
-		temp = (*vars)->t_env;
 		if (ft_strcmp(tokens->token, "echo") == 0 || ft_strcmp(tokens->token, "/bin/echo") == 0)
 		{
-			if (!tokens->next)
-				ft_putstr("\n");
-			else if (ft_strcmp(tokens->next->token, "-n") == 0)
-				ft_echo_n(tokens->next->next);
-			else
-				ft_echo(tokens->next);
+			ft_call_echo(tokens);
 			exit(0);
 		}
 		if (ft_strcmp(tokens->token, "env") == 0 || ft_strcmp(tokens->token, "/usr/bin/env") == 0)
-		{
-			if (tokens->next && (ft_strcmp(tokens->next->token, "yes") == 0 || ft_strcmp(tokens->next->token, "YES") == 0))
-			{
-				while (1)
-					printf("y\n");
-				exit (0);
-			}
-			if (tokens->next && ft_is_key(tokens->next->token) == 0)
-			{
-				printf("env: %s: No such file or directory\n", tokens->next->token);
-				exit(127);
-			}
-			else
-			{
-				ft_env(&(*vars)->t_env);
-				exit(0);
-			}
-		}
+			ft_call_env(vars, tokens);
 		if (ft_strcmp(tokens->token, "export") == 0)
 		{
 			ft_export(tokens, &(*vars)->t_env, &(*vars)->t_exp);
@@ -126,11 +43,41 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 	wait(NULL);
 }
 
+void	ft_call_builtin(t_vars **vars, t_list *tokens)
+{
+	char	*user;
+	t_sort	*temp;
+
+	user = NULL;
+	temp = (*vars)->t_env;
+	if (ft_strcmp(tokens->token, "exit") == 0)
+	{
+		printf("exit\n");
+		exit(0);
+	}
+	while (temp && ft_strcmp(temp->name, "USER") != 0)
+		temp = temp->next;
+	if (ft_strcmp(temp->name, "USER") == 0)
+	{
+		user = (char *)malloc(sizeof(char) * ft_strlen(temp->info) + 8);
+		user = ft_strcpy(user, "/Users/");
+		user = ft_strcat(user, temp->info);
+	}
+	if (ft_strcmp(tokens->token, "cd") == 0 || ft_strcmp(tokens->token, "/usr/bin/cd") == 0)
+	{
+		ft_cd(vars, tokens, user);
+		return ;
+	}
+	ft_call_builtin_2(vars, tokens);
+}
+
 int	ft_is_builtin(char *token)
 {
-	if (ft_strcmp(token, "cd") == 0 || ft_strcmp(token, "/usr/bin/cd") == 0 || ft_strcmp(token, "echo") == 0 || ft_strcmp(token, "/bin/echo") == 0
-		|| ft_strcmp(token, "env") == 0 || ft_strcmp(token, "/usr/bin/env") == 0 || ft_strcmp(token, "exit") == 0
-		|| ft_strcmp(token, "export") == 0 || ft_strcmp(token, "pwd") == 0 || ft_strcmp(token, "/bin/pwd") == 0
+	if (ft_strcmp(token, "cd") == 0 || ft_strcmp(token, "/usr/bin/cd") == 0
+		|| ft_strcmp(token, "echo") == 0 || ft_strcmp(token, "/bin/echo") == 0
+		|| ft_strcmp(token, "env") == 0 || ft_strcmp(token, "/usr/bin/env") == 0 
+		|| ft_strcmp(token, "exit") == 0 || ft_strcmp(token, "export") == 0
+		|| ft_strcmp(token, "pwd") == 0 || ft_strcmp(token, "/bin/pwd") == 0
 		|| ft_strcmp(token, "unset") == 0)
 		return (1);
 	return (0);
@@ -163,13 +110,54 @@ void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
 	wait(NULL);
 }
 
-int	call_command(t_vars **vars, int is_child)
+void	ft_check_redir_2(t_vars **vars, t_list *temp)
+{
+	int		file;
+	char	**cmd;
+
+	file = 0;
+	handle_redirs(temp, &file);
+	cmd = ft_command_size((*vars)->size);
+	if (ft_is_builtin((*vars)->tokens->token) == 1)
+		ft_call_builtin(vars, (*vars)->tokens);
+	else if (is_special(*vars, temp) == TRUE && temp->next
+	&& temp->next->next && ft_is_builtin((*vars)->tokens->next->next->token) == 1)
+		ft_call_builtin(vars, (*vars)->tokens->next->next);
+	else if (is_special(*vars, temp) == TRUE && temp->next && temp->next->next) 
+		ft_single_command(vars, (*vars)->tokens->next->next, cmd, (*vars)->size);
+	else
+		ft_single_command(vars, (*vars)->tokens, cmd, (*vars)->size);
+	free(cmd);
+	close(file);
+	exit(1);
+}
+
+int	ft_check_redir(t_vars **vars)
+{
+	int		status;
+	t_list	*temp;
+
+	(*vars)->size = 1;
+	temp = (*vars)->tokens;
+	while (temp->next)
+	{
+		if (is_special(*vars, temp) == TRUE)
+		{
+			g.pid = fork();
+			if (g.pid == 0)
+				ft_check_redir_2(vars, temp);
+			wait(&status);
+			return (1);
+		}
+		temp = temp->next;
+		(*vars)->size++;
+	}
+	return (0);
+}
+
+void	ft_reset_var(t_vars **vars)
 {
 	char	*buf;
-	int		file;
-	int		status;
-	char	**cmd;
-	t_list	*temp;
 	t_sort	*temp_env;
 
 	buf = NULL;
@@ -179,7 +167,7 @@ int	call_command(t_vars **vars, int is_child)
 	temp_env->info = ft_strdup(getcwd(buf, sizeof(buf)));
 	temp_env->data = (char *)malloc(sizeof(char) * ft_strlen(temp_env->info) + 6);
 	if (!temp_env->data)
-		return (-1);
+		return ;
 	temp_env->data = ft_strcpy(temp_env->data, "PWD");
 	temp_env->data = ft_strcat(temp_env->data, "=");
 	temp_env->data = ft_strcat(temp_env->data, temp_env->info);
@@ -190,9 +178,17 @@ int	call_command(t_vars **vars, int is_child)
 		(*vars)->path = ft_split(getenv("PATH"), ':');
 	else
 		(*vars)->path = NULL;
+}
+
+int	call_command(t_vars **vars, int is_child)
+{
+	char	**cmd;
+	t_list	*temp;
+
+	ft_reset_var(vars);
 	temp = (*vars)->tokens;
 	(*vars)->size = 1;
-	file = 0;
+//	printf("token : %s\n", (*vars)->tokens->token);
 	if (is_child == FALSE)
 	{
 		while (temp)
@@ -204,35 +200,7 @@ int	call_command(t_vars **vars, int is_child)
 			(*vars)->size++;
 		}
 	}
-	(*vars)->size = 1;
-	temp = (*vars)->tokens;
-	while (temp->next)
-	{
-		if (is_special(*vars, temp) == TRUE)
-		{
-			g.pid = fork();
-			if (g.pid == 0)
-			{
-				handle_redirs(temp, &file);
-				cmd = ft_command_size((*vars)->size);
-				if (ft_is_builtin((*vars)->tokens->token) == 1)
-					ft_call_builtin(vars, (*vars)->tokens);
-				else if (is_special(*vars, temp) == TRUE && temp->next && temp->next->next && ft_is_builtin((*vars)->tokens->next->next->token) == 1)
-					ft_call_builtin(vars, (*vars)->tokens->next->next);
-				else if (is_special(*vars, temp) == TRUE && temp->next && temp->next->next) 
-					ft_single_command(vars, (*vars)->tokens->next->next, cmd, (*vars)->size);
-				else
-					ft_single_command(vars, (*vars)->tokens, cmd, (*vars)->size);
-				free(cmd);
-				close(file);
-				exit(1);
-			}
-			wait(&status);
-			return (1);
-		}
-		temp = temp->next;
-		(*vars)->size++;
-	}
+	ft_check_redir(vars);
 	cmd = ft_command_size((*vars)->size);
 	if (ft_is_builtin((*vars)->tokens->token) == 1)
 		ft_call_builtin(vars, (*vars)->tokens);
