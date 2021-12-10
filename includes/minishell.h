@@ -6,6 +6,9 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <string.h>
+# include <errno.h>
+# include <sys/errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <string.h>
@@ -48,7 +51,6 @@ typedef struct	s_vars
 	int		special_i;
 	int		size;
 	char	**path;
-	char	*prompt;
 	t_pipe	*store;
 	t_list	*tokens;
 	t_sort	*t_env;

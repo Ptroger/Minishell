@@ -70,16 +70,13 @@ char	*find_path(char *token, char *tab)
 	return (path);
 }
 
-void	ft_find_cmd(t_vars **vars, char *token, char **cmd, char **tab)
+void	ft_find_cmd(char *token, char **cmd, char **tab)
 {
 	int		i;
 
 	i = 0;
-	(void)vars;
-	cmd[0] = ft_strdup(token);
 	if (execve(cmd[0], cmd, 0) == -1)
 	{
-		free(cmd[0]);
 		if (!tab)
 		{
 			ft_putstr_fd("Error : path could not be found\n", 2);

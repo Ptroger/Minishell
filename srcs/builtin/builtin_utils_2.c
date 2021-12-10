@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int		ft_is_key(char *str)
+int	ft_is_key(char *str)
 {
 	if (ft_strcmp(str, "|") == 0 || ft_strcmp(str, "<") == 0
 		|| ft_strcmp(str, ">") == 0 || ft_strcmp(str, "<<") == 0
