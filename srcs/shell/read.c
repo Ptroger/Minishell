@@ -1,5 +1,27 @@
 #include "../../includes/minishell.h"
 
+int	check_str(char *str)
+{
+	int	i;
+	int	dif;
+
+	i = 0;
+	dif = 0;
+	while (str[i])
+	{
+		if (str[i] != ' ' && str[i] != '|')
+			dif = 1;
+		if (str[i] == '|')
+		{
+			if (dif == 0)
+				return (1);
+			dif = 0;
+		}
+		i++;
+	}
+	return (0);
+}
+
 void	read_loop(t_vars *vars)
 {
 	char	*line;
@@ -10,27 +32,24 @@ void	read_loop(t_vars *vars)
 		signal(SIGQUIT, SIG_IGN);
 		line = readline(PROMPT);
 //		ft_putnbr_fd(g_g.pid, 1);
-		if (line && *line)
-		{
-			add_history(line);
-			parse(line, vars);
-			free(line);
-			signal(SIGQUIT, sig_handler);
-			call_command(&vars, FALSE);
-			ft_lstclear(&vars->tokens, free);
-			unlink("./temp");
-		}
-		else if (!line)
+		if (!line)
 		{
 			destroy_vars(vars);
 			exit(0);
 		}
+		if (check_str(line) != 0)
+			throw_error(vars, "syntax error", 1);
+		parse(line, vars);
+		add_history(line);
+		free(line);
+		call_command(&vars, FALSE);
+		ft_lstclear(&vars->tokens, free);
+		unlink("./temp");
 	}
 }
 
 int	main(int ac, char **av, char **env)
 {
-	struct sigaction	sa;
 	t_vars				*vars;
 
 	(void)ac;
@@ -39,8 +58,7 @@ int	main(int ac, char **av, char **env)
 	ft_set_env(&vars->t_env, env);
 	ft_get_env_name(&vars->t_env, env);
 	ft_set_exp(&vars->t_exp, &vars->t_env);
-	sa.sa_handler = sig_handler;
-	sigaction(SIGINT, &sa, NULL);
+	signal(SIGINT, sig_handler);
 	read_loop(vars);
 	destroy_vars(vars);
 }
