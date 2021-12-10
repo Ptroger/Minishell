@@ -14,9 +14,10 @@
 
 void	ft_call_builtin_2(t_vars **vars, t_list *tokens)
 {
+	int	status;
 
-	g.pid = fork();
-	if (g.pid == 0)
+	g_g.pid = fork();
+	if (g_g.pid == 0)
 	{
 		if (ft_strcmp(tokens->token, "echo") == 0 || ft_strcmp(tokens->token, "/bin/echo") == 0)
 		{
@@ -120,14 +121,14 @@ void	ft_check_redir_2(t_vars **vars, t_list *temp)
 	char	**cmd;
 
 	file = 0;
-	handle_redirs(temp, &file);
+	handle_redirs(*vars, temp, &file);
 	cmd = ft_command_size((*vars)->size);
 	if (ft_is_builtin((*vars)->tokens->token) == 1)
 		ft_call_builtin(vars, (*vars)->tokens);
-	else if (is_special(*vars, temp) == TRUE && temp->next
+	else if (is_special(temp) == TRUE && temp->next
 	&& temp->next->next && ft_is_builtin((*vars)->tokens->next->next->token) == 1)
 		ft_call_builtin(vars, (*vars)->tokens->next->next);
-	else if (is_special(*vars, temp) == TRUE && temp->next && temp->next->next) 
+	else if (is_special(temp) == TRUE && temp->next && temp->next->next)
 		ft_single_command(vars, (*vars)->tokens->next->next, cmd, (*vars)->size);
 	else
 		ft_single_command(vars, (*vars)->tokens, cmd, (*vars)->size);
@@ -145,10 +146,10 @@ int	ft_check_redir(t_vars **vars)
 	temp = (*vars)->tokens;
 	while (temp->next)
 	{
-		if (is_special(*vars, temp) == TRUE)
+		if (is_special(temp) == TRUE)
 		{
-			g.pid = fork();
-			if (g.pid == 0)
+			g_g.pid = fork();
+			if (g_g.pid == 0)
 				ft_check_redir_2(vars, temp);
 			wait(&status);
 			return (1);

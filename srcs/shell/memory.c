@@ -14,8 +14,8 @@ t_vars	*ft_init_vars(void)
 	vars->t_env = NULL;
 	vars->t_exp = NULL;
 	vars->store = NULL;
-	g.ret = 0;
-	g.pid = 0;
+	g_g.ret = 0;
+	g_g.pid = 0;
 	return (vars);
 }
 

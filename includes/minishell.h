@@ -87,24 +87,29 @@ void	ft_add_elem_pipe(t_pipe **store);
 
 // EXECUTION
 int		call_command(t_vars **vars, int is_child);
-void	ft_find_cmd(t_vars **vars, char *token, char **cmd, char **tab);
+void	ft_find_cmd(char *token, char **cmd, char **tab);
 
 // ENVS
 void	ft_get_env_name(t_sort **t_env, char **env);
 void	ft_set_env(t_sort **t_env, char **env);
 
 // BUILTINS
-void	ft_cd(char *path);
+int		ft_cd(t_vars **vars, t_list *tokens, char *user);
 void	ft_pwd(void);
 void	ft_dup(t_pipe *temp_p, int count, int size, int *pfd);
-void	ft_echo(t_list *tokens);
+void	ft_call_echo(t_list *tokens);
 void	ft_echo_n(t_list *tokens);
-void	ft_env(t_sort **env);
+void	ft_call_env(t_vars **vars, t_list *tokens);
 void	ft_unset(t_list *tokens, t_sort **t_env, t_sort **t_exp);
 void	ft_export(t_list *tokens, t_sort **t_env, t_sort **t_exp);
 void	ft_call_builtin(t_vars **vars, t_list *tokens);
 int		ft_is_builtin(char *token);
 
+// BUILTINS_UTILS
+void	ft_browse_tmp(t_list **temp);
+void	ft_process_4(t_vars **vars, t_pipe *temp_p, t_list *temp_1);
+void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1, int *file);
+int		ft_process_2(t_vars **vars, t_pipe *temp_p);
 // MEMORY
 void	destroy_vars(t_vars *vars);
 t_vars	*ft_init_vars(void);

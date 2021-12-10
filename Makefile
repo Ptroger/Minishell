@@ -26,9 +26,6 @@ SRCS    =		srcs/token/parse.c \
 				srcs/shell/errors.c \
 				srcs/shell/utils.c \
 				srcs/pipe/pipe_utils_2.c \
-				srcs/redirect.c \
-				srcs/utils.c \
-				srcs/signals.c \
 
 INCLUDE =       includes/
 
@@ -48,7 +45,7 @@ RM =			rm -f
 	$(CC) $(CFLAGS) -o $@ -c $< $(LIB_INC)
 
 $(NAME):	$(OBJS)
-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS) $(LIBFT)
+	 $(CC) $(CFLAGS) -o $@ $^ $(LIBS) $(LIBFT)
 
 
 $(LIBFT):

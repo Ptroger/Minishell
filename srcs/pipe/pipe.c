@@ -24,10 +24,10 @@ int	ft_process(t_vars **vars, t_pipe *temp_p, int size, int *pfd)
 	while (temp_p)
 	{
 		ft_process_2(vars, temp_p);
-		g.pid = fork();
-		if (g.pid < 0)
+		g_g.pid = fork();
+		if (g_g.pid < 0)
 			return (ft_error("Fork failed"));
-		if (g.pid == 0)
+		if (g_g.pid == 0)
 		{
 			ft_dup(temp_p, count, size, pfd);
 			ft_process_3(vars, temp_p, temp_1, &file);
