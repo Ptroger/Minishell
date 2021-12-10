@@ -44,8 +44,8 @@ RM =			rm -f
 %.o : %.c
 	$(CC) $(CFLAGS) -o $@ -c $< $(LIB_INC)
 
-$(NAME):	$(OBJS)
-	 $(CC) $(CFLAGS) -o $@ $^ $(LIBS) $(LIBFT)
+$(NAME):	$(LIBFT) $(OBJS)
+	$(CC) $(CFLAGS) $(LIBS) $(OBJS) -o $(NAME) $(LIBFT)
 
 
 $(LIBFT):
