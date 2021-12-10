@@ -14,24 +14,12 @@
 
 void    ft_new_readline_2(t_vars **vars, char *line, char *tmp)
 {
-    int     i;
-    int     count;
-
-    i = 0;
-    count = 0;
     while (line[ft_strlen(line) - 1] == '|')
     {
-        i = 0;
         tmp = ft_strjoin(tmp, line);
         tmp = ft_strjoin(tmp, " ");
         free(line);
-        count++;
-        while (i < count)
-        {
-            printf("pipe> ");
-            i++;
-        }
-        line = readline("pipe> ");
+        line = readline("> ");
     }
     tmp = ft_strjoin(tmp, line);
     tmp = ft_strjoin(tmp, " ");
@@ -47,7 +35,7 @@ int ft_new_readline(t_vars **vars)
     t_list  *temp;
 
     temp = (*vars)->tokens;
-	line = readline("pipe> ");
+	line = readline("> ");
     tmp = malloc(sizeof(char) * ft_strlen(line) + 1);
     while (temp)
     {

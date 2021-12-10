@@ -29,7 +29,7 @@ void	ft_call_builtin_2(t_vars **vars, t_list *tokens)
 		if (ft_strcmp(tokens->token, "export") == 0)
 		{
 			ft_export(tokens, &(*vars)->t_env, &(*vars)->t_exp);
-			exit(0);
+//			exit(0);
 		}
 		if (ft_strcmp(tokens->token, "pwd") == 0 || ft_strcmp(tokens->token, "/bin/pwd") == 0)
 		{
@@ -193,7 +193,6 @@ int	call_command(t_vars **vars, int is_child)
 	ft_reset_var(vars);
 	temp = (*vars)->tokens;
 	(*vars)->size = 1;
-//	printf("token : %s\n", (*vars)->tokens->token);
 	if (is_child == FALSE)
 	{
 		while (temp)

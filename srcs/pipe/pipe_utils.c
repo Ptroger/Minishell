@@ -43,6 +43,9 @@ void	ft_add_elem_pipe(t_pipe **store)
 	if (!new_elem)
 		return ;
 	new_elem->cell = NULL;
+	new_elem->cmd = NULL;
+	new_elem->size = 0;
+	new_elem->token = NULL;
 	new_elem->next = *store;
 	*store = new_elem;
 }

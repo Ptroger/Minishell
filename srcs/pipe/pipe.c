@@ -16,13 +16,20 @@ int	ft_process(t_vars **vars, t_pipe *temp_p, int size, int *pfd)
 {
 	int		count;
 	int		file;
+	t_list	*temp;
 	t_list	*temp_1;
 
 	count = 0;
 	file = 0;
+	temp = (*vars)->tokens;
 	temp_1 = (*vars)->tokens;
 	while (temp_p)
 	{
+		temp = (*vars)->tokens;
+		while (temp && ft_strcmp(temp->token, "|") != 0)
+			temp = temp->next;
+		if (ft_strcmp(temp->token, "|") == 0 && !temp->next)
+			return (ft_new_readline(vars));
 		ft_process_2(vars, temp_p);
 		g_g.pid = fork();
 		if (g_g.pid < 0)

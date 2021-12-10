@@ -60,15 +60,16 @@ void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1, int *file)
 int	ft_process_2(t_vars **vars, t_pipe *temp_p)
 {
 	int		i;
-	t_list	*temp;
+//	t_list	*temp;
 
 	i = -1;
-	temp = (*vars)->tokens;
+	(void)vars;
+/*	temp = (*vars)->tokens;
 	while (temp && ft_strcmp(temp->token, "|") != 0)
 		temp = temp->next;
 	if (ft_strcmp(temp->token, "|") == 0 && !temp->next)
 		return (ft_new_readline(vars));
-	temp_p->token = ft_strdup(temp_p->cell[0]);
+*/	temp_p->token = ft_strdup(temp_p->cell[0]);
 	temp_p->cmd = ft_command_size(temp_p->size + 1);
 	while (++i < temp_p->size - 1 && temp_p->size > 1
 		&& ft_is_key(temp_p->cell[i + 1]) == 0)
