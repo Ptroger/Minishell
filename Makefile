@@ -32,8 +32,8 @@ OBJS    =       $(SRCS:%.c=%.o)
 
 CFLAGS  =       -Wall -Wextra -Werror -g -I ./$(INCLUDE) -fsanitize=address
 
-LIBS =			-lreadline -L /Users/$(USER)/.brew/opt/readline/lib
-LIB_INC = 		-I /Users/$(USER)/.brew/opt/readline/include
+LIBS =			-lreadline -L /usr/local/opt/readline/lib
+LIB_INC = 		-I /usr/local/opt/readline/include
 LIBFT = 		./libft/libft.a
 
 CC =			gcc

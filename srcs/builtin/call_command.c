@@ -195,6 +195,7 @@ int	call_command(t_vars **vars, int is_child)
 				exit(1);
 			}
 			wait(&status);
+			signal(SIGINT, sig_handler);
 			return (1);
 		}
 		temp = temp->next;

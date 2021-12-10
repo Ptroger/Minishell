@@ -22,11 +22,15 @@ void	write_file(char *name, int *file)
 
 int	redirect_pid(t_vars *vars, char *token, char *name, int *file)
 {
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	g_g.pid = fork();
 	if (g_g.pid < 0)
 		throw_error(vars, NULL, g_g.pid);
 	else if (g_g.pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		if (ft_strcmp(token, "<") == 0)
 			redirect_input(name, file);
 		else if (ft_strcmp(token, ">") == 0 || ft_strcmp(token, ">>") == 0)
