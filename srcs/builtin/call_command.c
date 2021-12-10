@@ -98,7 +98,7 @@ void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
 		temp = temp->next;
 	if (size > 1)
 	{
-		while (temp && is_special(temp) == FALSE)
+		while (temp && ft_is_key(temp->token) == 0)
 		{
 			cmd[i] = temp->token;
 			temp = temp->next;
@@ -133,31 +133,35 @@ void	ft_check_redir_2(t_vars **vars, t_list *temp)
 	else
 		ft_single_command(vars, (*vars)->tokens, cmd, (*vars)->size);
 	free(cmd);
+	exit(0);
 	close(file);
-	exit(1);
 }
 
 int	ft_check_redir(t_vars **vars)
 {
 	int		status;
+	int		ret;
+	char	**cmd;
 	t_list	*temp;
 
 	(*vars)->size = 1;
 	temp = (*vars)->tokens;
+	cmd = NULL;
+	ret = 0;
 	while (temp->next)
 	{
 		if (is_special(temp) == TRUE)
 		{
+			ret = 1;
 			g_g.pid = fork();
 			if (g_g.pid == 0)
 				ft_check_redir_2(vars, temp);
 			wait(&status);
-			return (1);
 		}
 		temp = temp->next;
 		(*vars)->size++;
 	}
-	return (0);
+	return (ret);
 }
 
 void	ft_reset_var(t_vars **vars)
@@ -204,7 +208,8 @@ int	call_command(t_vars **vars, int is_child)
 			(*vars)->size++;
 		}
 	}
-	ft_check_redir(vars);
+	if (ft_check_redir(vars) == 1)
+		return (0);
 	cmd = ft_command_size((*vars)->size);
 	if (ft_is_builtin((*vars)->tokens->token) == 1)
 		ft_call_builtin(vars, (*vars)->tokens);

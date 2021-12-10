@@ -48,7 +48,7 @@ void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1, int *file)
 	t_list	*temp;
 
 	temp = (*vars)->tokens;
-	while (temp && ft_strcmp(temp->token, "|") != 0)
+	while (temp)
 	{
 		if (is_special(temp) == TRUE)
 			handle_redirs(*vars, temp, file);
