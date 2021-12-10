@@ -12,24 +12,13 @@
 
 #include "minishell.h"
 
-int ft_new_readline(t_vars **vars)
+void    ft_new_readline_2(t_vars **vars, char *line, char *tmp)
 {
     int     i;
     int     count;
-    char	*line;
-    char    *tmp;
-    t_list  *temp;
 
+    i = 0;
     count = 0;
-    temp = (*vars)->tokens;
-	line = readline("pipe> ");
-    tmp = malloc(sizeof(char) * ft_strlen(line) + 1);
-    while (temp)
-    {
-        tmp = ft_strjoin(tmp, temp->token);
-        tmp = ft_strjoin(tmp, " ");
-        temp = temp->next;
-    }
     while (line[ft_strlen(line) - 1] == '|')
     {
         i = 0;
@@ -49,5 +38,23 @@ int ft_new_readline(t_vars **vars)
     free(line);
     parse(tmp, *vars);
     call_command(vars, FALSE);
+}
+
+int ft_new_readline(t_vars **vars)
+{
+    char	*line;
+    char    *tmp;
+    t_list  *temp;
+
+    temp = (*vars)->tokens;
+	line = readline("pipe> ");
+    tmp = malloc(sizeof(char) * ft_strlen(line) + 1);
+    while (temp)
+    {
+        tmp = ft_strjoin(tmp, temp->token);
+        tmp = ft_strjoin(tmp, " ");
+        temp = temp->next;
+    }
+    ft_new_readline_2(vars, line, tmp);
     return (1);
 }

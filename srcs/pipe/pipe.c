@@ -14,61 +14,25 @@
 
 int	ft_process(t_vars **vars, t_pipe *temp_p, int size, int *pfd)
 {
-	int		i;
 	int		count;
 	int		file;
 	t_list	*temp_1;
-	t_list	*temp_2;
-	t_list	*temp_3;
 
 	count = 0;
 	file = 0;
 	temp_1 = (*vars)->tokens;
 	while (temp_p)
 	{
-		i = -1;
-		temp_3 = (*vars)->tokens;
-		while (temp_3 && ft_strcmp(temp_3->token, "|") != 0)
-			temp_3 = temp_3->next;
-		if (ft_strcmp(temp_3->token, "|") == 0 && !temp_3->next)
-			return (ft_new_readline(vars));
-		temp_p->token = ft_strdup(temp_p->cell[0]);
-		temp_p->cmd = ft_command_size(temp_p->size + 1);
-		while (++i < temp_p->size - 1 && temp_p->size > 1 && ft_is_key(temp_p->cell[i + 1]) == 0)
-			temp_p->cmd[i + 1] = ft_strdup(temp_p->cell[i + 1]);
-		g_g.pid = fork();
-		if (g_g.pid < 0)
-			return (throw_error(*vars, NULL, g_g.pid));
-		temp_2 = (*vars)->tokens;
-		temp_3 = (*vars)->tokens;
-		if (g_g.pid == 0)
+		ft_process_2(vars, temp_p);
+		g.pid = fork();
+		if (g.pid < 0)
+			return (ft_error("Fork failed"));
+		if (g.pid == 0)
 		{
 			ft_dup(temp_p, count, size, pfd);
-			while (temp_2 && ft_strcmp(temp_2->token, "|") != 0)
-			{
-				if (is_special(temp_2) == TRUE)
-					handle_redirs(*vars, temp_2, &file);
-				temp_2 = temp_2->next;
-			}
-			if (ft_is_builtin(temp_p->token) == 1)
-			{
-				ft_call_builtin(vars, temp_1);
-				exit(1);
-			}
-			else if (is_special(*vars, temp_3) == TRUE && temp_1->next && temp_1->next->next && ft_is_builtin(temp_1->next->next->token) == 1)
-			{
-				ft_call_builtin(vars, temp_1->next->next);
-				exit(1);
-			}
-			else if (is_special(*vars, temp_3) == TRUE && temp_1->next && temp_1->next->next)
-				ft_find_cmd(temp_1->next->next->token, temp_p->cmd, (*vars)->path);
-			else
-				ft_find_cmd(temp_p->token, temp_p->cmd, (*vars)->path);
+			ft_process_3(vars, temp_p, temp_1, &file);
 		}
-		while (temp_1 && ft_strcmp(temp_1->token, "|") != 0)
-			temp_1 = temp_1->next;
-		if (temp_1 && temp_1->next)
-			temp_1 = temp_1->next;
+		ft_browse_tmp(&temp_1);
 		count += 2;
 		temp_p = temp_p->next;
 	}
@@ -132,11 +96,8 @@ void	ft_store_command(t_list *tokens, t_pipe *store)
 	while (temp_p)
 	{
 		i = 0;
-		while (ft_strcmp(temp_1->token, "|") != 0 && temp_1->next)
-		{
+		while (ft_strcmp(temp_1->token, "|") != 0 && temp_1->next && ++i)
 			temp_1 = temp_1->next;
-			i++;
-		}
 		if (ft_strcmp(temp_1->token, "|") == 0 && temp_1->next)
 			temp_1 = temp_1->next;
 		if (!temp_p->next)

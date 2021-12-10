@@ -25,6 +25,10 @@ SRCS    =		srcs/token/parse.c \
 				srcs/shell/memory.c \
 				srcs/shell/errors.c \
 				srcs/shell/utils.c \
+				srcs/pipe/pipe_utils_2.c \
+				srcs/redirect.c \
+				srcs/utils.c \
+				srcs/signals.c \
 
 INCLUDE =       includes/
 

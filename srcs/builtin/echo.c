@@ -44,3 +44,13 @@ void	ft_echo_n(t_list *tokens)
 	if (ft_is_key(temp->token) == 0)
 		ft_putstr(temp->token);
 }
+
+void	ft_call_echo(t_list *tokens)
+{
+	if (!tokens->next)
+		ft_putstr("\n");
+	else if (ft_strcmp(tokens->next->token, "-n") == 0)
+		ft_echo_n(tokens->next->next);
+	else
+		ft_echo(tokens->next);
+}
