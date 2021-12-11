@@ -51,7 +51,11 @@ void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1, int *file)
 	while (temp)
 	{
 		if (is_special(temp) == TRUE)
+		{
 			handle_redirs(*vars, temp, file);
+			ft_process_4(vars, temp_p, temp_1);
+			return ;
+		}
 		temp = temp->next;
 	}
 	ft_process_4(vars, temp_p, temp_1);
