@@ -22,6 +22,68 @@ int	check_str(char *str)
 	return (0);
 }
 
+void	set_files(t_vars *vars)
+{
+	t_list	*tokens;
+
+	tokens = vars->tokens;
+	while (tokens)
+	{
+		if (tokens->type == R_IN)
+			tokens->next->type = F_OPEN;
+		else if (tokens->type == H_DOC)
+			tokens->next->type = LIMITOR;
+		else if (tokens->type == R_OUT)
+			tokens->next->type = F_EXIT;
+		tokens = tokens->next;
+	}
+}
+
+void	set_redir(t_vars *vars)
+{
+	t_list	*tokens;
+
+	tokens = vars->tokens;
+	while (tokens)
+	{
+		if (ft_strcmp(tokens->token, "<") == 0)
+			tokens->type = R_IN;
+		else if (ft_strcmp(tokens->token, "<<") == 0)
+			tokens->type = H_DOC;
+		else if (ft_strcmp(tokens->token, ">") == 0
+				 || ft_strcmp(tokens->token, ">>") == 0 )
+			tokens->type = R_OUT;
+		else if (ft_strcmp(tokens->token, "|") == 0)
+			tokens->type = PIPE;
+		else
+			tokens->type = NONE;
+		tokens = tokens->next;
+	}
+}
+
+void	set_cmd(t_vars *vars)
+{
+	t_list	*tokens;
+
+	tokens = vars->tokens;
+	tokens->type = CMD;
+	while (tokens)
+	{
+		if (tokens->type == PIPE)
+			tokens->next->type = CMD;
+		else if (tokens->type == NONE)
+			tokens->type = ARG;
+		tokens = tokens->next;
+	}
+}
+
+void	set_type(t_vars *vars)
+{
+	set_redir(vars);
+	set_files(vars);
+	set_cmd(vars);
+}
+
 void	read_loop(t_vars *vars)
 {
 	char	*line;
@@ -38,13 +100,17 @@ void	read_loop(t_vars *vars)
 			exit(0);
 		}
 		if (check_str(line) != 0)
-			throw_error(vars, "syntax error", 1);
-		parse(line, vars);
-		add_history(line);
-		free(line);
-		call_command(&vars, FALSE);
-		ft_lstclear(&vars->tokens, free);
-		unlink("./temp");
+			throw_error("parse error", 1);
+		else if (*line)
+		{
+			parse(line, vars);
+			set_type(vars);
+			add_history(line);
+			free(line);
+			call_command(&vars, FALSE);
+			ft_lstclear(&vars->tokens, free);
+			unlink("./temp");
+		}
 	}
 }
 

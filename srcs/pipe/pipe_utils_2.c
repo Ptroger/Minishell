@@ -43,7 +43,7 @@ void	ft_process_4(t_vars **vars, t_pipe *temp_p, t_list *temp_1)
 		ft_find_cmd(temp_p->token, temp_p->cmd, (*vars)->path);
 }
 
-void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1, int *file)
+void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1)
 {
 	t_list	*temp;
 
@@ -51,7 +51,7 @@ void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1, int *file)
 	while (temp)
 	{
 		if (is_special(temp) == TRUE)
-			handle_redirs(*vars, temp, file);
+			handle_redirs(*vars, temp);
 		temp = temp->next;
 	}
 	ft_process_4(vars, temp_p, temp_1);

@@ -13,6 +13,19 @@
 # define D_QUOTE 1
 # define S_QUOTE 2
 
+//// TYPES ////
+
+# define NONE -1
+# define CMD 0
+# define ARG 1
+# define R_IN 2
+# define R_OUT 3
+# define H_DOC 4
+# define F_OPEN 5
+# define F_EXIT 6
+# define LIMITOR 7
+# define PIPE 8
+
 //// OTHER ////
 
 # define TRUE 1

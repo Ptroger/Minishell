@@ -117,11 +117,9 @@ void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
 
 void	ft_check_redir_2(t_vars **vars, t_list *temp)
 {
-	int		file;
 	char	**cmd;
 
-	file = 0;
-	handle_redirs(*vars, temp, &file);
+	handle_redirs(*vars, temp);
 	cmd = ft_command_size((*vars)->size);
 	if (ft_is_builtin((*vars)->tokens->token) == 1)
 		ft_call_builtin(vars, (*vars)->tokens);
@@ -134,7 +132,6 @@ void	ft_check_redir_2(t_vars **vars, t_list *temp)
 		ft_single_command(vars, (*vars)->tokens, cmd, (*vars)->size);
 	free(cmd);
 	exit(0);
-	close(file);
 }
 
 int	ft_check_redir(t_vars **vars)
@@ -153,10 +150,12 @@ int	ft_check_redir(t_vars **vars)
 		if (is_special(temp) == TRUE)
 		{
 			ret = 1;
+			signal(SIGINT, sig_handler);
 			g_g.pid = fork();
 			if (g_g.pid == 0)
 				ft_check_redir_2(vars, temp);
 			wait(&status);
+			g_g.ret = WEXITSTATUS(status);
 		}
 		temp = temp->next;
 		(*vars)->size++;

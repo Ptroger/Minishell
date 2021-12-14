@@ -6,6 +6,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <errno.h>
 # include <string.h>
 # include <errno.h>
 # include <sys/errno.h>
@@ -77,9 +78,9 @@ char	*get_tok_index(t_list *lst, int i);
 void	finish_token(t_vars *vars, char *token, int i);
 
 // REDIRECTIONS
-void	redirect_input(char *name, int *file);
-void	redirect_output(char *name, int *file, char *token);
-int		handle_redirs(t_vars *vars, t_list *tokens, int *file);
+void	redirect_input(char *name);
+void	redirect_output(char *name, char *token);
+int		handle_redirs(t_vars *vars, t_list *tokens);
 int		is_redir(char *token);
 int		is_special(t_list *tokens);
 int		ft_pipe(t_vars **vars, t_pipe *pipe);
@@ -92,6 +93,7 @@ void	ft_find_cmd(char *token, char **cmd, char **tab);
 // ENVS
 void	ft_get_env_name(t_sort **t_env, char **env);
 void	ft_set_env(t_sort **t_env, char **env);
+char	*my_get_env(t_vars *vars, char *name);
 
 // BUILTINS
 int		ft_cd(t_vars **vars, t_list *tokens, char *user);
@@ -107,7 +109,7 @@ int		ft_is_builtin(char *token);
 
 // BUILTINS_UTILS
 void	ft_browse_tmp(t_list **temp);
-void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1, int *file);
+void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1);
 int		ft_process_2(t_vars **vars, t_pipe *temp_p);
 // MEMORY
 void	destroy_vars(t_vars *vars);
@@ -115,14 +117,13 @@ t_vars	*ft_init_vars(void);
 
 // OTHERS
 void	sig_handler(int sig);
-int		throw_error(t_vars *vars, char *err, int errcode);
+int		throw_error(char *err, int errcode);
 void	ft_add_elem(t_sort **sort, char *env);
 void	ft_add_elem_exp(t_sort **sort, char *env);
 void	ft_add_elem_exp_2(t_sort **sort, t_sort *new_elem, char *env);
 void	ft_reverse_rotate(t_sort **pile);
 void	ft_set_exp(t_sort **t_exp, t_sort **t_env);
 void	ft_swap(t_sort **pile);
-int		ft_error(char *str);
 int		ft_is_key(char *str);
 int		ft_new_readline(t_vars **vars);
 int		ft_pile_in_order(t_sort **pile_a);

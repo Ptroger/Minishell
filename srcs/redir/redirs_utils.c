@@ -1,30 +1,44 @@
 #include "minishell.h"
 
-void	redirect_input(char *name, int *file)
+void	redirect_input(char *name)
 {
-	int	stdin;
+	int	oldfd;
+	int	fd;
 
-	*file = open(name, O_RDONLY, 0777);
-	if (*file == -1)
+	fd = open(name, O_RDONLY, 0777);
+	if (fd == -1)
 	{
-		printf("error input = %s\n", strerror(*file));
+		throw_error(NULL, errno);
 		return ;
 	}
-	stdin = dup2(*file, STDIN_FILENO);
+	oldfd = fd;
+	printf("je viensla\n");
+	dup2(fd, STDOUT_FILENO);
+	printf("puisla\n");
+	if (close(oldfd) != 0)
+		throw_error(NULL, errno);
 }
 
-void	redirect_output(char *name, int *file, char *token)
+void	redirect_output(char *name, char *token)
 {
+	int	oldfd;
 	int	stdout;
+	int	fd;
 
 	if (ft_strcmp(token, ">>") == 0)
-		*file = open(name, O_WRONLY | O_CREAT | O_APPEND, 0777);
+		fd = open(name, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	else
-		*file = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if (*file == -1)
+		fd = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (fd == -1)
 	{
-		printf("%s\n", strerror(*file));
+		throw_error(NULL, errno);
 		return ;
 	}
-	stdout = dup2(*file, STDOUT_FILENO);
+	oldfd = fd;
+	printf("jeviensla\n");
+	stdout = dup2(fd, STDOUT_FILENO);
+	printf("puisla\n");
+	if (close(oldfd) != 0)
+		throw_error(NULL, errno);
+	printf("ici\n");
 }

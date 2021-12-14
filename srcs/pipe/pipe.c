@@ -15,12 +15,10 @@
 int	ft_process(t_vars **vars, t_pipe *temp_p, int size, int *pfd)
 {
 	int		count;
-	int		file;
 	t_list	*temp;
 	t_list	*temp_1;
 
 	count = 0;
-	file = 0;
 	temp = (*vars)->tokens;
 	temp_1 = (*vars)->tokens;
 	while (temp_p)
@@ -33,11 +31,11 @@ int	ft_process(t_vars **vars, t_pipe *temp_p, int size, int *pfd)
 		ft_process_2(vars, temp_p);
 		g_g.pid = fork();
 		if (g_g.pid < 0)
-			return (ft_error("Fork failed"));
+			return (throw_error("Fork failed", 2));
 		if (g_g.pid == 0)
 		{
 			ft_dup(temp_p, count, size, pfd);
-			ft_process_3(vars, temp_p, temp_1, &file);
+			ft_process_3(vars, temp_p, temp_1);
 		}
 		ft_browse_tmp(&temp_1);
 		count += 2;
@@ -61,7 +59,7 @@ int	ft_child(t_vars **vars, t_pipe *store, int size)
 	while (++i < size - 1)
 	{
 		if (pipe(pfd + i * 2) == -1)
-			return (ft_error("pipe failed"));
+			return (throw_error("pipe failed", 2));
 	}
 	ft_process(vars, temp_p, size, pfd);
 	i = -1;

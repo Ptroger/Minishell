@@ -70,8 +70,8 @@ int	handle_dollar_quoted(t_vars *vars, char *token, char *line, char *name)
 		vars->parse_i++;
 		return (FINISHED);
 	}
-	if (line[vars->parse_i + 1] == ' ')
-		token = add_c_tok(' ', vars, vars->token_i, token);
+//	if (line[vars->parse_i + 1] == ' ')
+//		token = add_c_tok(' ', vars, vars->token_i, token);
 	return (CONTINUE);
 }
 
