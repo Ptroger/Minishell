@@ -48,7 +48,6 @@ void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1)
 	t_list	*temp;
 
 	temp = (*vars)->tokens;
-	(void)file;
 /*	while (temp)
 	{
 		if (is_special(temp) == TRUE)

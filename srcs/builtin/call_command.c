@@ -120,7 +120,6 @@ void	ft_check_redir_2(t_vars **vars, t_list *temp)
 	char	**cmd;
 	t_list	*temp_2;
 
-	handle_redirs(*vars, temp);
 	temp_2 = (*vars)->tokens;
 	handle_redirs(*vars, temp);
 	while (temp_2)
