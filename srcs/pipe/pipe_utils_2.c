@@ -48,7 +48,8 @@ void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1, int *file)
 	t_list	*temp;
 
 	temp = (*vars)->tokens;
-	while (temp)
+	(void)file;
+/*	while (temp)
 	{
 		if (is_special(temp) == TRUE)
 		{
@@ -58,7 +59,7 @@ void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1, int *file)
 		}
 		temp = temp->next;
 	}
-	ft_process_4(vars, temp_p, temp_1);
+*/	ft_process_4(vars, temp_p, temp_1);
 }
 
 int	ft_process_2(t_vars **vars, t_pipe *temp_p)

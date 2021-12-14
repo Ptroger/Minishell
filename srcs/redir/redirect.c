@@ -68,9 +68,10 @@ int	handle_redirs(t_vars *vars, t_list *tokens, int *file)
 	temp = tokens;
 	token = tokens->token;
 	name = tokens->next->token;
+	(void)vars;
 	while (temp && ft_strcmp(temp->token, "|") != 0)
 		temp = temp->next;
-	if (temp && ft_strcmp(temp->token, "|") == 0)
-		return (redirect_pid(vars, token, name, file));
+//	if (temp && ft_strcmp(temp->token, "|") == 0)
+//		return (redirect_pid(vars, token, name, file));
 	return (redirect(token, name, file));
 }
