@@ -48,13 +48,18 @@ void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1)
 	t_list	*temp;
 
 	temp = (*vars)->tokens;
-	while (temp)
+	(void)file;
+/*	while (temp)
 	{
 		if (is_special(temp) == TRUE)
-			handle_redirs(*vars, temp);
+		{
+			handle_redirs(*vars, temp, file);
+			ft_process_4(vars, temp_p, temp_1);
+			return ;
+		}
 		temp = temp->next;
 	}
-	ft_process_4(vars, temp_p, temp_1);
+*/	ft_process_4(vars, temp_p, temp_1);
 }
 
 int	ft_process_2(t_vars **vars, t_pipe *temp_p)
