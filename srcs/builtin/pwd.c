@@ -12,10 +12,19 @@
 
 #include "minishell.h"
 
-void	ft_pwd(void)
+void	ft_pwd(t_list *tokens)
 {
 	char	*buf;
 
 	buf = NULL;
-	printf("%s\n", (getcwd(buf, sizeof(buf))));
+	if (tokens->next)
+	{
+		if (tokens->next->type == ARG)
+		{
+			throw_error("Invalid arguments", 1);
+			exit(1);
+		}
+	}
+	else
+		printf("%s\n", (getcwd(buf, sizeof(buf))));
 }

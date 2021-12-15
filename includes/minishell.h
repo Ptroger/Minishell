@@ -81,8 +81,9 @@ char	*get_tok_index(t_list *lst, int i);
 void	finish_token(t_vars *vars, char *token, int i);
 
 // REDIRECTIONS
-void	redirect_input(char *name, int *file);
-void	redirect_output(char *name, char *token, int *file);
+void	redirect_input(t_list *tokens, int *file);
+void	redir_temp(char *name, int *file);
+void	redirect_output(t_list *tokens, char *token, int *file);
 int		handle_redirs(t_vars *vars, t_list *tokens, int *file);
 int		is_redir(char *token);
 int		is_special(t_list *tokens);
@@ -107,7 +108,7 @@ char	*my_get_env(t_vars *vars, char *name);
 
 // BUILTINS
 int		ft_cd(t_vars **vars, t_list *tokens, char *user);
-void	ft_pwd(void);
+void	ft_pwd(t_list *tokens);
 void	ft_dup(t_pipe *temp_p, int count, int size, int *pfd);
 void	ft_call_echo(t_list *tokens);
 void	ft_echo_n(t_list *tokens);
@@ -139,7 +140,7 @@ void	ft_swap(t_sort **pile);
 int		ft_is_key(char *str);
 int		ft_new_readline(t_vars **vars);
 int		ft_pile_in_order(t_sort **pile_a);
-char	*find_path(char *token, char *tab);
+char	*find_path(char *token, char **tab);
 char	*ft_return_max(t_sort **pile_a);
 char	**ft_command_size(int size);
 

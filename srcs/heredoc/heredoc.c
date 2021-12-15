@@ -33,7 +33,7 @@ void	heredoc_loop(t_vars *vars, char **tab, int fd, int i)
 	while (i >= 0)
 	{
 //		printf("i == %d\nname = %s\n", i, tab[i]);
-		line = readline("heredoc> ");
+		line = readline("> ");
 		if (!line)
 		{
 			if (close(fd) != 0)

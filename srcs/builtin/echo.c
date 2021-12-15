@@ -19,14 +19,14 @@ void	ft_echo(t_list *tokens)
 	temp = tokens;
 	while (temp->next && ft_is_key(temp->token) == 0)
 	{
-		ft_putstr(temp->token);
+		ft_putstr_fd_echo(temp->token, STDOUT_FILENO);
 		if (temp->next && ft_is_key(temp->next->token) == 0)
-			ft_putstr(" ");
+			ft_putstr_fd_echo(" ", STDOUT_FILENO);
 		temp = temp->next;
 	}
 	if (ft_is_key(temp->token) == 0)
-		ft_putstr(temp->token);
-	ft_putstr("\n");
+		ft_putstr_fd_echo(temp->token, STDOUT_FILENO);
+	ft_putstr_fd_echo("\n", STDOUT_FILENO);
 }
 
 void	ft_echo_n(t_list *tokens)
@@ -36,19 +36,19 @@ void	ft_echo_n(t_list *tokens)
 	temp = tokens;
 	while (temp->next && ft_is_key(temp->token) == 0)
 	{
-		ft_putstr(temp->token);
+		ft_putstr_fd_echo(temp->token, STDOUT_FILENO);
 		if (temp->next && ft_is_key(temp->next->token) == 0)
-			ft_putstr(" ");
+			ft_putstr_fd_echo(" ", STDOUT_FILENO);
 		temp = temp->next;
 	}
 	if (ft_is_key(temp->token) == 0)
-		ft_putstr(temp->token);
+		ft_putstr_fd_echo(temp->token, STDOUT_FILENO);
 }
 
 void	ft_call_echo(t_list *tokens)
 {
 	if (!tokens->next)
-		ft_putstr("\n");
+		ft_putstr_fd_echo("\n", STDOUT_FILENO);
 	else if (ft_strcmp(tokens->next->token, "-n") == 0)
 		ft_echo_n(tokens->next->next);
 	else

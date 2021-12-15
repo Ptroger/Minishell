@@ -49,6 +49,8 @@ char	*insert_env(char *line, char *env, int l, int i)
 	k = i + 1;
 	len = ft_strlen(line) + l;
 	newline = malloc(len);
+	if (!newline)
+		return (NULL);
 	newline[len - 1] = '\0';
 	copy_until_dol(line, newline);
 	i = insert_helper(newline, env, i);

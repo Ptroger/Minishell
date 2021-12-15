@@ -29,11 +29,11 @@ void	ft_call_builtin_2(t_vars **vars, t_list *tokens)
 		if (ft_strcmp(tokens->token, "export") == 0)
 		{
 			ft_export(tokens, &(*vars)->t_env, &(*vars)->t_exp);
-//			exit(0);
+//			exit(errno);
 		}
 		if (ft_strcmp(tokens->token, "pwd") == 0 || ft_strcmp(tokens->token, "/bin/pwd") == 0)
 		{
-			ft_pwd();
+			ft_pwd(tokens);
 			exit(0);
 		}
 		if (ft_strcmp(tokens->token, "unset") == 0 && tokens->next)
@@ -56,7 +56,7 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 	if (ft_strcmp(tokens->token, "exit") == 0)
 	{
 		printf("exit\n");
-		exit(0);
+		exit(errno);
 	}
 	while (temp && ft_strcmp(temp->name, "USER") != 0)
 		temp = temp->next;
@@ -139,23 +139,16 @@ void	ft_check_redir_2(t_vars **vars, t_list *temp)
 			}
 			exit(0);
 		}
-		if (temp_2)
-			temp_2 = temp_2->next;
+		temp_2 = temp_2->next;
 	}
 	cmd = ft_command_size((*vars)->size);
 	if (ft_is_builtin((*vars)->tokens->token) == 1)
 		ft_call_builtin(vars, (*vars)->tokens);
-	else if (is_special(temp) == TRUE && temp->next
-	&& temp->next->next && ft_is_builtin((*vars)->tokens->next->next->token) == 1)
-		ft_call_builtin(vars, (*vars)->tokens->next->next);
-	else if (is_special(temp) == TRUE && temp->next && temp->next->next)
-		ft_single_command(vars, (*vars)->tokens->next->next, cmd, (*vars)->size);
 	else
 		ft_single_command(vars, (*vars)->tokens, cmd, (*vars)->size);
 	free(cmd);
 	if (close(file) != 0)
 	{
-		printf("---------- ICI ---------\n");
 		throw_error(NULL, errno);
 		exit(errno);
 	}
@@ -165,19 +158,16 @@ void	ft_check_redir_2(t_vars **vars, t_list *temp)
 int	ft_check_redir(t_vars **vars)
 {
 	int		status;
-	int		ret;
 	char	**cmd;
 	t_list	*temp;
 
 	(*vars)->size = 1;
 	temp = (*vars)->tokens;
 	cmd = NULL;
-	ret = 0;
 	while (temp->next)
 	{
 		if (is_special(temp) == TRUE && shall_exec(*vars, temp) == TRUE)
 		{
-			ret = 1;
 			signal(SIGINT, SIG_IGN);
 			g_g.pid = fork();
 			signal(SIGINT, sig_handler);
@@ -186,11 +176,12 @@ int	ft_check_redir(t_vars **vars)
 			wait(&status);
 			g_g.ret = WEXITSTATUS(status);
 			signal(SIGINT, sig_handler);
+			return (TRUE);
 		}
 		temp = temp->next;
 		(*vars)->size++;
 	}
-	return (ret);
+	return (FALSE);
 }
 
 void	ft_reset_var(t_vars **vars)
@@ -226,7 +217,7 @@ int	call_command(t_vars **vars, int is_child)
 	ft_reset_var(vars);
 	temp = (*vars)->tokens;
 	(*vars)->size = 1;
-	if (ft_check_redir(vars) == 1)
+	if (ft_check_redir(vars) == TRUE)
 		return (0);
 	if (is_child == FALSE)
 	{

@@ -78,8 +78,16 @@ void	flag_error(t_vars *vars)
 
 void	set_type(t_vars *vars)
 {
+//	t_list	*tokens;
+//
+//	tokens = vars->tokens;
 	set_redir(vars);
 	flag_error(vars);
 	set_files(vars);
 	set_cmd(vars);
+//	while (tokens)
+//	{
+//		printf("token == %s\ntype == %d\n", tokens->token, tokens->type);
+//		tokens = tokens->next;
+//	}
 }

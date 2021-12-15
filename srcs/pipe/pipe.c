@@ -31,7 +31,7 @@ int	ft_process(t_vars **vars, t_pipe *temp_p, int size, int *pfd)
 		ft_process_2(vars, temp_p);
 		g_g.pid = fork();
 		if (g_g.pid < 0)
-			return (throw_error("Fork failed", 2));
+			return (throw_error("Fork failed", errno));
 		if (g_g.pid == 0)
 		{
 			ft_dup(temp_p, count, size, pfd);
@@ -67,7 +67,10 @@ int	ft_child(t_vars **vars, t_pipe *store, int size)
 		close(pfd[i]);
 	i = -1;
 	while (++i < 2 * (size - 1) + 1)
+	{
 		wait(&status);
+		g_g.ret = WEXITSTATUS(status);
+	}
 	return (1);
 }
 

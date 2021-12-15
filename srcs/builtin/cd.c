@@ -25,7 +25,7 @@ void	ft_set_oldpwd(t_vars **vars, char *wd)
 	temp->data = ft_strjoin(temp->data, temp->info);
 }
 
-void	ft_is_dash(t_vars **vars)
+int	ft_is_dash(t_vars **vars)
 {
 	t_sort	*temp;
 	char	*old_pwd;
@@ -38,8 +38,9 @@ void	ft_is_dash(t_vars **vars)
 	{
 		old_pwd = ft_strdup(temp->info);
 		printf("%s\n", old_pwd);
-		chdir(old_pwd);
+		return (chdir(old_pwd));
 	}
+	return (0);
 }
 
 int	ft_cd(t_vars **vars, t_list *tokens, char *user)
@@ -51,13 +52,13 @@ int	ft_cd(t_vars **vars, t_list *tokens, char *user)
 	buf = NULL;
 	wd = ft_strdup(getcwd(buf, sizeof(buf)));
 	if (!tokens->next || ft_strcmp(tokens->next->token, "~") == 0)
-		chdir(user);
+		ret = chdir(user);
 	else if (ft_strcmp(tokens->next->token, "-") == 0)
-		ft_is_dash(vars);
-	else if (chdir(tokens->next->token) != -1)
-		ret = 1;
+		ret = ft_is_dash(vars);
 	else
-		ret = 0;
+		ret = chdir(tokens->next->token);
 	ft_set_oldpwd(vars, wd);
+	if (ret != 0)
+		throw_error(NULL, errno);
 	return (0);
 }

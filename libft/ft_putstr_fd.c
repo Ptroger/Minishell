@@ -11,6 +11,20 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdlib.h>
+#include <errno.h>
+#include <stdio.h>
+
+void	ft_putstr_fd_echo(char *str, int fd)
+{
+	int	res;
+
+	if (!str)
+		return ;
+	res = write(fd, str, ft_strlen(str));
+	if (res != 0)
+		exit(errno);
+}
 
 void	ft_putstr_fd(char *str, int fd)
 {

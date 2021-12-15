@@ -67,45 +67,56 @@ int	ft_pile_in_order(t_sort **pile_a)
 	return (1);
 }
 
-char	*find_path(char *token, char *tab)
+int	is_absolute(char *token)
 {
-	char	*path;
+	if (token && (token[0] == '.' || token[0] == '/'))
+		return (TRUE);
+	return (FALSE);
+}
 
-	path = malloc(sizeof(char) * ft_strlen(token) + ft_strlen(tab) + 2);
-	path = ft_strcpy(path, tab);
-	path = ft_strcat(path, "/");
-	path = ft_strcat(path, token);
-	return (path);
+char	*find_path(char *token, char **tab)
+{
+	char *path;
+	int i;
+
+	i = 0;
+	while (tab[i])
+	{
+		path = malloc(sizeof(char) * ft_strlen(token) + ft_strlen(tab[i]) + 2);
+		if (!path)
+			return (NULL);
+		path = ft_strcpy(path, tab[i]);
+		path = ft_strcat(path, "/");
+		path = ft_strcat(path, token);
+		if (access(path, X_OK) == 0)
+			return (path);
+		i++;
+		free(path);
+	}
+	return (NULL);
 }
 
 void	ft_find_cmd(t_vars *vars, char *token, char **cmd, char **tab)
 {
-	int		i;
-
-	i = 0;
 	set_envs(vars);
-	if (execve(cmd[0], cmd, vars->real_envs) == -1)
+	if (!tab)
 	{
-		if (!tab)
-		{
-			ft_putstr_fd("Error : path could not be found\n", 2);
-			return;
-		}
+		ft_putstr_fd("Error : path could not be found\n", 2);
+		return;
+	}
+	if (is_absolute(token) == TRUE)
+	{
 		cmd[0] = ft_strdup(token);
-		if (execve(cmd[0], cmd, vars->real_envs) == -1)
-		{
+		execve(cmd[0], cmd, vars->real_envs);
+	}
+	else
+	{
+		cmd[0] = find_path(token, tab);
+		g_g.ret = execve(cmd[0], cmd, vars->real_envs);
+		if (cmd[0])
 			free(cmd[0]);
-			while (tab[i])
-			{
-				cmd[0] = find_path(token, tab[i]);
-				g_g.ret = execve(cmd[0], cmd, vars->real_envs);
-				if (g_g.ret == -1)
-					i++;
-				free(cmd[0]);
-			}
-			ft_putstr_fd(token, 2);
-			throw_error(": command not found", errno);
-			exit(errno);
-		}
+		ft_putstr_fd(token, 2);
+		throw_error(": command not found", errno);
+		exit(errno);
 	}
 }
