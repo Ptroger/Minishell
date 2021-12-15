@@ -50,6 +50,8 @@ int	handle_space(t_vars *vars, char *token, char *line)
 {
 	if (vars->state == D_QUOTE || vars->state == S_QUOTE)
 		token = add_c_tok(' ', vars, vars->token_i, token);
+	else if (vars->token_i == 0)
+		return (CONTINUE);
 	else if (vars->parse_i >= 1 && line[vars->parse_i - 1]
 		!= ' ' && vars->state == BASIC)
 	{

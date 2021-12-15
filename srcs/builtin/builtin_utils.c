@@ -17,15 +17,22 @@ char	*ft_return_max(t_sort **pile_a)
 	char	*max;
 	t_sort	*temp;
 
-	temp = *pile_a;
-	max = temp->data;
-	while (temp->next)
+	if (pile_a)
+		temp = *pile_a;
+	else
+		temp = NULL;
+	if (temp)
 	{
-		temp = temp->next;
-		if (ft_strcmp(max, temp->data) < 0)
-			max = temp->data;
+		max = temp->data;
+		while (temp && temp->next)
+		{
+			temp = temp->next;
+			if (ft_strcmp(max, temp->data) < 0)
+				max = temp->data;
+		}
+		return (max);
 	}
-	return (max);
+	return (NULL);
 }
 
 void	ft_add_elem(t_sort **sort, char *env)
@@ -48,8 +55,9 @@ int	ft_pile_in_order(t_sort **pile_a)
 	t_sort	*temp;
 
 	temp = *pile_a;
-	tmp = temp->data;
-	while (temp->next)
+	if (temp)
+		tmp = temp->data;
+	while (temp && temp->next)
 	{
 		temp = temp->next;
 		if (ft_strcmp(tmp, temp->data) > 0)
@@ -70,30 +78,34 @@ char	*find_path(char *token, char *tab)
 	return (path);
 }
 
-void	ft_find_cmd(char *token, char **cmd, char **tab)
+void	ft_find_cmd(t_vars *vars, char *token, char **cmd, char **tab)
 {
 	int		i;
 
 	i = 0;
-	if (execve(cmd[0], cmd, 0) == -1)
+	set_envs(vars);
+	if (execve(cmd[0], cmd, vars->real_envs) == -1)
 	{
 		if (!tab)
 		{
 			ft_putstr_fd("Error : path could not be found\n", 2);
-			return ;
+			return;
 		}
 		cmd[0] = ft_strdup(token);
-		if (execve(cmd[0], cmd, 0) == -1)
+		if (execve(cmd[0], cmd, vars->real_envs) == -1)
 		{
 			free(cmd[0]);
 			while (tab[i])
 			{
 				cmd[0] = find_path(token, tab[i]);
-				g_g.ret = execve(cmd[0], cmd, 0);
+				g_g.ret = execve(cmd[0], cmd, vars->real_envs);
 				if (g_g.ret == -1)
 					i++;
 				free(cmd[0]);
 			}
+			ft_putstr_fd(token, 2);
+			throw_error(": command not found", errno);
+			exit(errno);
 		}
 	}
 }

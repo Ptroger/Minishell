@@ -2,8 +2,10 @@ NAME    =       minishell
 
 SRCS    =		srcs/token/parse.c \
 				srcs/token/handle_dollar.c \
+				srcs/token/handle_special.c \
 				srcs/token/handle_quotes.c \
 				srcs/token/dollar_utils.c \
+				srcs/token/set_types.c \
 				srcs/token/parse_utils.c \
 				srcs/builtin/call_command.c \
 				srcs/builtin/builtin_utils.c \
@@ -11,6 +13,7 @@ SRCS    =		srcs/token/parse.c \
 				srcs/builtin/cd.c \
 				srcs/builtin/echo.c \
 				srcs/builtin/env.c \
+				srcs/builtin/env_util.c \
 				srcs/builtin/export.c \
 				srcs/builtin/pwd.c \
 				srcs/builtin/unset.c \
@@ -26,6 +29,8 @@ SRCS    =		srcs/token/parse.c \
 				srcs/shell/errors.c \
 				srcs/shell/utils.c \
 				srcs/pipe/pipe_utils_2.c \
+				srcs/heredoc/heredoc.c \
+				srcs/heredoc/utils.c \
 
 INCLUDE =       includes/
 

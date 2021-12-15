@@ -38,9 +38,9 @@ void	ft_process_4(t_vars **vars, t_pipe *temp_p, t_list *temp_1)
 	}
 	else if (is_special(temp_2) == TRUE && temp_1->next
 		&& temp_1->next->next)
-		ft_find_cmd(temp_1->next->next->token, temp_p->cmd, (*vars)->path);
+		ft_find_cmd(*vars, temp_1->next->next->token, temp_p->cmd, (*vars)->path);
 	else
-		ft_find_cmd(temp_p->token, temp_p->cmd, (*vars)->path);
+		ft_find_cmd(*vars, temp_p->token, temp_p->cmd, (*vars)->path);
 }
 
 void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1)

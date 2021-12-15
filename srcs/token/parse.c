@@ -2,24 +2,29 @@
 
 int	handlers(t_vars *vars, char *token, char *line)
 {
-	if (line[vars->parse_i] == '$')
+	char	c;
+
+	c = line[vars->parse_i];
+	if (c == '$')
 	{
 		if (handle_dollar(vars, token, line) == FINISHED)
 			return (FINISHED);
 	}
-	else if (line[vars->parse_i] == '\'' || line[vars->parse_i] == '"')
+	else if (c == '\'' || line[vars->parse_i] == '"')
 	{
 		if (handle_quotes(vars, token, line) == FINISHED)
 			return (FINISHED);
 	}
-	else if (line[vars->parse_i] == ' ')
+	else if (c == ' ')
 	{
 		if (handle_space(vars, token, line) == FINISHED)
 			return (FINISHED);
 	}
-	else if (line[vars->parse_i] != ' ' || vars->state == D_QUOTE
-		|| vars->state == S_QUOTE)
-		token = add_c_tok(line[vars->parse_i], vars, vars->token_i, token);
+	else if (vars->state == D_QUOTE || vars->state == S_QUOTE
+		|| ft_strchr(REDIRS_CHARS, c) == NULL)
+		token = add_c_tok(c, vars, vars->token_i, token);
+	else if (ft_strchr(REDIRS_CHARS, c) != NULL)
+		return (handle_special(vars, token, line));
 	return (CONTINUE);
 }
 

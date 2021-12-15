@@ -18,7 +18,7 @@ void	ft_set_exp(t_sort **t_exp, t_sort **t_env)
 	t_sort	*temp;
 
 	temp = *t_env;
-	while (temp->next)
+	while (temp && temp->next)
 	{
 		ft_add_elem_exp(t_exp, temp->data);
 		temp = temp->next;

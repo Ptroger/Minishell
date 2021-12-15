@@ -25,6 +25,7 @@
 # define F_EXIT 6
 # define LIMITOR 7
 # define PIPE 8
+# define SYNTAX_ERROR 9
 
 //// OTHER ////
 

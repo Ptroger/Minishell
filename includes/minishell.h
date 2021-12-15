@@ -48,10 +48,11 @@ typedef struct	s_vars
 	int		name_i;
 	int		token_size;
 	int		finish_line;
-	int		exit_status;
 	int		special_i;
 	int		size;
+	int		tab_size;
 	char	**path;
+	char	**real_envs;
 	t_pipe	*store;
 	t_list	*tokens;
 	t_sort	*t_env;
@@ -65,6 +66,8 @@ void	parse(char *line, t_vars *vars);
 int		handle_dollar(t_vars *vars, char *token, char *line);
 int		handle_quotes(t_vars *vars, char *token, char *line);
 int		handle_space(t_vars *vars, char *token, char *line);
+int		handle_special(t_vars *vars, char *token, char *line);
+void	set_type(t_vars *vars);
 
 // TOKEN UTILS
 void	add_token(t_vars *vars, int i);
@@ -78,21 +81,28 @@ char	*get_tok_index(t_list *lst, int i);
 void	finish_token(t_vars *vars, char *token, int i);
 
 // REDIRECTIONS
-void	redirect_input(char *name);
-void	redirect_output(char *name, char *token);
-int		handle_redirs(t_vars *vars, t_list *tokens);
+void	redirect_input(char *name, int *file);
+void	redirect_output(char *name, char *token, int *file);
+int		handle_redirs(t_vars *vars, t_list *tokens, int *file);
 int		is_redir(char *token);
 int		is_special(t_list *tokens);
 int		ft_pipe(t_vars **vars, t_pipe *pipe);
 void	ft_add_elem_pipe(t_pipe **store);
 
+// HEREDOCS
+void	write_file(t_vars *vars, char *name);
+char	*insert_env(char *line, char *env, int l, int i);
+int	expand_helper(t_vars *vars, char *line, char *name, int i);
+
 // EXECUTION
 int		call_command(t_vars **vars, int is_child);
-void	ft_find_cmd(char *token, char **cmd, char **tab);
+void	ft_find_cmd(t_vars *vars, char *token, char **cmd, char **tab);
+int		shall_exec(t_vars *vars, t_list *token);
 
 // ENVS
 void	ft_get_env_name(t_sort **t_env, char **env);
 void	ft_set_env(t_sort **t_env, char **env);
+void	set_envs(t_vars *vars);
 char	*my_get_env(t_vars *vars, char *name);
 
 // BUILTINS
@@ -111,8 +121,10 @@ int		ft_is_builtin(char *token);
 void	ft_browse_tmp(t_list **temp);
 void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1);
 int		ft_process_2(t_vars **vars, t_pipe *temp_p);
+
 // MEMORY
 void	destroy_vars(t_vars *vars);
+void	destroy_tab(char **tab, int j);
 t_vars	*ft_init_vars(void);
 
 // OTHERS

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 void	ft_call_builtin_2(t_vars **vars, t_list *tokens)
 {
@@ -105,11 +105,14 @@ void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
 			i++;
 		}
 	}
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	g_g.pid = fork();
 	if (g_g.pid == 0)
 	{
- 		signal(SIGQUIT, &sig_handler);
-		ft_find_cmd(tokens->token, cmd, (*vars)->path);
+		signal(SIGQUIT, &sig_handler);
+		signal(SIGINT, &sig_handler);
+		ft_find_cmd(*vars, tokens->token, cmd, (*vars)->path);
 	}
 	wait(&status);
 	g_g.ret = WEXITSTATUS(status);
@@ -119,16 +122,22 @@ void	ft_check_redir_2(t_vars **vars, t_list *temp)
 {
 	char	**cmd;
 	t_list	*temp_2;
+	int		file;
 
 	temp_2 = (*vars)->tokens;
-	handle_redirs(*vars, temp);
+	file = 0;
+	handle_redirs(*vars, temp, &file);
 	while (temp_2)
 	{
 		if (ft_strcmp("|", temp_2->token) == 0)
 		{
 			ft_pipe(vars, (*vars)->store);
+			if (close(file) != 0)
+			{
+				throw_error(NULL, errno);
+				exit(errno);
+			}
 			exit(0);
-			return ;
 		}
 		if (temp_2)
 			temp_2 = temp_2->next;
@@ -144,6 +153,12 @@ void	ft_check_redir_2(t_vars **vars, t_list *temp)
 	else
 		ft_single_command(vars, (*vars)->tokens, cmd, (*vars)->size);
 	free(cmd);
+	if (close(file) != 0)
+	{
+		printf("---------- ICI ---------\n");
+		throw_error(NULL, errno);
+		exit(errno);
+	}
 	exit(0);
 }
 
@@ -160,15 +175,17 @@ int	ft_check_redir(t_vars **vars)
 	ret = 0;
 	while (temp->next)
 	{
-		if (is_special(temp) == TRUE)
+		if (is_special(temp) == TRUE && shall_exec(*vars, temp) == TRUE)
 		{
 			ret = 1;
-			signal(SIGINT, sig_handler);
+			signal(SIGINT, SIG_IGN);
 			g_g.pid = fork();
+			signal(SIGINT, sig_handler);
 			if (g_g.pid == 0)
 				ft_check_redir_2(vars, temp);
 			wait(&status);
 			g_g.ret = WEXITSTATUS(status);
+			signal(SIGINT, sig_handler);
 		}
 		temp = temp->next;
 		(*vars)->size++;

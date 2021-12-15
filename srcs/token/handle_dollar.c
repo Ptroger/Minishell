@@ -43,7 +43,7 @@ int	parse_env(t_vars *vars, char *token, char *line, char *name)
 	else
 	{
 		while (ft_strchr(END_CHARS, line[vars->parse_i]) == NULL
-			&& ft_isalnum(line[vars->parse_i]))
+			&& (ft_isalnum(line[vars->parse_i]) || line[vars->parse_i] == '_'))
 		{
 			name = add_c_tok(line[vars->parse_i], vars, vars->special_i, name);
 			vars->special_i++;
