@@ -1,4 +1,6 @@
-NAME    =       minishell
+#Hello
+
+UNAME_S := $(shell uname -s)
 
 ifeq ($(UNAME_S),Linux)
 	LIBS = -lreadline -L/usr/include
@@ -8,6 +10,8 @@ else
 	LIBS_INC = -I /Users/$(USER)/.brew/opt/readline/include
 
 endif
+
+NAME    =       minishell
 
 SRCS    =		srcs/token/parse.c \
 				srcs/token/handle_dollar.c \
@@ -41,11 +45,11 @@ SRCS    =		srcs/token/parse.c \
 				srcs/heredoc/heredoc.c \
 				srcs/heredoc/utils.c \
 
-INCLUDE =       includes/
+INCLUDE =       -I ./includes/
 
 OBJS    =       $(SRCS:%.c=%.o)
 
-CFLAGS  =       -Wall -Wextra -Werror -g -I ./$(INCLUDE) -fsanitize=address
+CFLAGS  =       -Wall -Wextra -Werror #-g -fsanitize=address
 
 LIBFT = 		./libft/libft.a
 
@@ -54,10 +58,10 @@ CC =			gcc
 RM =			rm -f
 
 %.o : %.c
-	$(CC) $(CFLAGS) -o $@ -c $< $(LIB_INC)
+	$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $< $(LIB_INC)
 
 $(NAME):	$(LIBFT) $(OBJS)
-	$(CC) $(CFLAGS) $(LIBS) $(OBJS) -o $(NAME) $(LIBFT)
+	$(CC) $(CFLAGS) $(INCLUDE) $(OBJS) $(LIBS) -o $(NAME) $(LIBFT)
 
 
 $(LIBFT):
@@ -74,5 +78,11 @@ fclean:         clean
 	$(RM) $(NAME)
 
 re:             fclean all
+
+leaks_test: all
+	valgrind --trace-children-yes --leak-check=full ./$(NAME)
+
+leaks_all: all
+	valgrind --trace-children=yes --leak-check=full --show-leak-kinds=all ./$(NAME)
 
 .PHONY:         re all clean fclean%

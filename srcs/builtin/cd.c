@@ -60,5 +60,6 @@ int	ft_cd(t_vars **vars, t_list *tokens, char *user)
 	ft_set_oldpwd(vars, wd);
 	if (ret != 0)
 		throw_error(NULL, errno);
+	free(user);	
 	return (0);
 }

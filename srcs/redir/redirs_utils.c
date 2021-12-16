@@ -32,7 +32,8 @@ void	redirect_input(t_vars *vars, t_list *tokens)
 				throw_error("syntax error near unexpected token 'newline'", 1);
 				exit(1);
 			}
-			close(vars->stdin);
+			if (vars->stdin > -1)
+					close(vars->stdout);
 			vars->stdin = open(tokens->next->token, O_RDONLY, 0777);
 			if (vars->stdin == -1)
 			{
@@ -60,12 +61,14 @@ void	redirect_output(t_vars *vars, t_list *tokens, char *token)
 			}
 			if (ft_strcmp(token, ">>") == 0)
 			{
-				close(vars->stdout);
+				if (vars->stdout > -1)
+					close(vars->stdout);
 				vars->stdout = open(tokens->next->token, O_WRONLY | O_CREAT | O_APPEND, 0777);
 			}
 			else
 			{
-				close(vars->stdout);
+				if (vars->stdout > -1)
+					close(vars->stdout);
 				vars->stdout = open(tokens->next->token, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 			}
 			if (vars->stdout == -1)

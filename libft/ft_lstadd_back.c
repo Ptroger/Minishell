@@ -27,11 +27,9 @@ void	ft_lstadd_back(t_list **alst, t_list *new)
 	lst = *alst;
 	while (lst->next != NULL)
 	{
-//		printf("ici %d\n", i);
 		i++;
 		lst = lst->next;
 	}
-	lst->next = new;
 	lst->next = new;
 }
 

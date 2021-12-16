@@ -35,18 +35,18 @@ char	*ft_return_max(t_sort **pile_a)
 	return (NULL);
 }
 
-void	ft_add_elem(t_sort **sort, char *env)
+t_sort	*ft_add_elem(char *env)
 {
 	t_sort	*new_elem;
 
 	new_elem = malloc(sizeof(t_sort));
 	if (!new_elem)
-		return ;
+		return (NULL);
 	new_elem->data = ft_strdup(env);
-	new_elem->info = ft_strdup("toto");
-	new_elem->name = ft_strdup("toto");
-	new_elem->next = *sort;
-	*sort = new_elem;
+	new_elem->info = NULL;
+	new_elem->name = NULL;
+	new_elem->next = NULL;
+	return (new_elem);
 }
 
 int	ft_pile_in_order(t_sort **pile_a)
@@ -55,7 +55,7 @@ int	ft_pile_in_order(t_sort **pile_a)
 	t_sort	*temp;
 
 	temp = *pile_a;
-	if (temp)
+	if (temp)	
 		tmp = temp->data;
 	while (temp && temp->next)
 	{
@@ -93,12 +93,11 @@ char	*find_path(char *token, char **tab)
 		i++;
 		free(path);
 	}
-	return (NULL);
+	return (ft_strdup(token));
 }
 
 void	ft_find_cmd(t_vars *vars, char *token, char **cmd, char **tab)
 {
-	set_envs(vars);
 	if (!tab)
 	{
 		ft_putstr_fd("Error : path could not be found\n", 2);
@@ -112,7 +111,7 @@ void	ft_find_cmd(t_vars *vars, char *token, char **cmd, char **tab)
 	else
 	{
 		cmd[0] = find_path(token, tab);
-		g_g.ret += printf("ret == %d\n", execve(cmd[0], cmd, vars->real_envs));
+		g_g.ret += execve(cmd[0], cmd, vars->real_envs);
 		if (cmd[0])
 			free(cmd[0]);
 		ft_putstr_fd(token, 2);

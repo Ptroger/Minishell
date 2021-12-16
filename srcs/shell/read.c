@@ -44,7 +44,7 @@ void	read_loop(t_vars *vars)
 {
 	char	*line;
 
-	while (vars->shell == RUNNING)
+	while (1)
 	{
 		vars->parse_i = 0;
 		vars->exit_status = g_g.ret;

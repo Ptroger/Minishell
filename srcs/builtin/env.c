@@ -37,12 +37,16 @@ void	ft_set_exp(t_sort **t_exp, t_sort **t_env)
 void	ft_set_env(t_sort **t_env, char **env)
 {
 	int		i;
+	t_sort	*new_elem;
 
 	i = 0;
 	while (env[i])
 		i++;
 	while (i--)
-		ft_add_elem(t_env, env[i]);
+	{
+		new_elem = ft_add_elem(env[i]);
+		add_back(t_env, new_elem);
+	}
 }
 
 void	ft_get_env_name(t_sort **t_env, char **env)

@@ -42,7 +42,6 @@ typedef struct		s_pipe
 
 typedef struct	s_vars
 {
-	int		shell;
 	int		state;
   	int		token_i;
 	int		parse_i;
@@ -109,6 +108,7 @@ void	ft_get_env_name(t_sort **t_env, char **env);
 void	ft_set_env(t_sort **t_env, char **env);
 void	set_envs(t_vars *vars);
 char	*my_get_env(t_vars *vars, char *name);
+void	add_back(t_sort **sort, t_sort *new);
 
 // BUILTINS
 int		ft_cd(t_vars **vars, t_list *tokens, char *user);
@@ -130,13 +130,13 @@ int		ft_process_2(t_vars **vars, t_pipe *temp_p);
 // MEMORY
 char    *dupfree(char *s1, char *s2);
 void	destroy_vars(t_vars *vars);
-void	destroy_tab(char **tab, int j);
+void	destroy_tab(char **tab);
 t_vars	*ft_init_vars(void);
 
 // OTHERS
 void	sig_handler(int sig);
 int		throw_error(char *err, int errcode);
-void	ft_add_elem(t_sort **sort, char *env);
+t_sort	*ft_add_elem(char *env);
 void	ft_add_elem_exp(t_sort **sort, char *env);
 void	ft_add_elem_exp_2(t_sort **sort, t_sort *new_elem, char *env);
 void	ft_reverse_rotate(t_sort **pile);

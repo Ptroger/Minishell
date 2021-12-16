@@ -71,6 +71,7 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 		ft_cd(vars, tokens, user);
 		return ;
 	}
+	free(user);
 	ft_call_builtin_2(vars, tokens);
 }
 
@@ -126,6 +127,7 @@ void	ft_check_redir_2(t_vars **vars, t_list *temp)
 	t_list	*temp_2;
 	int		file;
 
+
 	temp_2 = (*vars)->tokens;
 	file = 0;
 	handle_redirs(*vars, temp, &file);
@@ -147,7 +149,7 @@ void	ft_check_redir_2(t_vars **vars, t_list *temp)
 	if (ft_is_builtin((*vars)->tokens->token) == 1)
 		ft_call_builtin(vars, (*vars)->tokens);
 	else
-		ft_single_command(vars, (*vars)->tokens, cmd, (*vars)->size);
+		ft_single_command(vars, (*vars)->tokens, cmd, (*vars)->size);	
 	free(cmd);
 	if (close(file) != 0)
 	{
@@ -194,6 +196,10 @@ void	ft_reset_var(t_vars **vars)
 	while (temp_env && ft_strcmp(temp_env->name, "PWD") != 0 && temp_env->next)
 		temp_env = temp_env->next;
 	temp_env->info = dupfree(getcwd(buf, sizeof(buf)), temp_env->info);
+	if (temp_env->data)
+	{
+		free(temp_env->data);
+	}
 	temp_env->data = (char *)malloc(sizeof(char) * ft_strlen(temp_env->info) + 6);
 	if (!temp_env->data)
 		return ;
@@ -204,7 +210,14 @@ void	ft_reset_var(t_vars **vars)
 	while (temp_env && ft_strcmp(temp_env->name, "PATH") != 0)
 		temp_env = temp_env->next;
 	if (temp_env && ft_strcmp(temp_env->name, "PATH") == 0)
+	{
+		if ((*vars)->path)
+		{
+			printf("ici\n");
+			destroy_tab((*vars)->path);
+		}
 		(*vars)->path = ft_split(getenv("PATH"), ':');
+	}
 	else
 		(*vars)->path = NULL;
 }
