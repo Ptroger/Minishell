@@ -112,7 +112,7 @@ void	add_back(t_sort **sort, t_sort *new);
 
 // BUILTINS
 int		ft_cd(t_vars **vars, t_list *tokens, char *user);
-void	ft_pwd(t_list *tokens);
+void	ft_pwd(t_vars *vars, t_list *tokens);
 void	ft_dup(t_pipe *temp_p, int count, int size, int *pfd);
 void	ft_call_echo(t_list *tokens);
 void	ft_echo_n(t_list *tokens);
@@ -128,6 +128,7 @@ void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1);
 int		ft_process_2(t_vars **vars, t_pipe *temp_p);
 
 // MEMORY
+void	clean_exit(t_vars *vars, int code);
 char    *dupfree(char *s1, char *s2);
 void	destroy_vars(t_vars *vars);
 void	destroy_tab(char **tab);

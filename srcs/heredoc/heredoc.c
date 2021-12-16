@@ -38,7 +38,7 @@ void	heredoc_loop(t_vars *vars, char **tab, int fd, int i)
 		{
 			if (close(fd) != 0)
 				throw_error(NULL, errno);
-			exit(0);
+			clean_exit(vars, 0);
 		}
 		if (ft_strcmp(line, tab[i]) != 0)
 		{
@@ -94,7 +94,7 @@ void	write_file(t_vars *vars, char *name)
 	if (fd < 0)
 	{
 		throw_error(NULL, errno);
-		exit(errno);
+		clean_exit(vars, errno);
 	}
 	(void)name;
 	heredoc_loop(vars, tab, fd, i);

@@ -23,7 +23,7 @@ void    ft_new_readline_2(t_vars **vars, char *line, char *tmp)
         if (!line)
 		{
         	free(tmp);
-        	exit(0);
+        	clean_exit(*vars, 0);
 		}
     }
     tmp = ft_strjoin(tmp, line);
@@ -42,7 +42,7 @@ int ft_new_readline(t_vars **vars)
     temp = (*vars)->tokens;
 	line = readline("> ");
 	if (!line)
-		exit(0);
+		clean_exit(*vars, 0);
     tmp = malloc(sizeof(char) * ft_strlen(line) + 1);
     while (temp)
     {

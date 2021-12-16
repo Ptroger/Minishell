@@ -28,13 +28,13 @@ void	ft_process_4(t_vars **vars, t_pipe *temp_p, t_list *temp_1)
 	if (ft_is_builtin(temp_p->token) == 1)
 	{
 		ft_call_builtin(vars, temp_1);
-		exit(g_g.ret);
+		clean_exit(*vars, g_g.ret);
 	}
 	else if (is_special(temp_2) == TRUE && temp_1->next
 		&& temp_1->next->next && ft_is_builtin(temp_1->next->next->token) == 1)
 	{
 		ft_call_builtin(vars, temp_1->next->next);
-		exit(g_g.ret);
+		clean_exit(*vars, g_g.ret);
 	}
 	else if (is_special(temp_2) == TRUE && temp_1->next
 		&& temp_1->next->next && shall_exec(*vars, temp_1) == TRUE)

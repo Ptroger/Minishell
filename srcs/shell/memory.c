@@ -2,20 +2,26 @@
 
 t_glob	g_g;
 
-char    *dupfree(char *s1, char *s2)
+void	clean_exit(t_vars *vars, int code)
+{
+	destroy_vars(vars);
+	exit(code);
+}
+
+char	*dupfree(char *s1, char *s2)
 {
 	char	*ret;
 
-    if (s2)
+	if (s2)
 	{
-    	free(s2);
+		free(s2);
 	}
 	if (!s1)
 	{
 		return (NULL);
 	}
 	ret = ft_strdup(s1);
-    return (ret);
+	return (ret);
 }
 
 t_vars	*ft_init_vars(void)
@@ -75,7 +81,6 @@ void	destroy_tab(char **tab)
 		free(tab);
 		tab = NULL;
 	}
-
 }
 
 void	destroy_store(t_pipe *store)
@@ -84,8 +89,8 @@ void	destroy_store(t_pipe *store)
 	{
 		if (store->token)
 			free(store->token);
-//		destroy_tab(store->cmd);
-//		destroy_tab(store->cell);
+		destroy_tab(store->cmd);
+		destroy_tab(store->cell);
 		store = store->next;
 	}
 	free(store);

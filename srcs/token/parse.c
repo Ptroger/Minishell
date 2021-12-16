@@ -36,7 +36,7 @@ char	*get_next_token(char *line, t_vars *vars)
 	if (!token)
 	{
 		throw_error("Malloc error", 2);
-		exit(2);
+		clean_exit(vars, 2);
 	}
 	token[vars->token_size] = '\0';
 	while (line[vars->parse_i])

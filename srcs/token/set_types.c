@@ -9,9 +9,11 @@ void	set_files(t_vars *vars)
 	{
 		if (tokens->type == R_IN && tokens->next && tokens->next->type == NONE)
 			tokens->next->type = F_OPEN;
-		else if (tokens->type == H_DOC && tokens->next && tokens->next->type == NONE)
+		else if (tokens->type == H_DOC && tokens->next
+			&& tokens->next->type == NONE)
 			tokens->next->type = LIMITOR;
-		else if (tokens->type == R_OUT && tokens->next && tokens->next->type == NONE)
+		else if (tokens->type == R_OUT && tokens->next
+			&& tokens->next->type == NONE)
 			tokens->next->type = F_EXIT;
 		tokens = tokens->next;
 	}
@@ -29,7 +31,7 @@ void	set_redir(t_vars *vars)
 		else if (ft_strcmp(tokens->token, "<<") == 0)
 			tokens->type = H_DOC;
 		else if (ft_strcmp(tokens->token, ">") == 0
-				 || ft_strcmp(tokens->token, ">>") == 0 )
+			|| ft_strcmp(tokens->token, ">>") == 0)
 			tokens->type = R_OUT;
 		else if (ft_strcmp(tokens->token, "|") == 0)
 			tokens->type = PIPE;
@@ -64,10 +66,6 @@ void	flag_mix(t_vars *vars)
 	while (tokens)
 	{
 		i = 0;
-		// if (ft_strchr(tokens->token, '>>') != NULL)
-			// i += 1;
-		// if (ft_strchr(tokens->token, '<<') != NULL)
-			// i += 1;
 		if (ft_strchr(tokens->token, '<') != NULL)
 			i += 1;
 		if (ft_strchr(tokens->token, '>') != NULL)
@@ -89,8 +87,8 @@ void	flag_syntax(t_vars *vars)
 	{
 		if (tokens->type >= R_IN && tokens->type <= H_DOC)
 		{
-			if (tokens->next && tokens->next->type >= 5
-				&& tokens->next->type <= 7)
+			if (tokens->next && (tokens->next->type <= 5
+				|| tokens->next->type >= 7))
 				tokens->next->type = SYNTAX_ERROR;
 			else if (!tokens->next)
 				tokens->type = SYNTAX_ERROR;
@@ -101,17 +99,9 @@ void	flag_syntax(t_vars *vars)
 
 void	set_type(t_vars *vars)
 {
-//	t_list	*tokens;
-//
-//	tokens = vars->tokens;
 	set_redir(vars);
 	flag_mix(vars);
 	set_files(vars);
 	flag_syntax(vars);
 	set_cmd(vars);
-//	while (tokens)
-//	{
-//		printf("token == %s\ntype == %d\n", tokens->token, tokens->type);
-//		tokens = tokens->next;
-//	}
 }

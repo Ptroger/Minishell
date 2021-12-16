@@ -22,24 +22,24 @@ void	ft_call_builtin_2(t_vars **vars, t_list *tokens)
 		if (ft_strcmp(tokens->token, "echo") == 0 || ft_strcmp(tokens->token, "/bin/echo") == 0)
 		{
 			ft_call_echo(tokens);
-			exit(0);
+			clean_exit(*vars, 0);
 		}
 		if (ft_strcmp(tokens->token, "env") == 0 || ft_strcmp(tokens->token, "/usr/bin/env") == 0)
 			ft_call_env(vars, tokens);
 		if (ft_strcmp(tokens->token, "export") == 0)
 		{
 			ft_export(tokens, &(*vars)->t_env, &(*vars)->t_exp);
-//			exit(errno);
+//			clean_exit(*vars, errno);
 		}
 		if (ft_strcmp(tokens->token, "pwd") == 0 || ft_strcmp(tokens->token, "/bin/pwd") == 0)
 		{
-			ft_pwd(tokens);
-			exit(0);
+			ft_pwd(*vars, tokens);
+			clean_exit(*vars, 0);
 		}
 		if (ft_strcmp(tokens->token, "unset") == 0 && tokens->next)
 		{
 			ft_unset(tokens, &(*vars)->t_env, &(*vars)->t_exp);
-			exit(0);
+			clean_exit(*vars, 0);
 		}
 	}
 	wait(&status);
@@ -55,8 +55,8 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 	temp = (*vars)->t_env;
 	if (ft_strcmp(tokens->token, "exit") == 0)
 	{
-		printf("exit\n");
-		exit(errno);
+		printf("exit");
+		clean_exit(*vars, errno);
 	}
 	while (temp && ft_strcmp(temp->name, "USER") != 0)
 		temp = temp->next;
@@ -139,9 +139,9 @@ void	ft_check_redir_2(t_vars **vars, t_list *temp)
 			if (close(file) != 0)
 			{
 				throw_error(NULL, errno);
-				exit(errno);
+				clean_exit(*vars, errno);
 			}
-			exit(0);
+			clean_exit(*vars, 0);
 		}
 		temp_2 = temp_2->next;
 	}
@@ -154,9 +154,9 @@ void	ft_check_redir_2(t_vars **vars, t_list *temp)
 	if (close(file) != 0)
 	{
 		throw_error(NULL, errno);
-		exit(errno);
+		clean_exit(*vars, errno);
 	}
-	exit(0);
+	clean_exit(*vars, 0);
 }
 
 int	ft_check_redir(t_vars **vars)

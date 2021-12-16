@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	ft_pwd(t_list *tokens)
+void	ft_pwd(t_vars *vars, t_list *tokens)
 {
 	char	*buf;
 
@@ -22,7 +22,7 @@ void	ft_pwd(t_list *tokens)
 		if (tokens->next->type == ARG)
 		{
 			throw_error("Invalid arguments", 1);
-			exit(1);
+			clean_exit(vars, 1);
 		}
 	}
 	else

@@ -6,7 +6,7 @@ void	redir_temp(t_vars *vars, t_list *tokens, char *name, int *file)
 	if (*file == -1)
 	{
 		throw_error(NULL, errno);
-		exit(errno);
+		clean_exit(vars, errno);
 	}
 	dup2(*file, STDIN_FILENO);
 	while (tokens)
@@ -30,7 +30,7 @@ void	redirect_input(t_vars *vars, t_list *tokens)
 			if (!tokens->next)
 			{
 				throw_error("syntax error near unexpected token 'newline'", 1);
-				exit(1);
+				clean_exit(vars, 1);
 			}
 			if (vars->stdin > -1)
 					close(vars->stdout);
@@ -38,7 +38,7 @@ void	redirect_input(t_vars *vars, t_list *tokens)
 			if (vars->stdin == -1)
 			{
 				throw_error(NULL, errno);
-				exit(errno);
+				clean_exit(vars, errno);
 			}
 		}
 		tokens = tokens->next;
@@ -57,7 +57,7 @@ void	redirect_output(t_vars *vars, t_list *tokens, char *token)
 			if (!tokens->next)
 			{
 				throw_error("syntax error near unexpected token 'newline'", 1);
-				exit(1);
+				clean_exit(vars, 1);
 			}
 			if (ft_strcmp(token, ">>") == 0)
 			{

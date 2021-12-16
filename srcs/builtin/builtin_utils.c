@@ -116,6 +116,6 @@ void	ft_find_cmd(t_vars *vars, char *token, char **cmd, char **tab)
 			free(cmd[0]);
 		ft_putstr_fd(token, 2);
 		throw_error(": command not found", errno);
-		exit(errno);
+		clean_exit(vars, errno);
 	}
 }
