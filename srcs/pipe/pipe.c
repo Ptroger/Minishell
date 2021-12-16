@@ -69,7 +69,7 @@ int	ft_child(t_vars **vars, t_pipe *store, int size)
 	while (++i < 2 * (size - 1) + 1)
 	{
 		wait(&status);
-		g_g.ret = WEXITSTATUS(status);
+		g_g.ret += WEXITSTATUS(status);
 	}
 	return (1);
 }

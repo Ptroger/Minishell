@@ -10,10 +10,12 @@ void	sig_c(void)
 
 void	handle_parent(int sig)
 {
+//	printf("ici\n");
 	if (kill(g_g.pid, sig) == 0)
 	{
 		if (sig == SIGINT)
 		{
+//			printf("etla\n");
 			printf("\n");
 			g_g.ret += 130;
 		}
@@ -25,7 +27,7 @@ void	handle_parent(int sig)
 	}
 	else if (sig == SIGINT)
 	{
-		g_g.ret = 1;
+		g_g.ret += 1;
 		sig_c();
 	}
 }
@@ -39,9 +41,7 @@ void	sig_handler(int sig)
 		if (sig == SIGINT)
 		{
 			sig_c();
-			g_g.ret = 1;
+			g_g.ret += 1;
 		}
-		else if (sig == SIGQUIT)
-			ft_putstr_fd("\b\b \b\b", 1);
 	}
 }

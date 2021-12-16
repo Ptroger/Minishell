@@ -51,6 +51,7 @@ typedef struct	s_vars
 	int		special_i;
 	int		size;
 	int		tab_size;
+	int		exit_status;
 	int		stdout;
 	int		stdin;
 	char	**path;

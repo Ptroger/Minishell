@@ -14,6 +14,7 @@ t_vars	*ft_init_vars(void)
 	vars->t_exp = NULL;
 	vars->store = NULL;
 	vars->tab_size = 0;
+	vars->exit_status = 0;
 	vars->real_envs = NULL;
 	g_g.ret = 0;
 	g_g.pid = 0;

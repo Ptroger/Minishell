@@ -8,6 +8,6 @@ int	throw_error(char *err, int errcode)
 	else
 		ft_putstr_fd(strerror(errcode), STDERR_FILENO);
 	ft_putchar_fd('\n', STDERR_FILENO);
-	g_g.ret = errcode;
+	g_g.ret += errcode;
 	return (0);
 }

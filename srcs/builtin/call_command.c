@@ -43,7 +43,7 @@ void	ft_call_builtin_2(t_vars **vars, t_list *tokens)
 		}
 	}
 	wait(&status);
-	g_g.ret = WEXITSTATUS(status);
+	g_g.ret += WEXITSTATUS(status);
 }
 
 void	ft_call_builtin(t_vars **vars, t_list *tokens)
@@ -105,17 +105,19 @@ void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
 			i++;
 		}
 	}
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+//	signal(SIGINT, SIG_IGN);
+//	signal(SIGQUIT, SIG_IGN);
 	g_g.pid = fork();
 	if (g_g.pid == 0)
 	{
 		signal(SIGQUIT, &sig_handler);
-		signal(SIGINT, &sig_handler);
+//		signal(SIGINT, SIG_DFL);
 		ft_find_cmd(*vars, tokens->token, cmd, (*vars)->path);
 	}
 	wait(&status);
-	g_g.ret = WEXITSTATUS(status);
+	signal(SIGQUIT, sig_handler);
+	signal(SIGINT, sig_handler);
+	g_g.ret +=  WEXITSTATUS(status);
 }
 
 void	ft_check_redir_2(t_vars **vars, t_list *temp)
@@ -174,7 +176,7 @@ int	ft_check_redir(t_vars **vars)
 			if (g_g.pid == 0)
 				ft_check_redir_2(vars, temp);
 			wait(&status);
-			g_g.ret = WEXITSTATUS(status);
+			g_g.ret += WEXITSTATUS(status);
 			signal(SIGINT, sig_handler);
 			return (TRUE);
 		}
