@@ -42,7 +42,7 @@ void	heredoc_loop(t_vars *vars, char **tab, int fd, int i)
 		}
 		if (ft_strcmp(line, tab[i]) != 0)
 		{
-			if (ft_strchr(tab[i], '"') >= 0)
+			if (ft_strchr(tab[i], '"') != NULL)
 				line = expand_readline(vars, line);
 			ft_putstr_fd(line, fd);
 			ft_putchar_fd('\n', fd);

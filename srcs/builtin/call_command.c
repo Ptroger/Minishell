@@ -160,12 +160,10 @@ void	ft_check_redir_2(t_vars **vars, t_list *temp)
 int	ft_check_redir(t_vars **vars)
 {
 	int		status;
-	char	**cmd;
 	t_list	*temp;
 
 	(*vars)->size = 1;
 	temp = (*vars)->tokens;
-	cmd = NULL;
 	while (temp->next)
 	{
 		if (is_special(temp) == TRUE && shall_exec(*vars, temp) == TRUE)
@@ -195,7 +193,7 @@ void	ft_reset_var(t_vars **vars)
 	temp_env = (*vars)->t_env;
 	while (temp_env && ft_strcmp(temp_env->name, "PWD") != 0 && temp_env->next)
 		temp_env = temp_env->next;
-	temp_env->info = ft_strdup(getcwd(buf, sizeof(buf)));
+	temp_env->info = dupfree(getcwd(buf, sizeof(buf)), temp_env->info);
 	temp_env->data = (char *)malloc(sizeof(char) * ft_strlen(temp_env->info) + 6);
 	if (!temp_env->data)
 		return ;

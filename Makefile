@@ -1,5 +1,14 @@
 NAME    =       minishell
 
+ifeq ($(UNAME_S),Linux)
+	LIBS = -lreadline -L/usr/include
+	LIB_INC = -I/lib/x86_64-linux-gnu/readline
+else
+	LIBS = -lreadline -L /Users/$(USER)/.brew/opt/readline/lib
+	LIBS_INC = -I /Users/$(USER)/.brew/opt/readline/include
+
+endif
+
 SRCS    =		srcs/token/parse.c \
 				srcs/token/handle_dollar.c \
 				srcs/token/handle_special.c \
@@ -38,8 +47,6 @@ OBJS    =       $(SRCS:%.c=%.o)
 
 CFLAGS  =       -Wall -Wextra -Werror -g -I ./$(INCLUDE) -fsanitize=address
 
-LIBS =			-lreadline -L /usr/local/opt/readline/lib
-LIB_INC = 		-I /usr/local/opt/readline/include
 LIBFT = 		./libft/libft.a
 
 CC =			gcc

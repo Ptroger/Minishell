@@ -37,10 +37,8 @@ void	ft_set_exp(t_sort **t_exp, t_sort **t_env)
 void	ft_set_env(t_sort **t_env, char **env)
 {
 	int		i;
-	int		j;
 
 	i = 0;
-	j = 0;
 	while (env[i])
 		i++;
 	while (i--)

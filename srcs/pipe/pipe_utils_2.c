@@ -45,9 +45,6 @@ void	ft_process_4(t_vars **vars, t_pipe *temp_p, t_list *temp_1)
 
 void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1)
 {
-	t_list	*temp;
-
-	temp = (*vars)->tokens;
 /*	while (temp)
 	{
 		if (is_special(temp) == TRUE)

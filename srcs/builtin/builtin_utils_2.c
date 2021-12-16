@@ -52,12 +52,8 @@ void	ft_add_elem_exp_2(t_sort **sort, t_sort *new_elem, char *env)
 
 void	ft_add_elem_exp(t_sort **sort, char *env)
 {
-	int		i;
-	int		j;
 	t_sort	*new_elem;
 
-	i = 0;
-	j = 0;
 	new_elem = malloc(sizeof(t_sort));
 	if (!new_elem)
 		return ;

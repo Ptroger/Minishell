@@ -1,5 +1,23 @@
 #include "minishell.h"
 
+t_glob	g_g;
+
+char    *dupfree(char *s1, char *s2)
+{
+	char	*ret;
+
+    if (s2)
+	{
+    	free(s2);
+	}
+	if (!s1)
+	{
+		return (NULL);
+	}
+	ret = ft_strdup(s1);
+    return (ret);
+}
+
 t_vars	*ft_init_vars(void)
 {
 	t_vars	*vars;

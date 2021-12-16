@@ -10,6 +10,7 @@
 # include <string.h>
 # include <errno.h>
 # include <sys/errno.h>
+# include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <string.h>
@@ -62,7 +63,7 @@ typedef struct	s_vars
 	t_sort	*t_exp;
 }				t_vars;
 
-t_glob	g_g;
+extern t_glob	g_g;
 
 // TOKENS FUNCTIONS
 void	parse(char *line, t_vars *vars);
@@ -127,6 +128,7 @@ void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1);
 int		ft_process_2(t_vars **vars, t_pipe *temp_p);
 
 // MEMORY
+char    *dupfree(char *s1, char *s2);
 void	destroy_vars(t_vars *vars);
 void	destroy_tab(char **tab, int j);
 t_vars	*ft_init_vars(void);
