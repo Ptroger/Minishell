@@ -100,7 +100,7 @@ void	flag_syntax(t_vars *vars)
 void	set_type(t_vars *vars)
 {
 	set_redir(vars);
-	flag_mix(vars);
+	// flag_mix(vars);
 	set_files(vars);
 	flag_syntax(vars);
 	set_cmd(vars);
