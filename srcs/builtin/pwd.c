@@ -17,7 +17,7 @@ void	ft_pwd(t_vars *vars, t_list *tokens)
 	char	*buf;
 
 	buf = NULL;
-	if (tokens->next)
+	if (tokens->next && is_special(tokens->next) == FALSE)
 	{
 		if (tokens->next->type == ARG)
 		{

@@ -48,7 +48,7 @@ void	redirect_input(t_vars *vars, t_list *tokens)
 
 void	redirect_output(t_vars *vars, t_list *tokens, char *token)
 {
-	while (tokens)
+	while (tokens && tokens->type != PIPE)
 	{
 		if (tokens->type == R_IN)
 			redirect_input(vars, tokens);

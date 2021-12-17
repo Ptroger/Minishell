@@ -28,13 +28,13 @@ void	ft_process_4(t_vars **vars, t_pipe *temp_p, t_list *temp_1)
 	if (ft_is_builtin(temp_p->token) == 1)
 	{
 		ft_call_builtin(vars, temp_1);
-		clean_exit(*vars, g_g.ret);
+		exit(g_g.ret);
 	}
 	else if (is_special(temp_2) == TRUE && temp_1->next
 		&& temp_1->next->next && ft_is_builtin(temp_1->next->next->token) == 1)
 	{
 		ft_call_builtin(vars, temp_1->next->next);
-		clean_exit(*vars, g_g.ret);
+		exit(g_g.ret);
 	}
 	else if (is_special(temp_2) == TRUE && temp_1->next
 		&& temp_1->next->next && shall_exec(*vars, temp_1) == TRUE)
@@ -45,32 +45,34 @@ void	ft_process_4(t_vars **vars, t_pipe *temp_p, t_list *temp_1)
 
 void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1)
 {
-/*	while (temp)
+	int		file;
+	t_list	*temp;
+	t_pipe	*temp_p_2;
+
+	file = 0;
+	temp = temp_1;
+	temp_p_2 = (*vars)->store;
+	while (temp_1)
 	{
-		if (is_special(temp) == TRUE)
+		if (is_special(temp_1) == TRUE && temp_p->redir == 1)
 		{
-			handle_redirs(*vars, temp, file);
-			ft_process_4(vars, temp_p, temp_1);
+			handle_redirs(*vars, temp_1, &file);
+			ft_process_4(vars, temp_p, temp);
+			close(file);
+			clean_exit(*vars, 0);
 			return ;
 		}
-		temp = temp->next;
+		temp_1 = temp_1->next;
 	}
-*/	ft_process_4(vars, temp_p, temp_1);
+	ft_process_4(vars, temp_p, temp);
 }
 
-int	ft_process_2(t_vars **vars, t_pipe *temp_p)
+int	ft_process_2(t_pipe *temp_p)
 {
 	int		i;
-//	t_list	*temp;
 
 	i = -1;
-	(void)vars;
-/*	temp = (*vars)->tokens;
-	while (temp && ft_strcmp(temp->token, "|") != 0)
-		temp = temp->next;
-	if (ft_strcmp(temp->token, "|") == 0 && !temp->next)
-		return (ft_new_readline(vars));
-*/	temp_p->token = ft_strdup(temp_p->cell[0]);
+	temp_p->token = ft_strdup(temp_p->cell[0]);
 	temp_p->cmd = ft_command_size(temp_p->size + 1);
 	while (++i < temp_p->size - 1 && temp_p->size > 1
 		&& ft_is_key(temp_p->cell[i + 1]) == 0)

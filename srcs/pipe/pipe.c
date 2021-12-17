@@ -14,21 +14,44 @@
 
 int	ft_process(t_vars **vars, t_pipe *temp_p, int size, int *pfd)
 {
+	int		i;
 	int		count;
 	t_list	*temp;
+	t_list	*temp_2;
 	t_list	*temp_1;
+	t_pipe	*temp_p_2;
 
 	count = 0;
 	temp = (*vars)->tokens;
 	temp_1 = (*vars)->tokens;
+	temp_2 = (*vars)->tokens;
+	temp_p_2 = temp_p;
 	while (temp_p)
 	{
+		while (temp_p_2 && temp_p_2->redir == 0)
+		{
+			i = 0;
+			while (i < temp_p_2->size)
+			{
+				if (ft_is_redir(temp_p_2->cell[i]) == 1)
+				{
+					while (temp_2 && is_special(temp_2) != 0)
+					{
+						temp_2 = temp_2->next;
+	//					(*vars)->size++;
+					}
+					temp_p_2->redir = 1;
+				}
+				i++;
+			}
+			temp_p_2 = temp_p_2->next;
+		}
 		temp = (*vars)->tokens;
 		while (temp && ft_strcmp(temp->token, "|") != 0)
 			temp = temp->next;
 		if (ft_strcmp(temp->token, "|") == 0 && !temp->next)
 			return (ft_new_readline(vars));
-		ft_process_2(vars, temp_p);
+		ft_process_2(temp_p);
 		g_g.pid = fork();
 		if (g_g.pid < 0)
 			return (throw_error("Fork failed", errno));
@@ -111,6 +134,8 @@ void	ft_store_command(t_list *tokens, t_pipe *store)
 		if (!temp_p->next)
 			i++;
 		temp_p->cell = (char **)malloc(sizeof(char *) * i);
+		temp_p->redir = 0;
+		temp_p->index = 0;
 		if (!temp_p->cell)
 			return ;
 		if (temp_p->next)

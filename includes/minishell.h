@@ -33,6 +33,8 @@ typedef struct		s_sort
 
 typedef struct		s_pipe
 {
+	int				index;
+	int				redir;
 	int				size;
 	char			*token;
 	char			**cmd;
@@ -88,7 +90,7 @@ void	redirect_input(t_vars *vars, t_list *tokens);
 void	redir_temp(t_vars *vars, t_list *tokens, char *name, int *file);
 void	redirect_output(t_vars *vars, t_list *tokens, char *token);
 int		handle_redirs(t_vars *vars, t_list *tokens, int *file);
-int		is_redir(char *token);
+int		ft_is_redir(char *str);
 int		is_special(t_list *tokens);
 int		ft_pipe(t_vars **vars, t_pipe *pipe);
 void	ft_add_elem_pipe(t_pipe **store);
@@ -96,7 +98,7 @@ void	ft_add_elem_pipe(t_pipe **store);
 // HEREDOCS
 void	write_file(t_vars *vars, char *name);
 char	*insert_env(char *line, char *env, int l, int i);
-int	expand_helper(t_vars *vars, char *line, char *name, int i);
+int		expand_helper(t_vars *vars, char *line, char *name, int i);
 
 // EXECUTION
 int		call_command(t_vars **vars, int is_child);
@@ -125,7 +127,7 @@ int		ft_is_builtin(char *token);
 // BUILTINS_UTILS
 void	ft_browse_tmp(t_list **temp);
 void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1);
-int		ft_process_2(t_vars **vars, t_pipe *temp_p);
+int		ft_process_2(t_pipe *temp_p);
 
 // MEMORY
 void	clean_exit(t_vars *vars, int code);

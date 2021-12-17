@@ -10,12 +10,10 @@ void	sig_c(void)
 
 void	handle_parent(int sig)
 {
-//	printf("ici\n");
 	if (kill(g_g.pid, sig) == 0)
 	{
 		if (sig == SIGINT)
 		{
-//			printf("etla\n");
 			printf("\n");
 			g_g.ret += 130;
 		}

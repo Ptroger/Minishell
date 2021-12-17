@@ -127,10 +127,8 @@ void	ft_check_redir_2(t_vars **vars, t_list *temp)
 	t_list	*temp_2;
 	int		file;
 
-
 	temp_2 = (*vars)->tokens;
 	file = 0;
-	handle_redirs(*vars, temp, &file);
 	while (temp_2)
 	{
 		if (ft_strcmp("|", temp_2->token) == 0)
@@ -142,9 +140,11 @@ void	ft_check_redir_2(t_vars **vars, t_list *temp)
 				clean_exit(*vars, errno);
 			}
 			clean_exit(*vars, 0);
+			return ;
 		}
 		temp_2 = temp_2->next;
 	}
+	handle_redirs(*vars, temp, &file);
 	cmd = ft_command_size((*vars)->size);
 	if (ft_is_builtin((*vars)->tokens->token) == 1)
 		ft_call_builtin(vars, (*vars)->tokens);
@@ -212,10 +212,7 @@ void	ft_reset_var(t_vars **vars)
 	if (temp_env && ft_strcmp(temp_env->name, "PATH") == 0)
 	{
 		if ((*vars)->path)
-		{
-			printf("ici\n");
 			destroy_tab((*vars)->path);
-		}
 		(*vars)->path = ft_split(getenv("PATH"), ':');
 	}
 	else

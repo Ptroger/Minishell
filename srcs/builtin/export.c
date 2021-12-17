@@ -122,7 +122,7 @@ void	ft_export(t_list *tokens, t_sort **t_env, t_sort **t_exp)
 	int		j;
 
 	j = 0;
-	if (tokens->next && ft_strcmp(tokens->next->token, "|") != 0)
+	if (tokens->next && ft_strcmp(tokens->next->token, "|") != 0 && is_special(tokens->next) == FALSE)
 	{
 		while (tokens->next->token[j] && tokens->next->token[j] != '=')
 			j++;

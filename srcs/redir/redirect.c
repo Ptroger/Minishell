@@ -32,10 +32,7 @@ int	handle_redirs(t_vars *vars, t_list *tokens, int *file)
 
 	temp = tokens;
 	name = tokens->next->token;
-	(void)vars;
 	while (temp && ft_strcmp(temp->token, "|") != 0)
 		temp = temp->next;
-//	if (temp && ft_strcmp(temp->token, "|") == 0)
-//		return (redirect_pid(vars, token, name, file));
 	return (redirect(vars, tokens, name, file));
 }
