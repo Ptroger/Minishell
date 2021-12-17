@@ -106,12 +106,12 @@ void	ft_find_cmd(t_vars *vars, char *token, char **cmd, char **tab)
 	if (is_absolute(token) == TRUE)
 	{
 		cmd[0] = ft_strdup(token);
-		execve(cmd[0], cmd, vars->real_envs);
+		execve(cmd[0], cmd, NULL);
 	}
 	else
 	{
 		cmd[0] = find_path(token, tab);
-		g_g.ret += execve(cmd[0], cmd, vars->real_envs);
+		g_g.ret += execve(cmd[0], cmd, NULL);
 		if (cmd[0])
 			free(cmd[0]);
 		ft_putstr_fd(token, 2);

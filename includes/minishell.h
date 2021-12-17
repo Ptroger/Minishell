@@ -57,7 +57,6 @@ typedef struct	s_vars
 	int		stdout;
 	int		stdin;
 	char	**path;
-	char	**real_envs;
 	t_pipe	*store;
 	t_list	*tokens;
 	t_sort	*t_env;

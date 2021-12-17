@@ -56,7 +56,6 @@ void	ft_fill_data(t_list *tokens, t_sort *new_exp)
 	}
 	new_exp->data[i] = '"';
 	new_exp->data[i + 1] = '\0';
-	//printf("token : %s\n", new_exp->data);
 	new_exp->next = NULL;
 }
 

@@ -20,28 +20,16 @@ void	ft_call_builtin_2(t_vars **vars, t_list *tokens)
 	if (g_g.pid == 0)
 	{
 		if (ft_strcmp(tokens->token, "echo") == 0 || ft_strcmp(tokens->token, "/bin/echo") == 0)
-		{
 			ft_call_echo(tokens);
-			clean_exit(*vars, 0);
-		}
-		if (ft_strcmp(tokens->token, "env") == 0 || ft_strcmp(tokens->token, "/usr/bin/env") == 0)
+		else if (ft_strcmp(tokens->token, "env") == 0 || ft_strcmp(tokens->token, "/usr/bin/env") == 0)
 			ft_call_env(vars, tokens);
-		if (ft_strcmp(tokens->token, "export") == 0)
-		{
+		else if (ft_strcmp(tokens->token, "export") == 0)
 			ft_export(tokens, &(*vars)->t_env, &(*vars)->t_exp);
-		//	clean_exit(*vars, errno);
-			exit(0);
-		}
-		if (ft_strcmp(tokens->token, "pwd") == 0 || ft_strcmp(tokens->token, "/bin/pwd") == 0)
-		{
+		else if (ft_strcmp(tokens->token, "pwd") == 0 || ft_strcmp(tokens->token, "/bin/pwd") == 0)
 			ft_pwd(*vars, tokens);
-			clean_exit(*vars, 0);
-		}
-		if (ft_strcmp(tokens->token, "unset") == 0 && tokens->next)
-		{
+		else if (ft_strcmp(tokens->token, "unset") == 0 && tokens->next)
 			ft_unset(tokens, &(*vars)->t_env, &(*vars)->t_exp);
-			clean_exit(*vars, 0);
-		}
+		clean_exit(*vars, 0);
 	}
 	wait(&status);
 	g_g.ret += WEXITSTATUS(status);

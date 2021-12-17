@@ -37,7 +37,6 @@ t_vars	*ft_init_vars(void)
 	vars->stdin = -1;
 	vars->stdout = -1;
 	vars->path = NULL;
-	vars->real_envs = NULL;
 	vars->tokens = NULL;
 	vars->t_env = NULL;
 	vars->t_exp = NULL;

@@ -66,9 +66,11 @@ char	**check_multi(t_vars *vars, int *i)
 			*i += 1;
 		temp = temp->next;
 	}
-	j = *i - 1;
-	tab = malloc(sizeof(char*) * *i);
+	j = *i;
+	tab = malloc(sizeof(char *) * (j + 1));
 	temp = vars->tokens;
+	tab[j] = NULL;
+	j--;
 	while (temp)
 	{
 		if (temp->type == LIMITOR)
@@ -98,7 +100,7 @@ void	write_file(t_vars *vars, char *name)
 	}
 	(void)name;
 	heredoc_loop(vars, tab, fd, i);
-//	destroy_tab(tab);
+	destroy_tab(tab);
 	if (close(fd) != 0)
 		throw_error(NULL, errno);
 }
