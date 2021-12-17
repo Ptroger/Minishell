@@ -6,8 +6,8 @@ ifeq ($(UNAME_S),Linux)
 	LIBS = -lreadline -L/usr/include
 	LIB_INC = -I/lib/x86_64-linux-gnu/readline
 else
-	LIBS = -lreadline -L /Users/$(USER)/.brew/opt/readline/lib
-	LIBS_INC = -I /Users/$(USER)/.brew/opt/readline/include
+	LIBS = -lreadline -L /usr/local/opt/readline/lib
+	LIB_INC = -I /usr/local/opt/readline/include
 
 endif
 
