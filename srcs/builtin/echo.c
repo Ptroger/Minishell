@@ -47,10 +47,23 @@ void	ft_echo_n(t_list *tokens)
 
 void	ft_call_echo(t_list *tokens)
 {
+	int		i;
+
+	i = 0;
 	if (!tokens->next)
 		ft_putstr_fd("\n", STDOUT_FILENO);
-	else if (ft_strcmp(tokens->next->token, "-n") == 0)
-		ft_echo_n(tokens->next->next);
+	if (tokens->next && tokens->next->token && tokens->next->token[0] == '-' && tokens->next->token[1] == 'n')
+	{
+		while (tokens->next->token[0] == '-' && tokens->next->token[1] == 'n')
+		{
+			i = 0;
+			while (tokens->next->token && tokens->next->token[i] == 'n')
+				i++;
+			tokens = tokens->next;
+		}
+		if (tokens->next)
+			ft_echo_n(tokens->next);
+	}
 	else
 		ft_echo(tokens->next);
 }
