@@ -14,9 +14,9 @@
 
 void	ft_pwd(t_vars *vars, t_list *tokens)
 {
-	char	*buf;
+	char	*ptr;
 
-	buf = NULL;
+	ptr = NULL;
 	if (tokens->next && is_special(tokens->next) == FALSE)
 	{
 		if (tokens->next->type == ARG)
@@ -26,5 +26,10 @@ void	ft_pwd(t_vars *vars, t_list *tokens)
 		}
 	}
 	else
-		printf("%s\n", (getcwd(buf, sizeof(buf))));
+	{
+		ptr = getcwd(NULL, 0);
+		ft_putstr_fd(ptr, STDOUT_FILENO);
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		free(ptr);
+	}
 }

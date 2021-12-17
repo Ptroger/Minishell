@@ -82,12 +82,16 @@ int	ft_child(t_vars **vars, t_pipe *store, int size)
 	while (++i < size - 1)
 	{
 		if (pipe(pfd + i * 2) == -1)
+		{
+			free(pfd);
 			return (throw_error("pipe failed", 2));
+		}
 	}
 	ft_process(vars, temp_p, size, pfd);
 	i = -1;
 	while (++i < (2 * (size - 1)))
 		close(pfd[i]);
+	free(pfd);
 	i = -1;
 	while (++i < 2 * (size - 1) + 1)
 	{
@@ -163,7 +167,7 @@ int	ft_pipe(t_vars **vars, t_pipe *store)
 	size++;
 	while (i < size)
 	{
-		ft_add_elem_pipe(&store);
+		pipe_add_back(&store, ft_add_elem_pipe());
 		i++;
 	}
 	ft_store_command((*vars)->tokens, store);

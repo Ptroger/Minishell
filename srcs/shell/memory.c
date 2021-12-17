@@ -61,7 +61,8 @@ void	destroy_env(t_sort **envs)
 		if (temp->info)
 			free(temp->info);
 		*envs = (*envs)->next;
-		free(temp);
+		if (temp)
+			free(temp);
 	}
 	*envs = NULL;
 }

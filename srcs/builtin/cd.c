@@ -15,14 +15,23 @@
 void	ft_set_oldpwd(t_vars **vars, char *wd)
 {
 	t_sort	*temp;
+	char	*tem;
 	
 	temp = (*vars)->t_env;
 	while (temp && ft_strcmp(temp->name, "OLDPWD") != 0)
 		temp = temp->next;
-	temp->info = ft_strdup(wd);
+	if (temp->info)
+		free(temp->info);
+	temp->info = wd;
+	if (temp->data)
+		free(temp->data);
 	temp->data = ft_strdup("OLDPWD");
+	tem = temp->data;
 	temp->data = ft_strjoin(temp->data, "=");
+	free(tem);
+	tem = temp->data;
 	temp->data = ft_strjoin(temp->data, temp->info);
+	free(tem);
 }
 
 int	ft_is_dash(t_vars **vars)
@@ -50,9 +59,12 @@ int	ft_cd(t_vars **vars, t_list *tokens, char *user)
 	int		ret;
 
 	buf = NULL;
-	wd = ft_strdup(getcwd(buf, sizeof(buf)));
+	wd = getcwd(buf, sizeof(buf));
 	if (!tokens->next || ft_strcmp(tokens->next->token, "~") == 0)
+	{
+		printf("ici == %s\n", user);
 		ret = chdir(user);
+	}
 	else if (ft_strcmp(tokens->next->token, "-") == 0)
 		ret = ft_is_dash(vars);
 	else

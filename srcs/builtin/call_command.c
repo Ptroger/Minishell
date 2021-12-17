@@ -29,7 +29,8 @@ void	ft_call_builtin_2(t_vars **vars, t_list *tokens)
 		if (ft_strcmp(tokens->token, "export") == 0)
 		{
 			ft_export(tokens, &(*vars)->t_env, &(*vars)->t_exp);
-//			clean_exit(*vars, errno);
+		//	clean_exit(*vars, errno);
+			exit(0);
 		}
 		if (ft_strcmp(tokens->token, "pwd") == 0 || ft_strcmp(tokens->token, "/bin/pwd") == 0)
 		{

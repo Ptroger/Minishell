@@ -35,19 +35,19 @@ char	**ft_command_size(int size)
 	return (cmd);
 }
 
-void	ft_add_elem_pipe(t_pipe **store)
+t_pipe	*ft_add_elem_pipe()
 {
 	t_pipe	*new_elem;
 
 	new_elem = malloc(sizeof(t_pipe));
 	if (!new_elem)
-		return ;
+		return (NULL);
 	new_elem->cell = NULL;
 	new_elem->cmd = NULL;
 	new_elem->size = 0;
 	new_elem->token = NULL;
-	new_elem->next = *store;
-	*store = new_elem;
+	new_elem->next = NULL;
+	return (new_elem);
 }
 
 void	ft_dup(t_pipe *temp_p, int count, int size, int *pfd)
@@ -64,4 +64,26 @@ void	ft_dup(t_pipe *temp_p, int count, int size, int *pfd)
 		close(pfd[i]);
 		i++;
 	}
+}
+
+void	pipe_add_back(t_pipe **sort, t_pipe *new)
+{
+	t_pipe	*lst;
+	int 	i; 
+	
+	i = 0;
+	if (!sort)
+		return ;
+	if (!*sort)
+	{
+		*sort = new;
+		return ;
+	}
+	lst = *sort;
+	while (lst->next != NULL)
+	{
+		i++;
+		lst = lst->next;
+	}
+	lst->next = new;
 }

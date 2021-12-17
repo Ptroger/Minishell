@@ -93,7 +93,8 @@ int		handle_redirs(t_vars *vars, t_list *tokens, int *file);
 int		ft_is_redir(char *str);
 int		is_special(t_list *tokens);
 int		ft_pipe(t_vars **vars, t_pipe *pipe);
-void	ft_add_elem_pipe(t_pipe **store);
+t_pipe	*ft_add_elem_pipe(void);
+void	pipe_add_back(t_pipe **sort, t_pipe *new);
 
 // HEREDOCS
 void	write_file(t_vars *vars, char *name);
