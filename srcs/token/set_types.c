@@ -46,9 +46,10 @@ void	set_cmd(t_vars *vars)
 	t_list	*tokens;
 
 	tokens = vars->tokens;
-	tokens->type = CMD;
 	while (tokens)
 	{
+		if (tokens->type < R_IN && tokens->type > H_DOC)
+			tokens->type = CMD;
 		if (tokens->type == PIPE && tokens->next)
 			tokens->next->type = CMD;
 		else if (tokens->type == NONE)

@@ -118,9 +118,10 @@ void	ft_find_cmd(t_vars *vars, char *token, char **cmd, char **tab)
 			cmd[0] = find_path("cat", tab);
 		else
 			cmd[0] = find_path(token, tab);
+		dprintf(2, "\n\n\n%s\n\n\n", cmd[0]);
 		g_g.ret += execve(cmd[0], cmd, vars->real_envs);
-		if (cmd[0])
-			free(cmd[0]);
+		// vars->store = vars->original;
+		printf("ici %s\n", vars->store->cmd[0]);
 		ft_putstr_fd(token, 2);
 		throw_error(": command not found", errno);
 		clean_exit(vars, errno);

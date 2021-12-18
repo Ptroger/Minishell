@@ -31,7 +31,8 @@ int	handle_redirs(t_vars *vars, t_list *tokens, int *file)
 	t_list	*temp;
 
 	temp = tokens;
-	name = tokens->next->token;
+	if (tokens->next)
+		name = tokens->next->token;
 	while (temp && ft_strcmp(temp->token, "|") != 0)
 		temp = temp->next;
 	return (redirect(vars, tokens, name, file));

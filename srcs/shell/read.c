@@ -68,6 +68,7 @@ void	read_loop(t_vars *vars)
 			if (check_syntax(vars) == TRUE && vars->tokens)
 				call_command(&vars, FALSE);
 			ft_lstclear(&vars->tokens, free);
+			destroy_store(vars->store);
 			unlink("./temp");
 		}
 	}
