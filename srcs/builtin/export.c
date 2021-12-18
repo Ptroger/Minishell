@@ -128,15 +128,23 @@ void	ft_set_list(t_list *tokens, t_sort **t_env, t_sort **t_exp)
 
 void	ft_export(t_list *tokens, t_sort **t_env, t_sort **t_exp)
 {
+	char	*tmp;
 	t_list	*temp;
 
+	tmp = NULL;
 	temp = tokens;
 	if (tokens->next && ft_strcmp(tokens->next->token, "|") != 0 && is_special(tokens->next) == FALSE)
 	{
 		while (temp && temp->next && ft_strcmp(temp->next->token, "|") != 0 && is_special(temp->next) == FALSE)
 		{
-			ft_set_list(temp, t_env, t_exp);
+			tmp = ft_strdup(temp->next->token);
+			if (ft_isalpha(tmp[0]) == 1 || tmp[0] == '_')
+				ft_set_list(temp, t_env, t_exp);
+			else
+				printf("minishell: export: `%s': not a valid identifier\n", tmp);
 			temp = temp->next;
+			if (tmp)
+				free(tmp);
 		}
 //		while (tokens->next->token[j] && tokens->next->token[j] != '=')
 //			j++;
