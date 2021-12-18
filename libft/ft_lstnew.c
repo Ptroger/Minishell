@@ -20,7 +20,10 @@ t_list	*ft_lstnew(void *content, int i)
 	new_elem = malloc(sizeof(t_list));
 	if (!new_elem)
 		return (NULL);
-	new_elem->token = content;
+	if (content == NULL)
+		new_elem->token = NULL;
+	else
+		new_elem->token = content;
 	new_elem->index = i;
 	new_elem->next = NULL;
 	return (new_elem);

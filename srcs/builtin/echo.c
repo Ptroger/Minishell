@@ -17,7 +17,7 @@ void	ft_echo(t_list *tokens)
 	t_list *temp;
 
 	temp = tokens;
-	while (temp->next && ft_is_key(temp->token) == 0)
+	while (temp && temp->next && ft_is_key(temp->token) == 0)
 	{
 		ft_putstr_fd(temp->token, STDOUT_FILENO);
 		if (temp->next && ft_is_key(temp->next->token) == 0)
@@ -52,7 +52,7 @@ void	ft_call_echo(t_list *tokens)
 	i = 0;
 	if (!tokens->next)
 		ft_putstr_fd("\n", STDOUT_FILENO);
-	if (tokens->next && tokens->next->token && tokens->next->token[0] == '-' && tokens->next->token[1] == 'n')
+	else if (tokens->next && tokens->next->token && tokens->next->token[0] == '-' && tokens->next->token[1] == 'n')
 	{
 		while (tokens->next->token[0] == '-' && tokens->next->token[1] == 'n')
 		{
