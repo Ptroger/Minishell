@@ -23,8 +23,6 @@ void	ft_call_builtin_2(t_vars **vars, t_list *tokens)
 			ft_call_echo(tokens);
 		else if (ft_strcmp(tokens->token, "env") == 0 || ft_strcmp(tokens->token, "/usr/bin/env") == 0)
 			ft_call_env(vars, tokens);
-//		else if (ft_strcmp(tokens->token, "export") == 0)
-//			ft_export(tokens, &(*vars)->t_env, &(*vars)->t_exp);
 		else if (ft_strcmp(tokens->token, "pwd") == 0 || ft_strcmp(tokens->token, "/bin/pwd") == 0)
 			ft_pwd(*vars, tokens);
 		else if (ft_strcmp(tokens->token, "unset") == 0 && tokens->next)
@@ -45,7 +43,6 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 	if (ft_strcmp(tokens->token, "exit") == 0)
 	{
 		printf("exit\n");
-//		exit(0);
 		clean_exit(*vars, errno);
 	}
 	while (temp && ft_strcmp(temp->name, "USER") != 0)
