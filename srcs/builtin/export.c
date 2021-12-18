@@ -72,10 +72,10 @@ void	ft_set_list_2(t_list *tokens, t_sort *new_env, t_sort *new_exp)
 	i = 0;
 	j = 0;
 	(void)new_exp;
+	(void)tokens;
 //	new_exp->data = malloc(sizeof(char) * ft_strlen(tokens->next->token) + 3);
 //	if (!new_exp->data)
 //		return ;
-	new_env->data = ft_strdup(tokens->next->token);
 	new_env->name = malloc(sizeof(char) * ft_strlen(new_env->data));
 	new_env->info = malloc(sizeof(char) * ft_strlen(new_env->data));
 	if (!new_env->name)
