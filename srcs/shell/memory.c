@@ -51,7 +51,7 @@ void	destroy_env(t_sort **envs)
 {
 	t_sort	*temp;
 
-	while (*envs && (*envs)->next)
+	while (*envs)
 	{
 		temp = *envs;
 		if (temp->data)

@@ -185,16 +185,8 @@ int	ft_check_redir(t_vars **vars)
 void	ft_reset_var(t_vars **vars)
 {
 	t_sort	*temp_env;
-	// t_sort	**env;
 
-
-	// env = &(*vars)->t_env;
 	temp_env = (*vars)->t_env;
-	// while (*env)
-	// {
-		// printf("name = %s\n", (*env)->name);
-		// *env = (*env)->next;
-	// }
 	while (temp_env && ft_strcmp(temp_env->name, "PWD") != 0 && temp_env->next)
 		temp_env = temp_env->next;
 	if (temp_env->info)
