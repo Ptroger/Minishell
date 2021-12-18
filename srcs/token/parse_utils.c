@@ -38,6 +38,7 @@ void	finish_token(t_vars *vars, char *token, int i)
 
 	if (token[0])
 	{
+		printf("token= %s\n", token);
 		new_tok = ft_lstnew((void *) token, i);
 		ft_lstadd_back(&vars->tokens, new_tok);
 	}
