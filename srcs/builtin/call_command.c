@@ -30,23 +30,8 @@ void	ft_call_builtin_2(t_vars **vars, t_list *tokens)
 		else if (ft_strcmp(tokens->token, "unset") == 0 && tokens->next)
 			ft_unset(tokens, &(*vars)->t_env, &(*vars)->t_exp);
 		// clean_exit(*vars, 0);
-		printf("\n\n--------CHILD----------\n\n");
-		ft_display_exp( &(*vars)->t_env);
-		printf("\n\n---------CHILD---------\n\n");
-		ft_display_exp( &(*vars)->t_exp);
-	exit(0);
 	}
 	wait(&status);
-	 		printf("\n\n--------PARENT----------\n\n");
-		ft_display_exp( &(*vars)->t_env);
-		printf("\n\n---------PARENT---------\n\n");
-		ft_display_exp( &(*vars)->t_exp);
-	// while((*vars)->t_env && (*vars)->t_exp)
-	// {
-// 
-	// }
-		// printf("-- %s\ndec--%s\n", (*vars)->t_env)
-	// }
 	g_g.ret += WEXITSTATUS(status);
 }
 
