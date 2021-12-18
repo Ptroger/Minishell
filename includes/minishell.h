@@ -109,6 +109,7 @@ int		shall_exec(t_vars *vars, t_list *token);
 // ENVS
 void	ft_get_env_name(t_sort **t_env, char **env);
 void	ft_set_env(t_sort **t_env, char **env);
+void	ft_display_exp(t_sort **t_exp);
 void	set_envs(t_vars *vars);
 char	*my_get_env(t_vars *vars, char *name);
 void	add_back(t_sort **sort, t_sort *new);
