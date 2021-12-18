@@ -32,7 +32,6 @@ void	heredoc_loop(t_vars *vars, char **tab, int fd, int i)
 	i--;
 	while (i >= 0)
 	{
-//		printf("i == %d\nname = %s\n", i, tab[i]);
 		line = readline("> ");
 		if (!line)
 		{
@@ -40,14 +39,14 @@ void	heredoc_loop(t_vars *vars, char **tab, int fd, int i)
 				throw_error(NULL, errno);
 			clean_exit(vars, 0);
 		}
-		if (ft_strcmp(line, tab[i]) != 0)
+		if (ft_strcmp(line, tab[i]) != 0 && i == 0)
 		{
 			if (ft_strchr(tab[i], '"') != NULL)
 				line = expand_readline(vars, line);
 			ft_putstr_fd(line, fd);
 			ft_putchar_fd('\n', fd);
 		}
-		else
+		else if (ft_strcmp(line, tab[i]) == 0)
 			i--;
 		free(line);
 	}

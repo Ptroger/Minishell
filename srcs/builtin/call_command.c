@@ -95,13 +95,13 @@ void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
 			i++;
 		}
 	}
-//	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
 //	signal(SIGQUIT, SIG_IGN);
 	g_g.pid = fork();
 	if (g_g.pid == 0)
 	{
 		signal(SIGQUIT, &sig_handler);
-//		signal(SIGINT, SIG_DFL);
+		signal(SIGINT, &sig_handler);
 		ft_find_cmd(*vars, tokens->token, cmd, (*vars)->path);
 	}
 	wait(&status);
@@ -177,18 +177,14 @@ int	ft_check_redir(t_vars **vars)
 
 void	ft_reset_var(t_vars **vars)
 {
-	char	*buf;
 	t_sort	*temp_env;
 
-	buf = NULL;
 	temp_env = (*vars)->t_env;
 	while (temp_env && ft_strcmp(temp_env->name, "PWD") != 0 && temp_env->next)
 		temp_env = temp_env->next;
-	temp_env->info = dupfree(getcwd(buf, sizeof(buf)), temp_env->info);
+	temp_env->info = dupfree(getcwd(NULL, 0), temp_env->info);
 	if (temp_env->data)
-	{
 		free(temp_env->data);
-	}
 	temp_env->data = (char *)malloc(sizeof(char) * ft_strlen(temp_env->info) + 6);
 	if (!temp_env->data)
 		return ;

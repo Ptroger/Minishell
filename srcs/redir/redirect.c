@@ -14,7 +14,7 @@ int	redirect(t_vars *vars, t_list *tokens, char *name, int *file)
 		redirect_output(vars, tokens, token);
 	else if (ft_strcmp(token, "<<") == 0)
 	{
-		while (toks && toks->type != H_DOC)
+		while (toks && ft_strcmp(toks->token, "<<") != 0)
 			toks = toks->next;
 		if (toks->index == tokens->index)
 		{

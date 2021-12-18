@@ -98,6 +98,7 @@ char	*find_path(char *token, char **tab)
 
 void	ft_find_cmd(t_vars *vars, char *token, char **cmd, char **tab)
 {
+	set_envs(vars);
 	if (!tab)
 	{
 		ft_putstr_fd("Error : path could not be found\n", 2);
@@ -110,8 +111,11 @@ void	ft_find_cmd(t_vars *vars, char *token, char **cmd, char **tab)
 	}
 	else
 	{
-		cmd[0] = find_path(token, tab);
-		g_g.ret += execve(cmd[0], cmd, NULL);
+		if (ft_strcmp(token, "<<") == 0)
+			cmd[0] = find_path("cat", tab);
+		else
+			cmd[0] = find_path(token, tab);
+		g_g.ret += execve(cmd[0], cmd, vars->real_envs);
 		if (cmd[0])
 			free(cmd[0]);
 		ft_putstr_fd(token, 2);

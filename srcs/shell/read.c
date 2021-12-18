@@ -58,11 +58,13 @@ void	read_loop(t_vars *vars)
 		else if (*line)
 		{
 			parse(line, vars);
-			set_type(vars);
 			add_history(line);
 			free(line);
-			if (check_syntax(vars) == TRUE)
+			if (check_syntax(vars) == TRUE && vars->tokens)
+			{
+				set_type(vars);
 				call_command(&vars, FALSE);
+			}
 			ft_lstclear(&vars->tokens, free);
 			unlink("./temp");
 		}
