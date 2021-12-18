@@ -43,19 +43,24 @@ void	ft_fill_data(t_list *tokens, t_sort *new_exp)
 		i++;
 		j++;
 	}
-	new_exp->data[i] = tokens->next->token[j];
-	i++;
-	j++;
-	new_exp->data[i] = '"';
-	i++;
-	while (tokens->next->token[j])
+	if (tokens->next->token[j] == '=')
 	{
 		new_exp->data[i] = tokens->next->token[j];
 		i++;
 		j++;
+		new_exp->data[i] = '"';
+		i++;
+		while (tokens->next->token[j])
+		{
+			new_exp->data[i] = tokens->next->token[j];
+			i++;
+			j++;
+		}
+		new_exp->data[i] = '"';
+		new_exp->data[i + 1] = '\0';
 	}
-	new_exp->data[i] = '"';
-	new_exp->data[i + 1] = '\0';
+	else
+		new_exp->data[i] = '\0';
 	new_exp->next = NULL;
 }
 
@@ -66,9 +71,10 @@ void	ft_set_list_2(t_list *tokens, t_sort *new_env, t_sort *new_exp)
 
 	i = 0;
 	j = 0;
-	new_exp->data = malloc(sizeof(char) * ft_strlen(tokens->next->token) + 3);
-	if (!new_exp->data)
-		return ;
+	(void)new_exp;
+//	new_exp->data = malloc(sizeof(char) * ft_strlen(tokens->next->token) + 3);
+//	if (!new_exp->data)
+//		return ;
 	new_env->data = ft_strdup(tokens->next->token);
 	new_env->name = malloc(sizeof(char) * ft_strlen(new_env->data));
 	new_env->info = malloc(sizeof(char) * ft_strlen(new_env->data));
@@ -118,24 +124,34 @@ void	ft_set_list(t_list *tokens, t_sort **t_env, t_sort **t_exp)
 		while (temp_env->next)
 			temp_env = temp_env->next;
 		temp_env->next = new_env;
+		ft_set_list_2(tokens, new_env, new_exp);
 	}
 	else
 		new_env = NULL;
-	ft_set_list_2(tokens, new_env, new_exp);
+	new_exp->data = malloc(sizeof(char) * ft_strlen(tokens->next->token) + 3);
+	if (!new_exp->data)
+		return ;
 	ft_fill_data(tokens, new_exp);
 }
 
 void	ft_export(t_list *tokens, t_sort **t_env, t_sort **t_exp)
 {
 	int		j;
+	t_list	*temp;
 
 	j = 0;
+	temp = tokens;
 	if (tokens->next && ft_strcmp(tokens->next->token, "|") != 0 && is_special(tokens->next) == FALSE)
 	{
+		while (temp && temp->next && ft_strcmp(temp->next->token, "|") != 0 && is_special(temp->next) == FALSE)
+		{
+			ft_set_list(temp, t_env, t_exp);
+			temp = temp->next;
+		}
 //		while (tokens->next->token[j] && tokens->next->token[j] != '=')
 //			j++;
 //		if (tokens->next->token[j] == '=' && tokens->next->token[j - 1] != ' ')
-			ft_set_list(tokens, t_env, t_exp);
+//			ft_set_list(tokens, t_env, t_exp);
 	}
 	else
 		ft_display_exp(t_exp);

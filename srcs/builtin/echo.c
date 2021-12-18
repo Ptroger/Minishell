@@ -52,7 +52,7 @@ void	ft_call_echo(t_list *tokens)
 	i = 0;
 	if (!tokens->next)
 		ft_putstr_fd("\n", STDOUT_FILENO);
-	if (tokens->next && tokens->next->token && tokens->next->token[0] == '-' && tokens->next->token[1] == 'n')
+	else if (tokens->next && tokens->next->token && tokens->next->token[0] == '-' && tokens->next->token[1] == 'n')
 	{
 		while (tokens->next->token[0] == '-' && tokens->next->token[1] == 'n')
 		{
