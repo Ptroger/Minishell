@@ -102,28 +102,20 @@ void	ft_set_list(t_list *tokens, t_sort **t_env, t_sort **t_exp)
 	int		j;
 	t_sort	*new_exp;
 	t_sort	*new_env;
-	t_sort	*temp_exp;
-	t_sort	*temp_env;
 
 	j = 0;
-	temp_exp = *t_exp;
-	temp_env = *t_env;
-	new_exp = malloc(sizeof(t_sort));
+	new_exp = ft_add_elem(NULL);
+	add_back(t_exp, new_exp);
 	if (!new_exp)
 		return ;
-	while (temp_exp->next)
-		temp_exp = temp_exp->next;
-	temp_exp->next = new_exp;
 	while (tokens->next->token[j] && tokens->next->token[j] != '=')
 		j++;
 	if (tokens->next->token[j] == '=' && tokens->next->token[j - 1] != ' ')
 	{
-		new_env = malloc(sizeof(t_sort));
+		new_env = ft_add_elem(tokens->next->token);
 		if (!new_env)
 			return ;
-		while (temp_env->next)
-			temp_env = temp_env->next;
-		temp_env->next = new_env;
+		add_back(t_env, new_env);
 		ft_set_list_2(tokens, new_env, new_exp);
 	}
 	else
@@ -136,10 +128,8 @@ void	ft_set_list(t_list *tokens, t_sort **t_env, t_sort **t_exp)
 
 void	ft_export(t_list *tokens, t_sort **t_env, t_sort **t_exp)
 {
-	int		j;
 	t_list	*temp;
 
-	j = 0;
 	temp = tokens;
 	if (tokens->next && ft_strcmp(tokens->next->token, "|") != 0 && is_special(tokens->next) == FALSE)
 	{

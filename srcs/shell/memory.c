@@ -55,8 +55,10 @@ void	destroy_env(t_sort **envs)
 	{
 		temp = *envs;
 		if (temp->data)
+		{
 			free(temp->data);
-		if (temp->name)
+		}
+		if (temp && temp->name)
 			free(temp->name);
 		if (temp->info)
 			free(temp->info);

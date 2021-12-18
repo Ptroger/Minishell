@@ -56,14 +56,15 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 	if (ft_strcmp(tokens->token, "cd") == 0 || ft_strcmp(tokens->token, "/usr/bin/cd") == 0)
 	{
 		ft_cd(vars, tokens, user);
-		return ;
-	}
-	if (ft_strcmp(tokens->token, "export") == 0)
-	{
-		ft_export(tokens, &(*vars)->t_env, &(*vars)->t_exp);
+		free(user);
 		return ;
 	}
 	free(user);
+	if (ft_strcmp(tokens->token, "export") == 0)
+	{
+		ft_export(tokens, &(*vars)->t_exp, &(*vars)->t_exp);
+		return ;
+	}
 	ft_call_builtin_2(vars, tokens);
 }
 
@@ -181,11 +182,19 @@ int	ft_check_redir(t_vars **vars)
 void	ft_reset_var(t_vars **vars)
 {
 	t_sort	*temp_env;
+	// t_sort	**env;
 
+
+	// env = &(*vars)->t_env;
 	temp_env = (*vars)->t_env;
+	// while (*env)
+	// {
+		// printf("name = %s\n", (*env)->name);
+		// *env = (*env)->next;
+	// }
 	while (temp_env && ft_strcmp(temp_env->name, "PWD") != 0 && temp_env->next)
 		temp_env = temp_env->next;
-	temp_env->info = dupfree(getcwd(NULL, 0), temp_env->info);
+	temp_env->info = getcwd(NULL, 0);
 	if (temp_env->data)
 		free(temp_env->data);
 	temp_env->data = (char *)malloc(sizeof(char) * ft_strlen(temp_env->info) + 6);

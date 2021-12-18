@@ -42,7 +42,10 @@ t_sort	*ft_add_elem(char *env)
 	new_elem = malloc(sizeof(t_sort));
 	if (!new_elem)
 		return (NULL);
-	new_elem->data = ft_strdup(env);
+	if (!env)
+		new_elem->data = NULL;
+	else
+		new_elem->data = ft_strdup(env);
 	new_elem->info = NULL;
 	new_elem->name = NULL;
 	new_elem->next = NULL;

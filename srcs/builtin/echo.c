@@ -17,7 +17,7 @@ void	ft_echo(t_list *tokens)
 	t_list *temp;
 
 	temp = tokens;
-	while (temp->next && ft_is_key(temp->token) == 0)
+	while (temp && temp->next && ft_is_key(temp->token) == 0)
 	{
 		ft_putstr_fd(temp->token, STDOUT_FILENO);
 		if (temp->next && ft_is_key(temp->next->token) == 0)

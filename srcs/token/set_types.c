@@ -99,9 +99,19 @@ void	flag_syntax(t_vars *vars)
 
 void	set_type(t_vars *vars)
 {
+	t_list	*tokens;
+
+	tokens = vars->tokens;
 	set_redir(vars);
-	// flag_mix(vars);
+	flag_mix(vars);
 	set_files(vars);
 	flag_syntax(vars);
 	set_cmd(vars);
+		while (tokens)
+	{
+		// printf("token set = %s\n", tokens->token);
+		// tokens->type = NONE;
+		// printf("type set == %d\n", tokens->type);
+		tokens = tokens->next;
+	}
 }
