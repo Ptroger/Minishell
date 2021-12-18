@@ -41,11 +41,10 @@ void	ft_set_env(t_sort **t_env, char **env)
 
 	i = 0;
 	while (env[i])
-		i++;
-	while (i--)
 	{
 		new_elem = ft_add_elem(env[i]);
 		add_back(t_env, new_elem);
+		i++;
 	}
 }
 

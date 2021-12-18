@@ -62,7 +62,7 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 	free(user);
 	if (ft_strcmp(tokens->token, "export") == 0)
 	{
-		ft_export(tokens, &(*vars)->t_exp, &(*vars)->t_exp);
+		ft_export(tokens, &(*vars)->t_env, &(*vars)->t_exp);
 		return ;
 	}
 	ft_call_builtin_2(vars, tokens);
