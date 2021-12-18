@@ -23,13 +23,14 @@ void	ft_call_builtin_2(t_vars **vars, t_list *tokens)
 			ft_call_echo(tokens);
 		else if (ft_strcmp(tokens->token, "env") == 0 || ft_strcmp(tokens->token, "/usr/bin/env") == 0)
 			ft_call_env(vars, tokens);
-		else if (ft_strcmp(tokens->token, "export") == 0)
-			ft_export(tokens, &(*vars)->t_env, &(*vars)->t_exp);
+//		else if (ft_strcmp(tokens->token, "export") == 0)
+//			ft_export(tokens, &(*vars)->t_env, &(*vars)->t_exp);
 		else if (ft_strcmp(tokens->token, "pwd") == 0 || ft_strcmp(tokens->token, "/bin/pwd") == 0)
 			ft_pwd(*vars, tokens);
 		else if (ft_strcmp(tokens->token, "unset") == 0 && tokens->next)
 			ft_unset(tokens, &(*vars)->t_env, &(*vars)->t_exp);
-		clean_exit(*vars, 0);
+		return ;
+//		clean_exit(*vars, 0);
 	}
 	wait(&status);
 	g_g.ret += WEXITSTATUS(status);
@@ -44,7 +45,8 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 	temp = (*vars)->t_env;
 	if (ft_strcmp(tokens->token, "exit") == 0)
 	{
-		printf("exit");
+		printf("exit\n");
+//		exit(0);
 		clean_exit(*vars, errno);
 	}
 	while (temp && ft_strcmp(temp->name, "USER") != 0)
@@ -58,6 +60,11 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 	if (ft_strcmp(tokens->token, "cd") == 0 || ft_strcmp(tokens->token, "/usr/bin/cd") == 0)
 	{
 		ft_cd(vars, tokens, user);
+		return ;
+	}
+	if (ft_strcmp(tokens->token, "export") == 0)
+	{
+		ft_export(tokens, &(*vars)->t_env, &(*vars)->t_exp);
 		return ;
 	}
 	free(user);
