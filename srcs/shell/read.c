@@ -52,7 +52,10 @@ void	read_loop(t_vars *vars)
 		signal(SIGQUIT, SIG_IGN);
 		line = readline(PROMPT);
 		if (!line)
+		{
+			printf("exit\n");
 			clean_exit(vars, 0);
+		}
 		if (check_str(line) != 0)
 			throw_error("parse error", 1);
 		else if (*line)

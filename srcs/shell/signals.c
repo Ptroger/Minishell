@@ -6,6 +6,7 @@ void	sig_c(void)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+	g_g.ret += 1;	
 }
 
 void	handle_parent(int sig)
@@ -34,12 +35,16 @@ void	sig_handler(int sig)
 {
 	if ((sig == SIGINT || sig == SIGQUIT) && g_g.pid != 0)
 		handle_parent(sig);
+	else if (sig == SIGQUIT)
+		exit(131);
 	else
-	{
-		if (sig == SIGINT)
-		{
-			sig_c();
-			g_g.ret += 1;
-		}
-	}
+		sig_c();
+		// else
+	// {
+		// if (sig == SIGINT)
+		// {
+			// sig_c();
+			// g_g.ret += 1;
+		// }
+	// }
 }

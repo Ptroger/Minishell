@@ -102,19 +102,22 @@ void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
 			i++;
 		}
 	}
-	signal(SIGINT, SIG_IGN);
-//	signal(SIGQUIT, SIG_IGN);
+	// signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, sig_handler);
 	g_g.pid = fork();
 	if (g_g.pid == 0)
 	{
-		signal(SIGQUIT, &sig_handler);
-		signal(SIGINT, &sig_handler);
+		signal(SIGQUIT, SIG_DFL);
+		signal(SIGINT, SIG_DFL);
 		ft_find_cmd(*vars, tokens->token, cmd, (*vars)->path);
 	}
-	wait(&status);
-	signal(SIGQUIT, sig_handler);
-	signal(SIGINT, sig_handler);
-	g_g.ret +=  WEXITSTATUS(status);
+	else
+	{
+		wait(&status);
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, sig_handler);
+		g_g.ret +=  WEXITSTATUS(status);
+	}
 }
 
 void	ft_check_redir_2(t_vars **vars, t_list *temp)
@@ -197,6 +200,8 @@ void	ft_reset_var(t_vars **vars)
 	// }
 	while (temp_env && ft_strcmp(temp_env->name, "PWD") != 0 && temp_env->next)
 		temp_env = temp_env->next;
+	if (temp_env->info)
+		free(temp_env->info);
 	temp_env->info = getcwd(NULL, 0);
 	if (temp_env->data)
 		free(temp_env->data);
