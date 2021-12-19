@@ -12,44 +12,50 @@
 
 #include "minishell.h"
 
-int	ft_process(t_vars **vars, t_pipe **temp_p, int size, int *pfd)
+int	ft_find_redir(t_vars **vars, t_pipe **temp_p_2, t_list **temp_2)
 {
 	int		i;
-	int		count;
 	t_list	*temp;
+
+	temp = (*vars)->tokens;
+	while (*temp_p_2 && (*temp_p_2)->redir == 0)
+	{
+		i = 0;
+		while (i < (*temp_p_2)->size)
+		{
+			if (ft_is_redir((*temp_p_2)->cell[i]) == 1)
+			{
+				while (*temp_2 && is_special(*temp_2) != 0)
+					*temp_2 = (*temp_2)->next;
+				(*temp_p_2)->redir = 1;
+			}
+			i++;
+		}
+		(*temp_p_2) = (*temp_p_2)->next;
+	}
+	temp = (*vars)->tokens;
+	while (temp && ft_strcmp(temp->token, "|") != 0)
+		temp = temp->next;
+	if (ft_strcmp(temp->token, "|") == 0 && !temp->next)
+		return (ft_new_readline(vars));
+	return (1);
+}
+
+int	ft_process(t_vars **vars, t_pipe **temp_p, int size, int *pfd)
+{
+	int		count;
 	t_list	*temp_2;
 	t_list	*temp_1;
 	t_pipe	*temp_p_2;
 
 	count = 0;
-	temp = (*vars)->tokens;
 	temp_1 = (*vars)->tokens;
 	temp_2 = (*vars)->tokens;
 	temp_p_2 = *temp_p;
 	(*vars)->original = (*vars)->store;
 	while (*temp_p)
 	{
-		while (temp_p_2 && temp_p_2->redir == 0)
-		{
-		i = 0;
-			while (i < temp_p_2->size)
-			{
-		
-				if (ft_is_redir(temp_p_2->cell[i]) == 1)
-				{
-					while (temp_2 && is_special(temp_2) != 0)
-						temp_2 = temp_2->next;
-					temp_p_2->redir = 1;
-				}
-				i++;
-			}
-			temp_p_2 = temp_p_2->next;
-		}
-		temp = (*vars)->tokens;
-		while (temp && ft_strcmp(temp->token, "|") != 0)
-			temp = temp->next;
-		if (ft_strcmp(temp->token, "|") == 0 && !temp->next)
-			return (ft_new_readline(vars));
+		ft_find_redir(vars, &temp_p_2, &temp_2);
 		ft_process_2(temp_p);
 		g_g.pid = fork();
 		if (g_g.pid < 0)

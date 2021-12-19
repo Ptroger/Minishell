@@ -247,8 +247,6 @@ int	call_command(t_vars **vars, int is_child)
 
 	ft_reset_var(vars);
 	temp = (*vars)->tokens;
-	while (temp)
-		temp = temp->next;
 	(*vars)->size = 1;
 	if (ft_check_redir(vars) == TRUE)
 		return (0);
@@ -263,7 +261,7 @@ int	call_command(t_vars **vars, int is_child)
 			(*vars)->size++;
 		}
 	}
-	// (*vars)->size--;
+	(*vars)->size--;
 	cmd = ft_command_size((*vars)->size);
 	if (ft_is_builtin((*vars)->tokens->token) == 1)
 		ft_call_builtin(vars, (*vars)->tokens);

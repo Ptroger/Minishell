@@ -212,36 +212,41 @@ void	ft_set_list(t_list *tokens, t_sort **t_env, t_sort **t_exp)
 	free(tmp);
 }
 
-void	ft_export(t_list *tokens, t_sort **t_env, t_sort **t_exp)
+void	ft_parse_export(t_list *tokens, t_sort **t_env, t_sort **t_exp, char *tmp)
 {
 	int		i;
+
+	i = 0;
+	if (ft_isalpha(tmp[0]) == 1 || tmp[0] == '_')
+	{
+		while (tmp[i] != '=' && tmp[i])
+		{
+			if (((!ft_isalnum(tmp[i])) && tmp[i] != '_') && (tmp[i] == '+' && tmp[i + 1] != '='))
+			{
+				printf("minishell: export: `%s': not a valid identifier\n", tmp);
+				return ;
+			}
+			i++;
+		}
+		ft_set_list(tokens, t_env, t_exp);
+	}
+	else
+		printf("minishell: export: `%s': not a valid identifier\n", tmp);
+}
+
+void	ft_export(t_list *tokens, t_sort **t_env, t_sort **t_exp)
+{
 	char	*tmp;
 	t_list	*temp;
 
-	i = 0;
 	tmp = NULL;
 	temp = tokens;
 	if (tokens->next && ft_strcmp(tokens->next->token, "|") != 0 && is_special(tokens->next) == FALSE)
 	{
 		while (temp && temp->next && ft_strcmp(temp->next->token, "|") != 0 && is_special(temp->next) == FALSE)
 		{
-			i = 0;
 			tmp = ft_strdup(temp->next->token);
-			if (ft_isalpha(tmp[0]) == 1 || tmp[0] == '_')
-			{
-				while (tmp[i] != '=' && tmp[i])
-				{
-					if (((!ft_isalnum(tmp[i])) && tmp[i] != '_') && (tmp[i] == '+' && tmp[i + 1] != '='))
-					{
-						printf("minishell: export: `%s': not a valid identifier\n", tmp);
-						return ;
-					}
-					i++;
-				}
-				ft_set_list(temp, t_env, t_exp);
-			}
-			else
-				printf("minishell: export: `%s': not a valid identifier\n", tmp);
+			ft_parse_export(temp, t_env, t_exp, tmp);
 			temp = temp->next;
 			if (tmp)
 				free(tmp);
