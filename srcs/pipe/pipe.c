@@ -37,7 +37,7 @@ int	ft_find_redir(t_vars **vars, t_pipe **temp_p_2, t_list **temp_2)
 		temp = temp->next;
 	if (ft_strcmp(temp->token, "|") == 0)
 		return (ft_new_readline(vars));
-	return (1);
+	return (0);
 }
 
 int	ft_process(t_vars **vars, t_pipe **temp_p, int size, int *pfd)
@@ -55,10 +55,7 @@ int	ft_process(t_vars **vars, t_pipe **temp_p, int size, int *pfd)
 	while (*temp_p)
 	{
 		if (ft_find_redir(vars, &temp_p_2, &temp_2) == 1)
-		{
-			printf("YO\n");
 			return (1);
-		}
 		ft_process_2(temp_p);
 		g_g.pid = fork();
 		if (g_g.pid < 0)
