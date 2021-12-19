@@ -61,6 +61,7 @@ void	parse(char *line, t_vars *vars)
 	i = 0;
 	while (vars->finish_line == FALSE && line[vars->parse_i])
 	{
+		vars->been_quoted = FALSE;
 		vars->token_i = 0;
 		token = get_next_token(line, vars);
 		finish_token(vars, token, i);

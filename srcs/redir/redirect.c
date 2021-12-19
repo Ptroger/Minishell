@@ -19,7 +19,7 @@ int	redirect(t_vars *vars, t_list *tokens, char *name, int *file)
 		if (toks->index == tokens->index)
 		{
 			write_file(vars, name);
-			redir_temp(vars, tokens, "temp", file);
+			redir_temp(vars, tokens, H_DOC_PATH, file);
 		}
 	}
 	return (1);

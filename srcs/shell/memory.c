@@ -71,10 +71,8 @@ void	destroy_tab(char **tab)
 	int	i;
 
 	i = 0;
-	printf("tab works\n");
 	if (tab)
 	{
-		printf("tabstring == %s\n", tab[i]);
 		while (tab[i])
 		{
 			free(tab[i]);
@@ -85,17 +83,22 @@ void	destroy_tab(char **tab)
 	}
 }
 
-void	destroy_store(t_pipe *store)
+void	destroy_store(t_pipe **store)
 {
-	while (store)
+	t_pipe	*temp;
+
+	while (*store)
 	{
-		if (store->token)
-			free(store->token);
-		destroy_tab(store->cmd);
-		destroy_tab(store->cell);
-		store = store->next;
+		temp = *store;
+		if (temp->token)
+			free(temp->token);
+		destroy_tab(temp->cmd);
+		destroy_tab(temp->cell);
+		*store = (*store)->next;
+		if (temp)
+			free(temp);
 	}
-	free(store);
+	*store = NULL;
 }
 
 void	destroy_vars(t_vars *vars)
@@ -107,6 +110,6 @@ void	destroy_vars(t_vars *vars)
 		destroy_env(&vars->t_env);
 		if (vars->path)
 			destroy_tab(vars->path);
-		destroy_store(vars->store);
+		destroy_store(&vars->store);
 	}
 }

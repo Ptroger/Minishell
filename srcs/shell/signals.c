@@ -25,10 +25,7 @@ void	handle_parent(int sig)
 		}
 	}
 	else if (sig == SIGINT)
-	{
-		g_g.ret += 1;
 		sig_c();
-	}
 }
 
 void	sig_handler(int sig)

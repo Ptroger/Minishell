@@ -51,6 +51,7 @@ typedef struct	s_vars
 	int		token_size;
 	int		finish_line;
 	int		special_i;
+	int		been_quoted;
 	int		size;
 	int		tab_size;
 	int		exit_status;
@@ -133,7 +134,7 @@ void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1);
 int		ft_process_2(t_pipe **temp_p);
 
 // MEMORY
-void	destroy_store(t_pipe *store);
+void	destroy_store(t_pipe **store);
 void	clean_exit(t_vars *vars, int code);
 char    *dupfree(char *s1, char *s2);
 void	destroy_vars(t_vars *vars);

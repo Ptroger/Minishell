@@ -54,7 +54,6 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 	if (ft_strcmp(tokens->token, "cd") == 0 || ft_strcmp(tokens->token, "/usr/bin/cd") == 0)
 	{
 		ft_cd(vars, tokens, user);
-		free(user);
 		return ;
 	}
 	free(user);
@@ -99,14 +98,19 @@ void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
 			i++;
 		}
 	}
-	// signal(SIGINT, SIG_IGN);
 	if (ft_strcmp(tokens->token,"./minishell") != 0)
+	{
+		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, sig_handler);
+	}
 	g_g.pid = fork();
 	if (g_g.pid == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
-		signal(SIGINT, SIG_DFL);
+		if (ft_strcmp(tokens->token,"./minishell") != 0)
+			signal(SIGINT, SIG_IGN);
+		else
+			signal(SIGINT, SIG_DFL);
 		ft_find_cmd(*vars, tokens->token, cmd, (*vars)->path);
 	}
 	else
@@ -196,7 +200,7 @@ void	ft_reset_var(t_vars **vars)
 	temp_env = (*vars)->t_env;
 	while (temp_env && ft_strcmp(temp_env->name, "PWD") != 0 && temp_env->next)
 		temp_env = temp_env->next;
-	if (temp_env->info)
+	if (temp_env && temp_env->info)
 		free(temp_env->info);
 	temp_env->info = getcwd(NULL, 0);
 	if (temp_env->data)
@@ -227,6 +231,8 @@ int	call_command(t_vars **vars, int is_child)
 
 	ft_reset_var(vars);
 	temp = (*vars)->tokens;
+	while (temp)
+		temp = temp->next;
 	(*vars)->size = 1;
 	if (ft_check_redir(vars) == TRUE)
 		return (0);
@@ -241,7 +247,7 @@ int	call_command(t_vars **vars, int is_child)
 			(*vars)->size++;
 		}
 	}
-	(*vars)->size--;
+	// (*vars)->size--;
 	cmd = ft_command_size((*vars)->size);
 	if (ft_is_builtin((*vars)->tokens->token) == 1)
 		ft_call_builtin(vars, (*vars)->tokens);

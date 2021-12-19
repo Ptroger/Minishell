@@ -35,8 +35,6 @@ void	set_redir(t_vars *vars)
 			tokens->type = R_OUT;
 		else if (ft_strcmp(tokens->token, "|") == 0)
 			tokens->type = PIPE;
-		else
-			tokens->type = NONE;
 		tokens = tokens->next;
 	}
 }
@@ -90,9 +88,15 @@ void	flag_syntax(t_vars *vars)
 		{
 			if (tokens->next && (tokens->next->type < 5
 				|| tokens->next->type > 7))
+				{
+					printf("2\n");
 					tokens->next->type = SYNTAX_ERROR;
+				}
 			else if (!tokens->next)
+			{
 				tokens->type = SYNTAX_ERROR;
+				printf("3\n");
+			}
 		}
 		tokens = tokens->next;
 	}
@@ -108,11 +112,10 @@ void	set_type(t_vars *vars)
 	set_files(vars);
 	flag_syntax(vars);
 	set_cmd(vars);
-		while (tokens)
+	while (tokens)
 	{
-		// printf("token set = %s\n", tokens->token);
+		// printf("type == %s\n", tokens->token);
 		// tokens->type = NONE;
-		// printf("type set == %d\n", tokens->type);
 		tokens = tokens->next;
 	}
 }

@@ -91,7 +91,7 @@ void	write_file(t_vars *vars, char *name)
 	signal(SIGINT, SIG_DFL);
 	i = 0;
 	tab = check_multi(vars, &i);
-	fd = open("temp", O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	fd = open(H_DOC_PATH, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (fd < 0)
 	{
 		throw_error(NULL, errno);

@@ -14,7 +14,11 @@ int	check_str(char *str)
 		if (str[i] == '|')
 		{
 			if (dif == 0)
+			{
+				throw_error("syntax error near token: ", 1);
+				ft_putchar_fd(str[i], 2);
 				return (1);
+			}
 			dif = 0;
 		}
 		i++;
@@ -31,7 +35,7 @@ int	check_syntax(t_vars *vars)
 	{
 		if (tokens->type == SYNTAX_ERROR)
 		{
-			ft_putstr_fd("syntax error on token ", STDERR_FILENO);
+			ft_putstr_fd("syntax error near token ", STDERR_FILENO);
 			throw_error(tokens->token, 258);
 			return (FALSE);
 		}
@@ -56,20 +60,21 @@ void	read_loop(t_vars *vars)
 			printf("exit\n");
 			clean_exit(vars, 0);
 		}
-		if (check_str(line) != 0)
-			throw_error("parse error", 1);
 		else if (*line)
 		{
 			parse(line, vars);
 			add_history(line);
-			free(line);
 			if (vars->tokens)
 				set_type(vars);
 			if (check_syntax(vars) == TRUE && vars->tokens)
+			{
+				free(line);
 				call_command(&vars, FALSE);
+			}
 			ft_lstclear(&vars->tokens, free);
-			destroy_store(vars->store);
-			unlink("./temp");
+			// destroy_store(&vars->store);
+			if (access(H_DOC_PATH, R_OK) == 0)
+				unlink(H_DOC_PATH);
 		}
 	}
 }
