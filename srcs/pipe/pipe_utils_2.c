@@ -44,7 +44,7 @@ void	ft_process_4(t_vars **vars, t_pipe **temp_p, t_list *temp_1)
 		ft_find_cmd(*vars, (*temp_p)->token, (*temp_p)->cmd, (*vars)->path);
 }
 
-void	ft_process_3(t_vars **vars, t_pipe **temp_p, t_list *temp_1)
+void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1)
 {
 	int		file;
 	t_list	*temp;
@@ -53,17 +53,17 @@ void	ft_process_3(t_vars **vars, t_pipe **temp_p, t_list *temp_1)
 	temp = temp_1;
 	while (temp_1)
 	{
-		if (is_special(temp_1) == TRUE && (*temp_p)->redir == 1)
+		if (is_special(temp_1) == TRUE && temp_p->redir == 1)
 		{
 			handle_redirs(*vars, temp_1, &file);
-			ft_process_4(vars, temp_p, temp);
+			ft_process_4(vars, &temp_p, temp);
 			close(file);
 			clean_exit(*vars, 0);
 			return ;
 		}
 		temp_1 = temp_1->next;
 	}
-	ft_process_4(vars, temp_p, temp);
+	ft_process_4(vars, &temp_p, temp);
 }
 
 int	ft_process_2(t_pipe **temp_p)
@@ -72,7 +72,6 @@ int	ft_process_2(t_pipe **temp_p)
 
 	i = -1;
 	(*temp_p)->token = ft_strdup((*temp_p)->cell[0]);
-	// printf("tab ici == %s\n", &(*temp_p)->cmd[0]);
 	(*temp_p)->cmd = ft_command_size((*temp_p)->size + 1);
 	while (++i < (*temp_p)->size - 1 && (*temp_p)->size > 1
 		&& ft_is_key((*temp_p)->cell[i + 1]) == 0)

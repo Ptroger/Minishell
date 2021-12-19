@@ -57,7 +57,7 @@ int	ft_process(t_vars **vars, t_pipe **temp_p, int size, int *pfd)
 		if (g_g.pid == 0)
 		{
 			ft_dup(*temp_p, count, size, pfd);
-			ft_process_3(vars, temp_p, temp_1);
+			ft_process_3(vars, *temp_p, temp_1);
 		}
 		ft_browse_tmp(&temp_1);
 		count += 2;

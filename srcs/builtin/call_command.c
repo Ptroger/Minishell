@@ -27,6 +27,7 @@ void	ft_call_builtin_2(t_vars **vars, t_list *tokens)
 			ft_pwd(*vars, tokens);
 		else if (ft_strcmp(tokens->token, "unset") == 0 && tokens->next)
 			ft_unset(tokens, &(*vars)->t_env, &(*vars)->t_exp);
+		(*vars)->store = (*vars)->original;
 		clean_exit(*vars, 0);
 	}
 	wait(&status);
