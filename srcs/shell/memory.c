@@ -13,13 +13,9 @@ char	*dupfree(char *s1, char *s2)
 	char	*ret;
 
 	if (s2)
-	{
 		free(s2);
-	}
 	if (!s1)
-	{
 		return (NULL);
-	}
 	ret = ft_strdup(s1);
 	return (ret);
 }
@@ -42,6 +38,7 @@ t_vars	*ft_init_vars(void)
 	vars->t_env = NULL;
 	vars->t_exp = NULL;
 	vars->store = NULL;
+	vars->original = NULL;
 	g_g.ret = 0;
 	g_g.pid = 0;
 	return (vars);
@@ -74,9 +71,11 @@ void	destroy_tab(char **tab)
 	int	i;
 
 	i = 0;
-	if (tab != NULL)
+	if (!tab[1])
+	if (tab)
 	{
-		while (tab[i] != NULL)
+		// printf("tabstring == %s\n", tab[i]);
+		while (tab[i])
 		{
 			free(tab[i]);
 			i++;

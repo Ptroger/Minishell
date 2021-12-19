@@ -100,7 +100,8 @@ void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
 		}
 	}
 	// signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, sig_handler);
+	if (ft_strcmp(tokens->token,"./minishell") != 0)
+		signal(SIGQUIT, sig_handler);
 	g_g.pid = fork();
 	if (g_g.pid == 0)
 	{

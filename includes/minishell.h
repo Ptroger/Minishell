@@ -58,6 +58,7 @@ typedef struct	s_vars
 	int		stdin;
 	char	**path;
 	char	**real_envs;
+	t_pipe	*original;
 	t_pipe	*store;
 	t_list	*tokens;
 	t_sort	*t_env;
@@ -128,10 +129,11 @@ int		ft_is_builtin(char *token);
 
 // BUILTINS_UTILS
 void	ft_browse_tmp(t_list **temp);
-void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1);
-int		ft_process_2(t_pipe *temp_p);
+void	ft_process_3(t_vars **vars, t_pipe **temp_p, t_list *temp_1);
+int		ft_process_2(t_pipe **temp_p);
 
 // MEMORY
+void	destroy_store(t_pipe *store);
 void	clean_exit(t_vars *vars, int code);
 char    *dupfree(char *s1, char *s2);
 void	destroy_vars(t_vars *vars);
