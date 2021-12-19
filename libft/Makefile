@@ -2,7 +2,7 @@ NAME = libft.a
 
 SRC_NAME = ft_isprint.c ft_memmove.c ft_putnbr_fd.c \
 ft_strjoin.c ft_strncmp.c ft_calloc.c ft_islower.c ft_isupper.c \
-ft_itoa.c ft_memset.c ft_strlcpy.c ft_strcpy.c \
+ft_itoa.c ft_memset.c ft_strlcpy.c ft_strncpy.c ft_strcpy.c \
 ft_substr.c ft_bzero.c ft_strcmp.c \
 ft_memccpy.c ft_putstr_fd.c ft_strcat.c \
 ft_strdup.c ft_strlcat.c ft_strtrim.c \

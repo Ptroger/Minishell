@@ -46,7 +46,6 @@ void	ft_set_env(t_sort **t_env, char **env)
 		add_back(t_env, new_elem);
 		i++;
 	}
-	// printf("ici\n")
 }
 
 void	ft_get_env_name(t_sort **t_env, char **env)
