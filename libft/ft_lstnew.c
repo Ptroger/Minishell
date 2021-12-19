@@ -25,6 +25,7 @@ t_list	*ft_lstnew(void *content, int i)
 	else
 		new_elem->token = content;
 	new_elem->index = i;
+	new_elem->type = -1;
 	new_elem->next = NULL;
 	return (new_elem);
 }

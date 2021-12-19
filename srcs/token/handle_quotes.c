@@ -6,6 +6,7 @@ int	set_quote(char c, t_vars *vars)
 		vars->state = D_QUOTE;
 	else if (c == '\'')
 		vars->state = S_QUOTE;
+	vars->been_quoted = TRUE;
 	return (CONTINUE);
 }
 

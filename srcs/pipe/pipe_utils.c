@@ -20,18 +20,17 @@ int	ft_error(char *str)
 
 char	**ft_command_size(int size)
 {
-	int		i;
 	char	**cmd;
 
 	cmd = (char **)malloc(sizeof(char *) * (size + 1));
 	if (!cmd)
 		return (NULL);
-	i = size;
-	while (i)
+	while (size)
 	{
-		cmd[i] = NULL;
-		i--;
+		cmd[size] = NULL;
+		size--;
 	}
+	cmd[0] = ft_strdup("tmp");
 	return (cmd);
 }
 

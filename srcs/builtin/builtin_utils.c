@@ -107,10 +107,12 @@ void	ft_find_cmd(t_vars *vars, char *token, char **cmd, char **tab)
 		ft_putstr_fd("Error : path could not be found\n", 2);
 		return;
 	}
+	if (cmd && cmd[0])
+		free(cmd[0]);
 	if (is_absolute(token) == TRUE)
 	{
 		cmd[0] = ft_strdup(token);
-		execve(cmd[0], cmd, NULL);
+		execve(cmd[0], cmd, vars->real_envs);
 	}
 	else
 	{

@@ -133,8 +133,8 @@ void	ft_store_command(t_list *tokens, t_pipe **store)
 			temp_1 = temp_1->next;
 		if (!temp_p->next)
 			i++;
-		temp_p->cell = (char **)malloc(sizeof(char *) * (i));
-		temp_p->cell[i - 1] = NULL;
+		temp_p->cell = (char **)malloc(sizeof(char *) * (i + 1));
+		temp_p->cell[i] = NULL;
 		temp_p->redir = 0;
 		temp_p->index = 0;
 		if (!temp_p->cell)

@@ -22,6 +22,8 @@ char	*ft_strdup(const char *s1)
 	s2 = malloc(sizeof(char) * ft_strlen(s1) + 1);
 	if (!s2)
 		return (NULL);
+	if (!s1)
+		return (NULL);
 	while (s1[i])
 	{
 		s2[i] = s1[i];

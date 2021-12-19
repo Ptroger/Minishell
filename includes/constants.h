@@ -36,5 +36,6 @@
 # define TOKENSIZE 1024
 # define END_CHARS " $\"\0\'"
 # define REDIRS_CHARS "<>|"
+# define H_DOC_PATH "/tmp/hdoc"
 
 #endif

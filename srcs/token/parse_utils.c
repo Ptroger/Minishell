@@ -5,6 +5,7 @@ char	*add_c_tok(char c, t_vars *vars, int i, char *token)
 	char	*new_token;
 	char	*ptr;
 
+	
 	if (i < vars->token_size)
 		token[i] = c;
 	else
@@ -18,7 +19,8 @@ char	*add_c_tok(char c, t_vars *vars, int i, char *token)
 		token[i] = c;
 		free(ptr);
 	}
-	vars->token_i++;
+	if (c)
+		vars->token_i++;
 	return (token);
 }
 
@@ -27,6 +29,7 @@ void	add_token(t_vars *vars, int i)
 	t_list	*list;
 	char	*token;
 
+	
 	token = malloc(sizeof(char) * vars->token_size);
 	list = ft_lstnew((void *)token, i);
 	ft_lstadd_back(&vars->tokens, list);
@@ -39,6 +42,8 @@ void	finish_token(t_vars *vars, char *token, int i)
 	if (token[0])
 	{
 		new_tok = ft_lstnew((void *) token, i);
+		if (vars->been_quoted == TRUE)
+			new_tok->type = ARG;
 		ft_lstadd_back(&vars->tokens, new_tok);
 	}
 	else
