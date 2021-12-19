@@ -28,7 +28,7 @@ void	ft_call_builtin_3(t_vars **vars, t_list *tokens)
 		clean_exit(*vars, 0);
 	}
 	wait(&status);
-	g_g.ret += WEXITSTATUS(status);
+	g_g.ret = WEXITSTATUS(status);
 }
 
 void	ft_call_builtin_2(t_vars **vars, t_list *tokens)
@@ -50,10 +50,7 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 	user = NULL;
 	temp = (*vars)->t_env;
 	if (ft_strcmp(tokens->token, "exit") == 0)
-	{
-		printf("exit\n");
-		clean_exit(*vars, errno);
-	}
+		ft_exit(*vars, tokens);
 	while (temp && ft_strcmp(temp->name, "USER") != 0)
 		temp = temp->next;
 	if (ft_strcmp(temp->name, "USER") == 0)
@@ -85,7 +82,7 @@ int	ft_is_builtin(char *token)
 	return (0);
 }
 
-void	ft_single_command_2(t_vars **vars, t_list *tokens, char **cmd)
+void	ft_single_command_2(t_vars **vars, t_list *tokens, char ***cmd)
 {
 	int		status;
 	
@@ -101,7 +98,7 @@ void	ft_single_command_2(t_vars **vars, t_list *tokens, char **cmd)
 		wait(&status);
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, sig_handler);
-		g_g.ret +=  WEXITSTATUS(status);
+		g_g.ret =  WEXITSTATUS(status);
 	}
 }
 
@@ -128,7 +125,7 @@ void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, sig_handler);
 	}
-	ft_single_command_2(vars, tokens, cmd);
+	ft_single_command_2(vars, tokens, &cmd);
 }
 
 void	ft_check_redir_3(t_vars **vars, t_list *temp, int *file)
@@ -199,7 +196,7 @@ int	ft_check_redir(t_vars **vars)
 			if (g_g.pid == 0)
 				ft_check_redir_2(vars, temp);
 			wait(&status);
-			g_g.ret += WEXITSTATUS(status);
+			g_g.ret = WEXITSTATUS(status);
 			signal(SIGINT, sig_handler);
 			return (TRUE);
 		}
@@ -244,10 +241,14 @@ int	call_command(t_vars **vars, int is_child)
 {
 	char	**cmd;
 	t_list	*temp;
+	t_list	*temp2;
 
 	ft_reset_var(vars);
 	temp = (*vars)->tokens;
+	temp2 = (*vars)->tokens;
 	(*vars)->size = 1;
+	while (temp2)
+		temp2 = temp2->next;
 	if (ft_check_redir(vars) == TRUE)
 		return (0);
 	if (is_child == FALSE)
@@ -267,6 +268,7 @@ int	call_command(t_vars **vars, int is_child)
 		ft_call_builtin(vars, (*vars)->tokens);
 	else
 		ft_single_command(vars, (*vars)->tokens, cmd, (*vars)->size);
-	free(cmd);
+	if (cmd)
+		free(cmd);
 	return (0);
 }

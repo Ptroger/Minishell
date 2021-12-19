@@ -25,6 +25,7 @@ SRCS    =		srcs/token/parse.c \
 				srcs/builtin/builtin_utils_2.c \
 				srcs/builtin/cd.c \
 				srcs/builtin/echo.c \
+				srcs/builtin/exit.c \
 				srcs/builtin/env.c \
 				srcs/builtin/env_util.c \
 				srcs/builtin/export.c \
@@ -49,7 +50,7 @@ INCLUDE =       -I ./includes/
 
 OBJS    =       $(SRCS:%.c=%.o)
 
-CFLAGS  =       -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS  =       -Wall -Wextra -Werror #-g -fsanitize=address
 
 LIBFT = 		./libft/libft.a
 

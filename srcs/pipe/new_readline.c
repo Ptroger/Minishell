@@ -42,6 +42,7 @@ void    ft_new_readline_2(t_vars **vars, char *line, char *tmp)
         line = readline("> ");
         if (!line)
 		{
+            printf("exit\n");
         	free(tmp);
         	clean_exit(*vars, 0);
 		}

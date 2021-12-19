@@ -28,20 +28,22 @@ void	ft_process_4(t_vars **vars, t_pipe **temp_p, t_list *temp_1)
 	(*vars)->store = (*vars)->original;
 	if (ft_is_builtin((*temp_p)->token) == 1)
 	{
+		(*temp_p)->cmd[0] = ft_strdup("tmp");
 		ft_call_builtin(vars, temp_1);
 		exit(g_g.ret);
 	}
 	else if (is_special(temp_2) == TRUE && temp_1->next
 		&& temp_1->next->next && ft_is_builtin(temp_1->next->next->token) == 1)
 	{
+		(*temp_p)->cmd[0] = ft_strdup("tmp");
 		ft_call_builtin(vars, temp_1->next->next);
 		exit(g_g.ret);
 	}
 	else if (is_special(temp_2) == TRUE && temp_1->next
 		&& temp_1->next->next && shall_exec(*vars, temp_1) == TRUE)
-		ft_find_cmd(*vars, temp_1->next->next->token, (*temp_p)->cmd, (*vars)->path);
+		ft_find_cmd(*vars, temp_1->next->next->token, &(*temp_p)->cmd, (*vars)->path);
 	else
-		ft_find_cmd(*vars, (*temp_p)->token, (*temp_p)->cmd, (*vars)->path);
+		ft_find_cmd(*vars, (*temp_p)->token, &(*temp_p)->cmd, (*vars)->path);
 }
 
 void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1)

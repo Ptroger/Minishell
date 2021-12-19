@@ -6,7 +6,7 @@ void	sig_c(void)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-	g_g.ret += 1;	
+	g_g.ret = 1;	
 }
 
 void	handle_parent(int sig)
@@ -16,12 +16,12 @@ void	handle_parent(int sig)
 		if (sig == SIGINT)
 		{
 			printf("\n");
-			g_g.ret += 130;
+			g_g.ret = 130;
 		}
 		if (sig == SIGQUIT)
 		{
 			ft_putstr_fd("Quit: 3 Core dumped\n", STDERR_FILENO);
-			g_g.ret += 131;
+			g_g.ret = 131;
 		}
 	}
 	else if (sig == SIGINT)

@@ -33,10 +33,9 @@ int	ft_find_redir(t_vars **vars, t_pipe **temp_p_2, t_list **temp_2)
 		}
 		(*temp_p_2) = (*temp_p_2)->next;
 	}
-	temp = (*vars)->tokens;
-	while (temp && ft_strcmp(temp->token, "|") != 0)
+	while (temp->next)
 		temp = temp->next;
-	if (ft_strcmp(temp->token, "|") == 0 && !temp->next)
+	if (ft_strcmp(temp->token, "|") == 0)
 		return (ft_new_readline(vars));
 	return (1);
 }
@@ -99,7 +98,7 @@ int	ft_child(t_vars **vars, t_pipe **store, int size)
 	while (++i < 2 * (size - 1) + 1)
 	{
 		wait(&status);
-		g_g.ret += WEXITSTATUS(status);
+		g_g.ret = WEXITSTATUS(status);
 	}
 	return (1);
 }

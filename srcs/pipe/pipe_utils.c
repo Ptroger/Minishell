@@ -25,12 +25,11 @@ char	**ft_command_size(int size)
 	cmd = (char **)malloc(sizeof(char *) * (size + 1));
 	if (!cmd)
 		return (NULL);
-	while (size)
+	while (size >= 0)
 	{
 		cmd[size] = NULL;
 		size--;
 	}
-	cmd[0] = ft_strdup("tmp");
 	return (cmd);
 }
 

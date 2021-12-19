@@ -105,7 +105,7 @@ int		expand_helper(t_vars *vars, char *line, char *name, int i);
 
 // EXECUTION
 int		call_command(t_vars **vars, int is_child);
-void	ft_find_cmd(t_vars *vars, char *token, char **cmd, char **tab);
+void	ft_find_cmd(t_vars *vars, char *token, char ***cmd, char **tab);
 int		shall_exec(t_vars *vars, t_list *token);
 
 // ENVS
@@ -120,6 +120,7 @@ void	add_back(t_sort **sort, t_sort *new);
 int		ft_cd(t_vars **vars, t_list *tokens, char *user);
 void	ft_pwd(t_vars *vars, t_list *tokens);
 void	ft_dup(t_pipe *temp_p, int count, int size, int *pfd);
+void	ft_exit(t_vars *vars, t_list *tokens);
 void	ft_call_echo(t_list *tokens);
 void	ft_echo_n(t_list *tokens);
 void	ft_call_env(t_vars **vars, t_list *tokens);
