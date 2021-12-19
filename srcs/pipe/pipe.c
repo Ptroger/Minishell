@@ -165,7 +165,6 @@ int	ft_pipe(t_vars **vars, t_pipe *store)
 	}
 	pipe_add_back(&(*vars)->store, ft_add_elem_pipe());
 	size++;
-			printf("size == %d\n", size);
 	ft_store_command((*vars)->tokens, &(*vars)->store);
 	ft_child(vars, &(*vars)->store, size);
 	return (0);

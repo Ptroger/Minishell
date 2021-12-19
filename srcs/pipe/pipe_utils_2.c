@@ -74,14 +74,11 @@ int	ft_process_2(t_pipe **temp_p)
 	(*temp_p)->token = ft_strdup((*temp_p)->cell[0]);
 	// printf("tab ici == %s\n", &(*temp_p)->cmd[0]);
 	(*temp_p)->cmd = ft_command_size((*temp_p)->size + 1);
-	printf("size == %d\n", (*temp_p)->size - 1);
 	while (++i < (*temp_p)->size - 1 && (*temp_p)->size > 1
 		&& ft_is_key((*temp_p)->cell[i + 1]) == 0)
 	{
 		(*temp_p)->cmd[i + 1] = dupfree((*temp_p)->cell[i + 1]
 		, (*temp_p)->cmd[i + 1]);
-		printf("cmd = %s\n", (*temp_p)->cmd[i + 1] );
 	}
-	printf("tab la == %p\n", &(*temp_p)->cmd[0]);
 	return (1);
 }

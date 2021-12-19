@@ -72,15 +72,12 @@ void	destroy_tab(char **tab)
 
 	i = 0;
 	if (!tab[1])
-		printf("cmd[1] == NULL\n");
 	if (tab)
 	{
 		// printf("tabstring == %s\n", tab[i]);
 		while (tab[i])
 		{
-			printf("tab== %p\n", &tab[i]);
 			free(tab[i]);
-			printf("ici\n");
 			i++;
 		}
 		free(tab);
@@ -94,9 +91,7 @@ void	destroy_store(t_pipe *store)
 	{
 		if (store->token)
 			free(store->token);
-		printf("cmd\n\n");
 		destroy_tab(store->cmd);
-		printf("cell\n\n");
 		destroy_tab(store->cell);
 		store = store->next;
 	}
