@@ -71,10 +71,8 @@ void	destroy_tab(char **tab)
 	int	i;
 
 	i = 0;
-	printf("tab works\n");
 	if (tab)
 	{
-		printf("tabstring == %s\n", tab[i]);
 		while (tab[i])
 		{
 			free(tab[i]);
