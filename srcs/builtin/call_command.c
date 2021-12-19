@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-void	ft_call_builtin_2(t_vars **vars, t_list *tokens)
+void	ft_call_builtin_3(t_vars **vars, t_list *tokens)
 {
 	int	status;
 
@@ -29,6 +29,17 @@ void	ft_call_builtin_2(t_vars **vars, t_list *tokens)
 	}
 	wait(&status);
 	g_g.ret += WEXITSTATUS(status);
+}
+
+void	ft_call_builtin_2(t_vars **vars, t_list *tokens)
+{
+	if (ft_strcmp(tokens->token, "export") == 0)
+	{
+		ft_export(tokens, &(*vars)->t_env, &(*vars)->t_exp);
+		return ;
+	}
+	else if (ft_strcmp(tokens->token, "unset") == 0 && tokens->next)
+		ft_unset(tokens, &(*vars)->t_env, &(*vars)->t_exp);
 }
 
 void	ft_call_builtin(t_vars **vars, t_list *tokens)
@@ -57,15 +68,10 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 		free(user);
 		return ;
 	}
-	free(user);
-	if (ft_strcmp(tokens->token, "export") == 0)
-	{
-		ft_export(tokens, &(*vars)->t_env, &(*vars)->t_exp);
-		return ;
-	}
-	else if (ft_strcmp(tokens->token, "unset") == 0 && tokens->next)
-		ft_unset(tokens, &(*vars)->t_env, &(*vars)->t_exp);
+	if (user)
+		free(user);
 	ft_call_builtin_2(vars, tokens);
+	ft_call_builtin_3(vars, tokens);
 }
 
 int	ft_is_builtin(char *token)
@@ -80,28 +86,10 @@ int	ft_is_builtin(char *token)
 	return (0);
 }
 
-void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
+void	ft_single_command_2(t_vars **vars, t_list *tokens, char **cmd)
 {
-	int		i;
 	int		status;
-	t_list	*temp;
-
-	i = 1;
-	temp = tokens;
-	if (temp->next)
-		temp = temp->next;
-	if (size > 1)
-	{
-		while (temp && ft_is_key(temp->token) == 0)
-		{
-			cmd[i] = temp->token;
-			temp = temp->next;
-			i++;
-		}
-	}
-	// signal(SIGINT, SIG_IGN);
-	if (ft_strcmp(tokens->token,"./minishell") != 0)
-		signal(SIGQUIT, sig_handler);
+	
 	g_g.pid = fork();
 	if (g_g.pid == 0)
 	{
@@ -118,9 +106,56 @@ void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
 	}
 }
 
-void	ft_check_redir_2(t_vars **vars, t_list *temp)
+void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
+{
+	int		i;
+	t_list	*temp;
+
+	i = 1;
+	temp = tokens;
+	if (temp->next)
+		temp = temp->next;
+	if (size > 1)
+	{
+		while (temp && ft_is_key(temp->token) == 0)
+		{
+			cmd[i] = temp->token;
+			temp = temp->next;
+			i++;
+		}
+	}
+	if (ft_strcmp(tokens->token,"./minishell") != 0)
+		signal(SIGQUIT, sig_handler);
+	ft_single_command_2(vars, tokens, cmd);
+}
+
+void	ft_check_redir_3(t_vars **vars, t_list *temp, int *file)
 {
 	char	**cmd;
+	
+	handle_redirs(*vars, temp, file);
+	cmd = ft_command_size((*vars)->size);
+	if (ft_is_builtin((*vars)->tokens->token) == 1)
+		ft_call_builtin(vars, (*vars)->tokens);
+	else if (is_special((*vars)->tokens) == TRUE && (*vars)->tokens->next
+		&& (*vars)->tokens->next->next && ft_is_builtin((*vars)->tokens->next->next->token) == 1)
+	{
+		ft_call_builtin(vars, (*vars)->tokens->next->next);
+		exit(g_g.ret);
+	}
+	else
+		ft_single_command(vars, (*vars)->tokens, cmd, (*vars)->size);	
+	free(cmd);
+	if (close(*file) != 0)
+	{
+		throw_error(NULL, errno);
+		clean_exit(*vars, errno);
+	}
+	clean_exit(*vars, 0);
+}
+
+void	ft_check_redir_2(t_vars **vars, t_list *temp)
+{
 	t_list	*temp_2;
 	int		file;
 
@@ -142,24 +177,7 @@ void	ft_check_redir_2(t_vars **vars, t_list *temp)
 		temp_2 = temp_2->next;
 	}
 	handle_redirs(*vars, temp, &file);
-	cmd = ft_command_size((*vars)->size);
-	if (ft_is_builtin((*vars)->tokens->token) == 1)
-		ft_call_builtin(vars, (*vars)->tokens);
-	else if (is_special((*vars)->tokens) == TRUE && (*vars)->tokens->next
-		&& (*vars)->tokens->next->next && ft_is_builtin((*vars)->tokens->next->next->token) == 1)
-	{
-		ft_call_builtin(vars, (*vars)->tokens->next->next);
-		exit(g_g.ret);
-	}
-	else
-		ft_single_command(vars, (*vars)->tokens, cmd, (*vars)->size);	
-	free(cmd);
-	if (close(file) != 0)
-	{
-		throw_error(NULL, errno);
-		clean_exit(*vars, errno);
-	}
-	clean_exit(*vars, 0);
+	ft_check_redir_3(vars, temp, &file);
 }
 
 int	ft_check_redir(t_vars **vars)

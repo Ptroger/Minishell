@@ -73,11 +73,7 @@ void	ft_get_env_name(t_sort **t_env, char **env)
 		temp->name[j] = '\0';
 		j++;
 		while (env[i][j])
-		{
-			temp->info[k] = env[i][j];
-			j++;
-			k++;
-		}
+			temp->info[k++] = env[i][j++];
 		temp->info[k] = '\0';
 		temp = temp->next;
 		i++;

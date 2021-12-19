@@ -12,6 +12,20 @@
 
 #include "minishell.h"
 
+void    ft_new_readline_3(t_vars **vars, char *line, char *tmp, char *ptr)
+{
+    tmp = ft_strjoin(tmp, line);
+    ptr = tmp;
+    tmp = ft_strjoin(tmp, " ");
+    free(ptr);
+    free(line);
+    parse(tmp, *vars);
+    if ((*vars)->tokens)
+        set_type(*vars);
+    if (check_syntax(*vars) == TRUE && (*vars)->tokens)
+        call_command(vars, FALSE);
+}
+
 void    ft_new_readline_2(t_vars **vars, char *line, char *tmp)
 {
     char    *ptr;
@@ -32,16 +46,7 @@ void    ft_new_readline_2(t_vars **vars, char *line, char *tmp)
         	clean_exit(*vars, 0);
 		}
     }
-    tmp = ft_strjoin(tmp, line);
-    ptr = tmp;
-    tmp = ft_strjoin(tmp, " ");
-    free(ptr);
-    free(line);
-    parse(tmp, *vars);
-    if ((*vars)->tokens)
-        set_type(*vars);
-    if (check_syntax(*vars) == TRUE && (*vars)->tokens)
-        call_command(vars, FALSE);
+    ft_new_readline_3(vars, line, tmp, ptr);
 }
 
 int ft_new_readline(t_vars **vars)
