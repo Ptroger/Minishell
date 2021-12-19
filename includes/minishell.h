@@ -141,7 +141,9 @@ void	destroy_tab(char **tab);
 t_vars	*ft_init_vars(void);
 
 // OTHERS
+void	set_type(t_vars *vars);
 void	sig_handler(int sig);
+int		check_syntax(t_vars *vars);
 int		throw_error(char *err, int errcode);
 t_sort	*ft_add_elem(char *env);
 void	ft_add_elem_exp(t_sort **sort, char *env);

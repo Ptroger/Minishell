@@ -38,7 +38,10 @@ void    ft_new_readline_2(t_vars **vars, char *line, char *tmp)
     free(ptr);
     free(line);
     parse(tmp, *vars);
-    call_command(vars, FALSE);
+    if ((*vars)->tokens)
+        set_type(*vars);
+    if (check_syntax(*vars) == TRUE && (*vars)->tokens)
+        call_command(vars, FALSE);
 }
 
 int ft_new_readline(t_vars **vars)

@@ -25,9 +25,6 @@ void	ft_call_builtin_2(t_vars **vars, t_list *tokens)
 			ft_call_env(vars, tokens);
 		else if (ft_strcmp(tokens->token, "pwd") == 0 || ft_strcmp(tokens->token, "/bin/pwd") == 0)
 			ft_pwd(*vars, tokens);
-		else if (ft_strcmp(tokens->token, "unset") == 0 && tokens->next)
-			ft_unset(tokens, &(*vars)->t_env, &(*vars)->t_exp);
-		(*vars)->store = (*vars)->original;
 		clean_exit(*vars, 0);
 	}
 	wait(&status);
@@ -66,6 +63,8 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 		ft_export(tokens, &(*vars)->t_env, &(*vars)->t_exp);
 		return ;
 	}
+	else if (ft_strcmp(tokens->token, "unset") == 0 && tokens->next)
+		ft_unset(tokens, &(*vars)->t_env, &(*vars)->t_exp);
 	ft_call_builtin_2(vars, tokens);
 }
 
@@ -146,6 +145,12 @@ void	ft_check_redir_2(t_vars **vars, t_list *temp)
 	cmd = ft_command_size((*vars)->size);
 	if (ft_is_builtin((*vars)->tokens->token) == 1)
 		ft_call_builtin(vars, (*vars)->tokens);
+	else if (is_special((*vars)->tokens) == TRUE && (*vars)->tokens->next
+		&& (*vars)->tokens->next->next && ft_is_builtin((*vars)->tokens->next->next->token) == 1)
+	{
+		ft_call_builtin(vars, (*vars)->tokens->next->next);
+		exit(g_g.ret);
+	}
 	else
 		ft_single_command(vars, (*vars)->tokens, cmd, (*vars)->size);	
 	free(cmd);
