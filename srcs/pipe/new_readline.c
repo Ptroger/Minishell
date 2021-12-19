@@ -22,7 +22,7 @@ void    ft_new_readline_3(t_vars **vars, char *line, char *tmp, char *ptr)
     parse(tmp, *vars);
     if ((*vars)->tokens)
         set_type(*vars);
-    if (check_syntax(*vars) == TRUE && (*vars)->tokens)
+//    if (check_syntax(*vars) == TRUE && (*vars)->tokens)
         call_command(vars, FALSE);
 }
 

@@ -54,7 +54,11 @@ int	ft_process(t_vars **vars, t_pipe **temp_p, int size, int *pfd)
 	(*vars)->original = (*vars)->store;
 	while (*temp_p)
 	{
-		ft_find_redir(vars, &temp_p_2, &temp_2);
+		if (ft_find_redir(vars, &temp_p_2, &temp_2) == 1)
+		{
+			printf("YO\n");
+			return (1);
+		}
 		ft_process_2(temp_p);
 		g_g.pid = fork();
 		if (g_g.pid < 0)
