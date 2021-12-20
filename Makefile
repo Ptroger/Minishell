@@ -50,6 +50,7 @@ SRCS    =		srcs/token/parse.c \
 				srcs/shell/read.c \
 				srcs/shell/memory.c \
 				srcs/shell/memory_utils.c \
+				srcs/shell/check_utils.c \
 				srcs/shell/errors.c \
 				srcs/shell/utils.c \
 				srcs/pipe/pipe_utils_2.c \

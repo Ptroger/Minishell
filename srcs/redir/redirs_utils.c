@@ -79,7 +79,7 @@ void	handle_token(t_vars *vars, t_list *tokens, char *token)
 		if (vars->stdout > -1)
 			close(vars->stdout);
 		vars->stdout = open(tokens->next->token,
-				O_WRONLY);
+				O_WRONLY | O_CREAT | O_APPEND);
 	}
 	if (vars->stdout == -1)
 		open_err(vars, tokens);
@@ -96,5 +96,4 @@ void	redirect_output(t_vars *vars, t_list *tokens, char *token)
 		tokens = tokens->next;
 	}
 	dup2(vars->stdout, STDOUT_FILENO);
-	printf("errno %d\n", errno);
 }

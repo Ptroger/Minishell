@@ -64,6 +64,11 @@ char	*reset_loop(t_vars *vars)
 	vars->exit_status = g_g.ret;
 	signal(SIGQUIT, SIG_IGN);
 	line = readline(PROMPT);
+	while (line && check_quote(line) == FALSE)
+	{
+		free(line);
+		line = readline(PROMPT);
+	}
 	return (line);
 }
 
