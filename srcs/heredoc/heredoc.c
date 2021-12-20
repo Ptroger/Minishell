@@ -94,8 +94,10 @@ void	write_file(t_vars *vars, char *name)
 	fd = open(H_DOC_PATH, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (fd < 0)
 	{
+		ft_putstr_fd(H_DOC_PATH, STDERR_FILENO);
+		write(2, ": ", 2);
 		throw_error(NULL, errno);
-		clean_exit(vars, errno);
+		clean_exit(vars, 1);
 	}
 	(void)name;
 	heredoc_loop(vars, tab, fd, i);

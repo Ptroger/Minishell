@@ -9,7 +9,7 @@ else
 	LIBS = -lreadline -L ~/.brew/opt/readline/lib
 	LIB_INC = -I ~/.brew/opt/readline/include
 
-endif
+endif	
 
 NAME    =       minishell
 
@@ -40,6 +40,7 @@ SRCS    =		srcs/token/parse.c \
 				srcs/shell/signals.c \
 				srcs/shell/read.c \
 				srcs/shell/memory.c \
+				srcs/shell/memory_utils.c \
 				srcs/shell/errors.c \
 				srcs/shell/utils.c \
 				srcs/pipe/pipe_utils_2.c \
@@ -50,7 +51,7 @@ INCLUDE =       -I ./includes/
 
 OBJS    =       $(SRCS:%.c=%.o)
 
-CFLAGS  =       -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS  =       -Wall -Wextra -Werror #-g -fsanitize=address
 
 LIBFT = 		./libft/libft.a
 

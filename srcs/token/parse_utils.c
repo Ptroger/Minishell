@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ptroger <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/20 12:21:12 by ptroger           #+#    #+#             */
+/*   Updated: 2021/12/20 12:21:14 by ptroger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*add_c_tok(char c, t_vars *vars, int i, char *token)
@@ -5,7 +17,6 @@ char	*add_c_tok(char c, t_vars *vars, int i, char *token)
 	char	*new_token;
 	char	*ptr;
 
-	
 	if (i < vars->token_size)
 		token[i] = c;
 	else
@@ -29,7 +40,6 @@ void	add_token(t_vars *vars, int i)
 	t_list	*list;
 	char	*token;
 
-	
 	token = malloc(sizeof(char) * vars->token_size);
 	list = ft_lstnew((void *)token, i);
 	ft_lstadd_back(&vars->tokens, list);

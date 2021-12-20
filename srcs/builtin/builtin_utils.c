@@ -77,7 +77,7 @@ int	is_absolute(char *token)
 	return (FALSE);
 }
 
-char	*find_path(char *token, char **tab)
+char	*find_path(t_vars *vars, char *token, char **tab)
 {
 	char *path;
 	int i;
@@ -91,8 +91,11 @@ char	*find_path(char *token, char **tab)
 		path = ft_strcpy(path, tab[i]);
 		path = ft_strcat(path, "/");
 		path = ft_strcat(path, token);
-		if (access(path, X_OK) == 0)
-			return (path);
+		if (is_dir(vars, path, 2) == FALSE)
+		{
+			if (access(path, X_OK) == 0)
+				return (path);
+		}
 		i++;
 		free(path);
 	}
@@ -112,14 +115,15 @@ void	ft_find_cmd(t_vars *vars, char *token, char ***cmd, char **tab)
 	if (is_absolute(token) == TRUE)
 	{
 		*cmd[0] = ft_strdup(token);
-		execve(*cmd[0], *cmd, vars->real_envs);
+		if (is_dir(vars, *cmd[0], TRUE) == FALSE)
+			execve(*cmd[0], *cmd, vars->real_envs);
 	}
 	else
 	{
 		if (ft_strcmp(token, "<<") == 0)
-			*cmd[0] = find_path("cat", tab);
+			*cmd[0] = find_path(vars, "cat", tab);
 		else
-			*cmd[0] = find_path(token, tab);
+			*cmd[0] = find_path(vars, token, tab);
 		g_g.ret = execve(*cmd[0], *cmd, vars->real_envs);
 		ft_putstr_fd(token, 2);
 		throw_error(": command not found", 127);

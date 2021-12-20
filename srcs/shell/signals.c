@@ -1,4 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ptroger <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/20 12:13:47 by ptroger           #+#    #+#             */
+/*   Updated: 2021/12/20 12:13:49 by ptroger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
+
+void	ctrl_d(t_vars *vars)
+{
+	printf("exit\n");
+	clean_exit(vars, 0);
+}
 
 void	sig_c(void)
 {
@@ -6,7 +24,7 @@ void	sig_c(void)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-	g_g.ret = 1;	
+	g_g.ret = 1;
 }
 
 void	handle_parent(int sig)
@@ -36,12 +54,4 @@ void	sig_handler(int sig)
 		exit(131);
 	else
 		sig_c();
-		// else
-	// {
-		// if (sig == SIGINT)
-		// {
-			// sig_c();
-			// g_g.ret += 1;
-		// }
-	// }
 }

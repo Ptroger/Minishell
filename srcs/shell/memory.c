@@ -1,24 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   memory.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ptroger <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/20 12:10:10 by ptroger           #+#    #+#             */
+/*   Updated: 2021/12/20 12:10:11 by ptroger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 t_glob	g_g;
-
-void	clean_exit(t_vars *vars, int code)
-{
-	destroy_vars(vars);
-	exit(code);
-}
-
-char	*dupfree(char *s1, char *s2)
-{
-	char	*ret;
-
-	if (s2)
-		free(s2);
-	if (!s1)
-		return (NULL);
-	ret = ft_strdup(s1);
-	return (ret);
-}
 
 t_vars	*ft_init_vars(void)
 {

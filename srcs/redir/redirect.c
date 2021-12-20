@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirect.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ptroger <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/20 12:04:02 by ptroger           #+#    #+#             */
+/*   Updated: 2021/12/20 12:04:04 by ptroger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 #include <string.h>
 
@@ -8,6 +20,8 @@ int	redirect(t_vars *vars, t_list *tokens, char *name, int *file)
 
 	token = tokens->token;
 	toks = vars->tokens;
+	if (tokens->type != H_DOC)
+		is_dir(vars, name, FALSE);
 	if (ft_strcmp(token, "<") == 0)
 		redirect_input(vars, tokens);
 	else if (ft_strcmp(token, ">") == 0 || ft_strcmp(token, ">>") == 0)
