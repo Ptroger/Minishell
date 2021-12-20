@@ -102,6 +102,21 @@ char	*find_path(t_vars *vars, char *token, char **tab)
 	return (ft_strdup(token));
 }
 
+int	check_path(t_vars *vars, char *path)
+{
+	if (is_dir(vars, path, TRUE) == FALSE)
+	{
+		if (access(path, X_OK) == 0)
+			return (TRUE);
+		ft_putstr_fd(path, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		throw_error(NULL, errno);
+		clean_exit(vars, 126);
+	}
+	clean_exit(vars, 1);
+	return (FALSE);
+}
+
 void	ft_find_cmd(t_vars *vars, char *token, char ***cmd, char **tab)
 {
 	set_envs(vars);
@@ -115,7 +130,7 @@ void	ft_find_cmd(t_vars *vars, char *token, char ***cmd, char **tab)
 	if (is_absolute(token) == TRUE)
 	{
 		*cmd[0] = ft_strdup(token);
-		if (is_dir(vars, *cmd[0], TRUE) == FALSE)
+		if (check_path(vars, *cmd[0]) == TRUE)
 			execve(*cmd[0], *cmd, vars->real_envs);
 	}
 	else

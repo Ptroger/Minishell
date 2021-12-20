@@ -115,9 +115,6 @@ void	ft_parse_unset(t_list *tokens, t_sort **t_env,  t_sort **t_exp, char *tmp)
 			ft_unset_env(t_env, i);
 		if (temp_exp && ft_strncmp(tokens->next->token, temp_exp->data, j) == 0)
 			ft_unset_exp(t_exp, i);
-//		ft_free_pile(t_exp);
-//		*t_exp = NULL;
-//		ft_set_exp(t_exp, t_env);
 	}
 	else
 		printf("minishell: unset: `%s': not a valid identifier\n", tmp);
@@ -125,11 +122,9 @@ void	ft_parse_unset(t_list *tokens, t_sort **t_env,  t_sort **t_exp, char *tmp)
 
 void	ft_unset(t_list *tokens, t_sort **t_env, t_sort **t_exp)
 {
-	int		i;
 	char	*tmp;
 	t_list	*temp;
 
-	i = 0;
 	tmp = NULL;
 	temp = tokens;
 	if (tokens->next && ft_strcmp(tokens->next->token, "|") != 0 && is_special(tokens->next) == FALSE)

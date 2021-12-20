@@ -12,16 +12,19 @@
 
 #include "minishell.h"
 
+void	open_err(t_vars *vars, t_list *tokens)
+{
+	ft_putstr_fd(tokens->next->token, STDERR_FILENO);
+	write(2, ": ", 2);
+	throw_error(NULL, errno);
+	clean_exit(vars, 1);
+}
+
 void	redir_temp(t_vars *vars, t_list *tokens, char *name, int *file)
 {
 	*file = open(name, O_RDONLY);
 	if (*file == -1)
-	{
-		ft_putstr_fd(tokens->next->token, STDERR_FILENO);
-		write(2, ": ", 2);
-		throw_error(NULL, errno);
-		clean_exit(vars, 1);
-	}
+		open_err(vars, tokens);
 	dup2(*file, STDIN_FILENO);
 	while (tokens)
 	{
@@ -50,12 +53,7 @@ void	redirect_input(t_vars *vars, t_list *tokens)
 				close(vars->stdout);
 			vars->stdin = open(tokens->next->token, O_RDONLY);
 			if (vars->stdout == -1)
-			{
-				ft_putstr_fd(tokens->next->token, STDERR_FILENO);
-				write(2, ": ", 2);
-				throw_error(NULL, errno);
-				clean_exit(vars, 1);
-			}
+				open_err(vars, tokens);
 		}
 		tokens = tokens->next;
 	}
@@ -84,12 +82,7 @@ void	handle_token(t_vars *vars, t_list *tokens, char *token)
 				O_WRONLY);
 	}
 	if (vars->stdout == -1)
-	{
-		ft_putstr_fd(tokens->next->token, STDERR_FILENO);
-		write(2, ": ", 2);
-		throw_error(NULL, errno);
-		clean_exit(vars, 1);
-	}
+		open_err(vars, tokens);
 }
 
 void	redirect_output(t_vars *vars, t_list *tokens, char *token)

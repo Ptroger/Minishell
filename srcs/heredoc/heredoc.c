@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ptroger <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/20 15:34:41 by ptroger           #+#    #+#             */
+/*   Updated: 2021/12/20 15:34:42 by ptroger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*expand_readline(t_vars *vars, char *line)
@@ -52,11 +64,9 @@ void	heredoc_loop(t_vars *vars, char **tab, int fd, int i)
 	}
 }
 
-char	**check_multi(t_vars *vars, int *i)
+int	check_limitors(t_vars *vars, int *i)
 {
-	int		j;
 	t_list	*temp;
-	char	**tab;
 
 	temp = vars->tokens;
 	while (temp)
@@ -65,9 +75,18 @@ char	**check_multi(t_vars *vars, int *i)
 			*i += 1;
 		temp = temp->next;
 	}
-	j = *i;
-	tab = malloc(sizeof(char *) * (j + 1));
+	return (*i);
+}
+
+char	**check_multi(t_vars *vars, int *i)
+{
+	int		j;
+	t_list	*temp;
+	char	**tab;
+
 	temp = vars->tokens;
+	j = check_limitors(vars, i);
+	tab = malloc(sizeof(char *) * (j + 1));
 	tab[j] = NULL;
 	j--;
 	while (temp)
