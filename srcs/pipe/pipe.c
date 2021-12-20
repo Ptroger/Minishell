@@ -120,6 +120,16 @@ void	ft_store_command_2(t_list **temp_2, t_pipe **temp_p, int i)
 	(*temp_p)->size = j;
 }
 
+void	ft_set_store(t_pipe	**temp_p, int i)
+{
+	(*temp_p)->cell = (char **)malloc(sizeof(char *) * (i + 1));
+	(*temp_p)->cell[i] = NULL;
+	(*temp_p)->redir = 0;
+	(*temp_p)->index = 0;
+	if (!(*temp_p)->cell)
+		return ;
+}
+
 void	ft_store_command(t_list *tokens, t_pipe **store)
 {
 	int		i;
@@ -139,12 +149,7 @@ void	ft_store_command(t_list *tokens, t_pipe **store)
 			temp_1 = temp_1->next;
 		if (!temp_p->next)
 			i++;
-		temp_p->cell = (char **)malloc(sizeof(char *) * (i + 1));
-		temp_p->cell[i] = NULL;
-		temp_p->redir = 0;
-		temp_p->index = 0;
-		if (!temp_p->cell)
-			return ;
+		ft_set_store(&temp_p, i);
 		if (temp_p->next)
 			i++;
 		ft_store_command_2(&temp_2, &temp_p, i);
