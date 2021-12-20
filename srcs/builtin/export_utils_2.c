@@ -83,13 +83,9 @@ void	ft_set_list(t_list *tokens, t_sort **t_env, t_sort **t_exp)
 	int		i;
 	int		j;
 	char	*tmp;
-	t_sort	*temp_env;
-	t_sort	*temp_exp;
 
 	i = 0;
 	j = 0;
-	temp_env = *t_env;
-	temp_exp = *t_exp;
 	while (tokens->next->token[j] && (tokens->next->token[j] != '+' 
         && tokens->next->token[j] != '='))
 		j++;

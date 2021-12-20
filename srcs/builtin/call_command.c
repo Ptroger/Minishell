@@ -149,7 +149,7 @@ void	ft_check_redir_3(t_vars **vars, t_list *temp, int *file)
 	if (close(*file) != 0)
 	{
 		throw_error(NULL, errno);
-		clean_exit(*vars, errno);
+		clean_exit(*vars, 2);
 	}
 	clean_exit(*vars, 0);
 }
@@ -170,7 +170,7 @@ void	ft_check_redir_2(t_vars **vars, t_list *temp)
 			if (close(file) != 0)
 			{
 				throw_error(NULL, errno);
-				clean_exit(*vars, errno);
+				clean_exit(*vars, 2);
 			}
 			clean_exit(*vars, 0);
 			return ;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   read.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ptroger <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/20 12:15:26 by ptroger           #+#    #+#             */
+/*   Updated: 2021/12/20 12:15:28 by ptroger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 int	check_str(char *str)
@@ -28,7 +40,7 @@ int	check_str(char *str)
 
 int	check_syntax(t_vars *vars)
 {
-	t_list *tokens;
+	t_list	*tokens;
 
 	tokens = vars->tokens;
 	while (tokens)
@@ -44,21 +56,26 @@ int	check_syntax(t_vars *vars)
 	return (TRUE);
 }
 
+char	*reset_loop(t_vars *vars)
+{
+	char	*line;
+
+	vars->parse_i = 0;
+	vars->exit_status = g_g.ret;
+	signal(SIGQUIT, SIG_IGN);
+	line = readline(PROMPT);
+	return (line);
+}
+
 void	read_loop(t_vars *vars)
 {
 	char	*line;
 
 	while (1)
 	{
-		vars->parse_i = 0;
-		vars->exit_status = g_g.ret;
-		signal(SIGQUIT, SIG_IGN);
-		line = readline(PROMPT);
+		line = reset_loop(vars);
 		if (!line)
-		{
-			printf("exit\n");
-			clean_exit(vars, 0);
-		}
+			ctrl_d(vars);
 		else if (*line)
 		{
 			parse(line, vars);
@@ -71,7 +88,6 @@ void	read_loop(t_vars *vars)
 				call_command(&vars, FALSE);
 			}
 			ft_lstclear(&vars->tokens, free);
-			// destroy_store(&vars->store);
 			if (access(H_DOC_PATH, R_OK) == 0)
 				unlink(H_DOC_PATH);
 		}

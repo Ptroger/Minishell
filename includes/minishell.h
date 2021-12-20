@@ -85,6 +85,7 @@ void	cat_ret(char *token, t_vars *vars);
 int		ft_mul_strcmp(const char **s1, const char *s2);
 void	ft_strcpy_2(char *old, char *ne, int i);
 char	*get_tok_index(t_list *lst, int i);
+void	flag_mix(t_vars *vars);
 void	finish_token(t_vars *vars, char *token, int i);
 
 // REDIRECTIONS
@@ -95,6 +96,7 @@ int		handle_redirs(t_vars *vars, t_list *tokens, int *file);
 int		ft_is_redir(char *str);
 int		is_special(t_list *tokens);
 int		is_absolute(char *token);
+int		is_dir(t_vars *vars, char *path, int is_exec);
 int		ft_pipe(t_vars **vars, t_pipe *pipe);
 t_pipe	*ft_add_elem_pipe(void);
 void	pipe_add_back(t_pipe **sort, t_pipe *new);
@@ -108,6 +110,7 @@ int		expand_helper(t_vars *vars, char *line, char *name, int i);
 int		call_command(t_vars **vars, int is_child);
 void	ft_find_cmd(t_vars *vars, char *token, char ***cmd, char **tab);
 int		shall_exec(t_vars *vars, t_list *token);
+void	ctrl_d(t_vars *vars);
 
 // ENVS
 void	ft_get_env_name(t_sort **t_env, char **env);
@@ -164,7 +167,7 @@ void	ft_swap(t_sort **pile);
 int		ft_is_key(char *str);
 int		ft_new_readline(t_vars **vars);
 int		ft_pile_in_order(t_sort **pile_a);
-char	*find_path(char *token, char **tab);
+char	*find_path(t_vars *vars, char *token, char **tab);
 char	*ft_return_max(t_sort **pile_a);
 char	**ft_command_size(int size);
 
