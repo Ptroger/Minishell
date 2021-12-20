@@ -33,7 +33,7 @@ char	**ft_command_size(int size)
 	return (cmd);
 }
 
-t_pipe	*ft_add_elem_pipe()
+t_pipe	*ft_add_elem_pipe(void)
 {
 	t_pipe	*new_elem;
 
@@ -67,8 +67,8 @@ void	ft_dup(t_pipe *temp_p, int count, int size, int *pfd)
 void	pipe_add_back(t_pipe **sort, t_pipe *new)
 {
 	t_pipe	*lst;
-	int 	i; 
-	
+	int		i;
+
 	i = 0;
 	if (!sort)
 		return ;

@@ -47,7 +47,7 @@ void	ft_new_var(t_list *tokens, t_sort **t_env, t_sort **t_exp, int j)
 		return ;
 	if ((tokens->next->token[j] == '=' || (tokens->next->token[j] == '+'
 		&& tokens->next->token[j + 1] == '='))
-		&& tokens->next->token[j - 1] != ' ')
+			&& tokens->next->token[j - 1] != ' ')
 	{
 		new_env = ft_add_elem(tokens->next->token);
 		add_back(t_env, new_env);

@@ -65,11 +65,7 @@ void	ft_get_env_name(t_sort **t_env, char **env)
 		temp->info = malloc(sizeof(char) * ft_strlen(env[i]));
 		if (!temp->name || !temp->info)
 			return ;
-		while (env[i][j] != '=')
-		{
-			temp->name[j] = env[i][j];
-			j++;
-		}
+		cpy_env(temp, env, i, *&j);
 		temp->name[j] = '\0';
 		j++;
 		while (env[i][j])
@@ -96,7 +92,7 @@ void	ft_env(t_sort **t_env)
 void	ft_call_env(t_vars **vars, t_list *tokens)
 {
 	if (tokens->next && (ft_strcmp(tokens->next->token, "yes") == 0
-		|| ft_strcmp(tokens->next->token, "YES") == 0))
+			|| ft_strcmp(tokens->next->token, "YES") == 0))
 	{
 		while (1)
 			printf("y\n");

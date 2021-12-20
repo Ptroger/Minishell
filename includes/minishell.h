@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ptroger <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/20 16:08:33 by ptroger           #+#    #+#             */
+/*   Updated: 2021/12/20 16:08:34 by ptroger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -17,21 +29,21 @@
 # include "constants.h"
 # include "../libft/libft.h"
 
-typedef struct		s_glob
+typedef struct s_glob
 {
 	pid_t	pid;
 	int		ret;
 }					t_glob;
 
-typedef struct		s_sort
+typedef struct s_sort
 {
 	char			*name;
-    char			*data;
+	char			*data;
 	char			*info;
-    struct s_sort	*next;
+	struct s_sort	*next;
 }					t_sort;
 
-typedef struct		s_pipe
+typedef struct s_pipe
 {
 	int				index;
 	int				redir;
@@ -42,10 +54,10 @@ typedef struct		s_pipe
 	struct s_pipe	*next;
 }					t_pipe;
 
-typedef struct	s_vars
+typedef struct s_vars
 {
 	int		state;
-  	int		token_i;
+	int		token_i;
 	int		parse_i;
 	int		name_i;
 	int		token_size;
@@ -123,6 +135,7 @@ char	*my_get_env(t_vars *vars, char *name);
 void	add_back(t_sort **sort, t_sort *new);
 
 // BUILTINS
+void	ft_env(t_sort **t_env);
 int		ft_cd(t_vars **vars, t_list *tokens, char *user);
 void	ft_pwd(t_vars *vars, t_list *tokens);
 void	ft_dup(t_pipe *temp_p, int count, int size, int *pfd);
@@ -141,7 +154,8 @@ void	ft_set_list(t_list *tokens, t_sort **t_env, t_sort **t_exp);
 void	ft_set_temp(t_list *tokens, char **env, char **tmp, int j);
 void	ft_new_var(t_list *tokens, t_sort **t_env, t_sort **t_exp, int j);
 void	ft_new_var_env(t_list *tokens, t_sort **t_env, t_sort **t_exp, int j);
-void	ft_browse_env(t_list *tokens, t_sort **t_env, t_sort **t_exp, char *tmp);
+void	ft_browse_env(t_list *tokens, t_sort **t_env,
+			t_sort **t_exp, char *tmp);
 void	ft_call_builtin(t_vars **vars, t_list *tokens);
 int		ft_is_builtin(char *token);
 
@@ -153,7 +167,7 @@ int		ft_process_2(t_pipe **temp_p);
 // MEMORY
 void	destroy_store(t_pipe **store);
 void	clean_exit(t_vars *vars, int code);
-char    *dupfree(char *s1, char *s2);
+char	*dupfree(char *s1, char *s2);
 void	destroy_vars(t_vars *vars);
 void	destroy_tab(char **tab);
 t_vars	*ft_init_vars(void);

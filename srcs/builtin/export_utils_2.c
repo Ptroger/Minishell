@@ -30,7 +30,6 @@ void	ft_display_exp(t_sort **t_exp)
 	printf("%s\n", temp_exp->data);
 }
 
-
 void	ft_set_list_3(t_sort *new_env, int i, int j, int tmp)
 {
 	while (new_env->data[i])
@@ -77,7 +76,6 @@ void	ft_set_list_2(t_sort *new_env)
 	ft_set_list_3(new_env, i, j, tmp);
 }
 
-
 void	ft_set_list(t_list *tokens, t_sort **t_env, t_sort **t_exp)
 {
 	int		i;
@@ -86,8 +84,8 @@ void	ft_set_list(t_list *tokens, t_sort **t_env, t_sort **t_exp)
 
 	i = 0;
 	j = 0;
-	while (tokens->next->token[j] && (tokens->next->token[j] != '+' 
-        && tokens->next->token[j] != '='))
+	while (tokens->next->token[j] && (tokens->next->token[j] != '+'
+			&& tokens->next->token[j] != '='))
 		j++;
 	tmp = (char *)malloc(sizeof(char) * j + 1);
 	if (!tmp)

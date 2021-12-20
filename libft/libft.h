@@ -14,7 +14,7 @@
 # define LIBFT_H
 # include <unistd.h>
 
-typedef struct	s_list
+typedef struct s_list
 {
 	char			*token;
 	int				type;

@@ -16,7 +16,7 @@ void	ft_set_oldpwd(t_vars **vars, char *wd)
 {
 	t_sort	*temp;
 	char	*tem;
-	
+
 	temp = (*vars)->t_env;
 	while (temp && ft_strcmp(temp->name, "OLDPWD") != 0)
 		temp = temp->next;
@@ -71,6 +71,6 @@ int	ft_cd(t_vars **vars, t_list *tokens, char *user)
 	ft_set_oldpwd(vars, wd);
 	if (ret != 0)
 		throw_error(NULL, errno);
-	free(user);	
+	free(user);
 	return (0);
 }

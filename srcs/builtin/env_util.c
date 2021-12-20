@@ -3,8 +3,8 @@
 void	add_back(t_sort **sort, t_sort *new)
 {
 	t_sort	*lst;
-	int 	i; 
-	
+	int		i;
+
 	i = 0;
 	if (!sort)
 		return ;
