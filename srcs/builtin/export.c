@@ -128,7 +128,7 @@ void	ft_new_var(t_list *tokens, t_sort **t_env, t_sort **t_exp, int j)
 	ft_fill_data(tokens, new_exp);
 }
 
-void	ft_update_var_2(t_list *tokens, t_sort *temp_env, t_sort *temp_exp, t_sort *temp_env_2, char *tmp)
+void	ft_update_var_2(t_list *tokens, t_sort *temp_env, t_sort *temp_exp, t_sort *temp_env_2)
 {
 	int		j;
 	t_sort	*temp_exp_2;
@@ -138,7 +138,7 @@ void	ft_update_var_2(t_list *tokens, t_sort *temp_env, t_sort *temp_exp, t_sort 
 		j++;
 	temp_exp_2 = malloc(sizeof(t_sort));
 	temp_env->data = ft_strdup(tokens->next->token);
-	if (temp_exp && ft_strncmp(temp_exp->data, tmp, j) == 0)
+	if (temp_exp && ft_strncmp(temp_exp->data, temp_exp->info, j) == 0)
 	{
 		if (temp_exp->data)
 		{
@@ -163,6 +163,16 @@ void	ft_update_var_2(t_list *tokens, t_sort *temp_env, t_sort *temp_exp, t_sort 
 //		ft_set_list_2(tokens, &temp_env_2, temp_exp);
 }
 
+void	ft_set_temp(t_list *tokens, char **env, char **tmp, int j)
+{
+	if (*env)
+	{
+		if (tokens->next->token[j] == '+')
+			*tmp = ft_strdup(*env);
+		free(*env);
+	}
+}
+
 void	ft_udpate_var(t_list *tokens, t_sort *temp_env, t_sort *temp_exp, char *tmp)
 {
 	int		j;
@@ -172,25 +182,11 @@ void	ft_udpate_var(t_list *tokens, t_sort *temp_env, t_sort *temp_exp, char *tmp
 	temp_env_2 = malloc(sizeof(t_sort));
 	while (tokens->next->token[j] && (tokens->next->token[j] != '+' && tokens->next->token[j] != '='/* && tokens->next->token[j + 1] != '=')*/))
 		j++;
-	if (temp_env->data)
-	{
-		if (tokens->next->token[j] == '+')
-			temp_env_2->data = ft_strdup(temp_env->data);
-		free(temp_env->data);
-	}
-	if (temp_env->name)
-	{
-		if (tokens->next->token[j] == '+')
-			temp_env_2->name = ft_strdup(temp_env->name);
-		free(temp_env->name);
-	}
-	if (temp_env->info)
-	{
-		if (tokens->next->token[j] == '+')
-			temp_env_2->info = ft_strdup(temp_env->info);
-		free(temp_env->info);
-	}
-	ft_update_var_2(tokens, temp_env, temp_exp, temp_env_2, tmp);
+	ft_set_temp(tokens, &temp_env->data, &temp_env_2->data, j);
+	ft_set_temp(tokens, &temp_env->name, &temp_env_2->name, j);
+	ft_set_temp(tokens, &temp_env->info, &temp_env_2->info, j);
+	temp_exp->info = ft_strdup(tmp);
+	ft_update_var_2(tokens, temp_env, temp_exp, temp_env_2);
 }
 
 void	ft_set_list(t_list *tokens, t_sort **t_env, t_sort **t_exp)

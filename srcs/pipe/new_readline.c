@@ -19,6 +19,7 @@ void    ft_new_readline_3(t_vars **vars, char *line, char *tmp, char *ptr)
     tmp = ft_strjoin(tmp, " ");
     free(ptr);
     free(line);
+    printf("tmp : %s\n", tmp);
     parse(tmp, *vars);
     if ((*vars)->tokens)
         set_type(*vars);

@@ -6,8 +6,8 @@ ifeq ($(UNAME_S),Linux)
 	LIBS = -lreadline -L/usr/include
 	LIB_INC = -I/lib/x86_64-linux-gnu/readline
 else
-	LIBS = -lreadline -L /usr/local/opt/readline/lib
-	LIB_INC = -I /usr/local/opt/readline/include
+	LIBS = -lreadline -L ~/.brew/opt/readline/lib
+	LIB_INC = -I ~/.brew/opt/readline/include
 
 endif
 
@@ -50,7 +50,7 @@ INCLUDE =       -I ./includes/
 
 OBJS    =       $(SRCS:%.c=%.o)
 
-CFLAGS  =       -Wall -Wextra -Werror #-g -fsanitize=address
+CFLAGS  =       -Wall -Wextra -Werror -g -fsanitize=address
 
 LIBFT = 		./libft/libft.a
 
