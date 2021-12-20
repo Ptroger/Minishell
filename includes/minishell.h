@@ -160,7 +160,7 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens);
 int		ft_is_builtin(char *token);
 
 // BUILTINS_UTILS
-void	ft_browse_tmp(t_list **temp);
+void	ft_browse_tmp(t_list **temp, t_pipe **temp_p, int *count);
 void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1);
 int		ft_process_2(t_pipe **temp_p);
 

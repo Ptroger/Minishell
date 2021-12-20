@@ -65,17 +65,33 @@ int	ft_process(t_vars **vars, t_pipe **temp_p, int size, int *pfd)
 			ft_dup(*temp_p, count, size, pfd);
 			ft_process_3(vars, *temp_p, temp_1);
 		}
-		ft_browse_tmp(&temp_1);
-		count += 2;
-		(*temp_p) = (*temp_p)->next;
+		ft_browse_tmp(&temp_1, temp_p, &count);
+//		count += 2;
+//		*temp_p = (*temp_p)->next;
 	}
 	return (1);
+}
+
+void	ft_close_pfd(int *pfd, int size)
+{
+	int		i;
+	int		status;
+
+	i = -1;
+	while (++i < (2 * (size - 1)))
+		close(pfd[i]);
+	free(pfd);
+	i = -1;
+	while (++i < 2 * (size - 1) + 1)
+	{
+		wait(&status);
+		g_g.ret = WEXITSTATUS(status);
+	}
 }
 
 int	ft_child(t_vars **vars, t_pipe **store, int size)
 {
 	int		i;
-	int		status;
 	int		*pfd;
 
 	i = -1;
@@ -91,16 +107,7 @@ int	ft_child(t_vars **vars, t_pipe **store, int size)
 		}
 	}
 	ft_process(vars, store, size, pfd);
-	i = -1;
-	while (++i < (2 * (size - 1)))
-		close(pfd[i]);
-	free(pfd);
-	i = -1;
-	while (++i < 2 * (size - 1) + 1)
-	{
-		wait(&status);
-		g_g.ret = WEXITSTATUS(status);
-	}
+	ft_close_pfd(pfd, size);
 	return (1);
 }
 

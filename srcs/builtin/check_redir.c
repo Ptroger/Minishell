@@ -12,10 +12,12 @@
 
 #include "minishell.h"
 
-void	ft_check_redir_3(t_vars **vars, int *file)
+void	ft_check_redir_3(t_vars **vars, t_list *temp, int *file)
 {
 	char	**cmd;
 
+	(void)temp;
+//	handle_redirs(*vars, temp, file);
 	cmd = ft_command_size((*vars)->size);
 	if (ft_is_builtin((*vars)->tokens->token) == 1)
 		ft_call_builtin(vars, (*vars)->tokens);
@@ -60,7 +62,7 @@ void	ft_check_redir_2(t_vars **vars, t_list *temp)
 		}
 		temp_2 = temp_2->next;
 	}
-	ft_check_redir_3(vars, &file);
+	ft_check_redir_3(vars, temp, &file);
 }
 
 int	ft_check_redir(t_vars **vars)

@@ -53,7 +53,7 @@ void	cpy_env(t_sort *temp, char **env, int i, int *j)
 	while (env[i][*j] != '=')
 	{
 		temp->name[*j] = env[i][*j];
-		j++;
+		*j += 1;
 	}
 }
 

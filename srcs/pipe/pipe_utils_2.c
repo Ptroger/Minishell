@@ -12,12 +12,14 @@
 
 #include "minishell.h"
 
-void	ft_browse_tmp(t_list **temp)
+void	ft_browse_tmp(t_list **temp, t_pipe **temp_p, int *count)
 {
 	while (*temp && ft_strcmp((*temp)->token, "|") != 0)
 		*temp = (*temp)->next;
 	if (*temp && (*temp)->next)
 		*temp = (*temp)->next;
+	*count += 2;
+	*temp_p = (*temp_p)->next;
 }
 
 void	ft_process_4(t_vars **vars, t_pipe **temp_p, t_list *temp_1)

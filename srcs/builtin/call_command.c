@@ -46,6 +46,7 @@ void	ft_reset_var(t_vars **vars)
 			* ft_strlen(temp_env->info) + 6);
 	if (!temp_env->data)
 		return ;
+	ft_reset_var_2(vars, temp_env);
 }
 
 void	ft_call_command_2(t_vars **vars)
