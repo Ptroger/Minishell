@@ -27,7 +27,6 @@ void	set_envs(t_vars *vars)
 	t_sort	*envs;
 	int		temp;
 
-
 	envs = vars->t_env;
 	while (envs && envs->next)
 	{

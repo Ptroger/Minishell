@@ -89,6 +89,7 @@ void	flag_mix(t_vars *vars);
 void	finish_token(t_vars *vars, char *token, int i);
 
 // REDIRECTIONS
+int		ft_check_redir(t_vars **vars);
 void	redirect_input(t_vars *vars, t_list *tokens);
 void	redir_temp(t_vars *vars, t_list *tokens, char *name, int *file);
 void	redirect_output(t_vars *vars, t_list *tokens, char *token);
@@ -108,6 +109,7 @@ int		expand_helper(t_vars *vars, char *line, char *name, int i);
 
 // EXECUTION
 int		call_command(t_vars **vars, int is_child);
+void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size);
 void	ft_find_cmd(t_vars *vars, char *token, char ***cmd, char **tab);
 int		shall_exec(t_vars *vars, t_list *token);
 void	ctrl_d(t_vars *vars);
@@ -129,6 +131,9 @@ void	ft_call_echo(t_list *tokens);
 void	ft_echo_n(t_list *tokens);
 void	ft_call_env(t_vars **vars, t_list *tokens);
 void	ft_unset(t_list *tokens, t_sort **t_env, t_sort **t_exp);
+void	ft_unset_env(t_sort **t_env, int i);
+void	ft_unset_exp(t_sort **t_env, int i);
+void	ft_parse_unset(t_list *tokens, t_sort **t_env, t_sort **t_exp, char *tmp);
 void	ft_export(t_list *tokens, t_sort **t_env, t_sort **t_exp);
 void	ft_fill_data(t_list *tokens, t_sort *new_exp);
 void	ft_set_list_2(t_sort *new_env);

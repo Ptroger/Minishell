@@ -23,9 +23,11 @@ SRCS    =		srcs/token/parse.c \
 				srcs/token/set_types.c \
 				srcs/token/parse_utils.c \
 				srcs/builtin/call_command.c \
+				srcs/builtin/call_builtin.c \
 				srcs/builtin/builtin_utils.c \
 				srcs/builtin/builtin_utils_2.c \
 				srcs/builtin/builtin_utils_3.c \
+				srcs/builtin/check_redir.c \
 				srcs/builtin/cd.c \
 				srcs/builtin/echo.c \
 				srcs/builtin/exit.c \
@@ -35,7 +37,9 @@ SRCS    =		srcs/token/parse.c \
 				srcs/builtin/export_utils.c \
 				srcs/builtin/export_utils_2.c \
 				srcs/builtin/pwd.c \
+				srcs/builtin/single_command.c \
 				srcs/builtin/unset.c \
+				srcs/builtin/unset_utils.c \
 				srcs/pipe/new_readline.c \
 				srcs/pipe/pipe.c \
 				srcs/pipe/pipe_utils.c \

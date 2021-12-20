@@ -1,1 +1,0 @@
-cat README.md | grep i | wc
