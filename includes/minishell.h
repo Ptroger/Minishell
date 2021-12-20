@@ -129,6 +129,13 @@ void	ft_echo_n(t_list *tokens);
 void	ft_call_env(t_vars **vars, t_list *tokens);
 void	ft_unset(t_list *tokens, t_sort **t_env, t_sort **t_exp);
 void	ft_export(t_list *tokens, t_sort **t_env, t_sort **t_exp);
+void	ft_fill_data(t_list *tokens, t_sort *new_exp);
+void	ft_set_list_2(t_sort *new_env);
+void	ft_set_list(t_list *tokens, t_sort **t_env, t_sort **t_exp);
+void	ft_set_temp(t_list *tokens, char **env, char **tmp, int j);
+void	ft_new_var(t_list *tokens, t_sort **t_env, t_sort **t_exp, int j);
+void	ft_new_var_env(t_list *tokens, t_sort **t_env, t_sort **t_exp, int j);
+void	ft_browse_env(t_list *tokens, t_sort **t_env, t_sort **t_exp, char *tmp);
 void	ft_call_builtin(t_vars **vars, t_list *tokens);
 int		ft_is_builtin(char *token);
 

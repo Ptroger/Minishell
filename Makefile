@@ -6,8 +6,10 @@ ifeq ($(UNAME_S),Linux)
 	LIBS = -lreadline -L/usr/include
 	LIB_INC = -I/lib/x86_64-linux-gnu/readline
 else
-	LIBS = -lreadline -L ~/.brew/opt/readline/lib
-	LIB_INC = -I ~/.brew/opt/readline/include
+	LIBS = -lreadline -L /usr/local/opt/readline/lib
+	LIB_INC = -I /usr/local/opt/readline/include
+#	LIBS = -lreadline -L ~/.brew/opt/readline/lib
+#	LIB_INC = -I ~/.brew/opt/readline/include
 
 endif	
 
@@ -29,6 +31,8 @@ SRCS    =		srcs/token/parse.c \
 				srcs/builtin/env.c \
 				srcs/builtin/env_util.c \
 				srcs/builtin/export.c \
+				srcs/builtin/export_utils.c \
+				srcs/builtin/export_utils_2.c \
 				srcs/builtin/pwd.c \
 				srcs/builtin/unset.c \
 				srcs/pipe/new_readline.c \
