@@ -3,8 +3,8 @@
 void	add_back(t_sort **sort, t_sort *new)
 {
 	t_sort	*lst;
-	int 	i; 
-	
+	int		i;
+
 	i = 0;
 	if (!sort)
 		return ;
@@ -26,7 +26,6 @@ void	set_envs(t_vars *vars)
 {
 	t_sort	*envs;
 	int		temp;
-
 
 	envs = vars->t_env;
 	while (envs && envs->next)
