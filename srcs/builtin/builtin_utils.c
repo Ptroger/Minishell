@@ -70,13 +70,6 @@ int	ft_pile_in_order(t_sort **pile_a)
 	return (1);
 }
 
-int	is_absolute(char *token)
-{
-	if (token && (token[0] == '.' || token[0] == '/'))
-		return (TRUE);
-	return (FALSE);
-}
-
 char	*find_path(char *token, char **tab)
 {
 	char *path;

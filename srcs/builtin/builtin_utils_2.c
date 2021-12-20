@@ -12,23 +12,6 @@
 
 #include "minishell.h"
 
-int	ft_is_key(char *str)
-{
-	if (ft_strcmp(str, "|") == 0 || ft_strcmp(str, "<") == 0
-		|| ft_strcmp(str, ">") == 0 || ft_strcmp(str, "<<") == 0
-		|| ft_strcmp(str, ">>") == 0)
-		return (1);
-	return (0);
-}
-
-int	ft_is_redir(char *str)
-{
-	if (ft_strcmp(str, "<") == 0 || ft_strcmp(str, ">") == 0
-		|| ft_strcmp(str, "<<") == 0 || ft_strcmp(str, ">>") == 0)
-		return (1);
-	return (0);
-}
-
 void	ft_add_elem_exp_2(t_sort **sort, t_sort *new_elem, char *env)
 {
 	int		i;

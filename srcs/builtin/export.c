@@ -17,7 +17,9 @@ void	ft_new_var_env(t_list *tokens, t_sort **t_env, t_sort **t_exp, int j)
 	t_sort	*new_env;
 
 	new_env = NULL;
-	if ((tokens->next->token[j] == '=' || (tokens->next->token[j] == '+' && tokens->next->token[j + 1] == '=')) && tokens->next->token[j - 1] != ' ')
+	if ((tokens->next->token[j] == '=' || (tokens->next->token[j] == '+'
+		&& tokens->next->token[j + 1] == '='))
+		&& tokens->next->token[j - 1] != ' ')
 	{
 		new_env = ft_add_elem(tokens->next->token);
 		if (!new_env)
@@ -43,7 +45,9 @@ void	ft_new_var(t_list *tokens, t_sort **t_env, t_sort **t_exp, int j)
 	add_back(t_exp, new_exp);
 	if (!new_exp)
 		return ;
-	if ((tokens->next->token[j] == '=' || (tokens->next->token[j] == '+' && tokens->next->token[j + 1] == '=')) && tokens->next->token[j - 1] != ' ')
+	if ((tokens->next->token[j] == '=' || (tokens->next->token[j] == '+'
+		&& tokens->next->token[j + 1] == '='))
+		&& tokens->next->token[j - 1] != ' ')
 	{
 		new_env = ft_add_elem(tokens->next->token);
 		add_back(t_env, new_env);
@@ -67,7 +71,7 @@ void	ft_set_temp(t_list *tokens, char **env, char **tmp, int j)
 	}
 }
 
-void	ft_parse_export(t_list *tokens, t_sort **t_env, t_sort **t_exp, char *tmp)
+void	ft_parse_exp(t_list *tokens, t_sort **t_env, t_sort **t_exp, char *tmp)
 {
 	int		i;
 
@@ -76,7 +80,8 @@ void	ft_parse_export(t_list *tokens, t_sort **t_env, t_sort **t_exp, char *tmp)
 	{
 		while (tmp[i] != '=' && tmp[i])
 		{
-			if (((!ft_isalnum(tmp[i])) && tmp[i] != '_') && (tmp[i] == '+' && tmp[i + 1] != '='))
+			if (((!ft_isalnum(tmp[i])) && tmp[i] != '_')
+				&& (tmp[i] == '+' && tmp[i + 1] != '='))
 			{
 				printf("minishell: export: `%s': not a valid identifier\n", tmp);
 				return ;
@@ -96,12 +101,14 @@ void	ft_export(t_list *tokens, t_sort **t_env, t_sort **t_exp)
 
 	tmp = NULL;
 	temp = tokens;
-	if (tokens->next && ft_strcmp(tokens->next->token, "|") != 0 && is_special(tokens->next) == FALSE)
+	if (tokens->next && ft_strcmp(tokens->next->token, "|") != 0
+		&& is_special(tokens->next) == FALSE)
 	{
-		while (temp && temp->next && ft_strcmp(temp->next->token, "|") != 0 && is_special(temp->next) == FALSE)
+		while (temp && temp->next && ft_strcmp(temp->next->token, "|") != 0
+			&& is_special(temp->next) == FALSE)
 		{
 			tmp = ft_strdup(temp->next->token);
-			ft_parse_export(temp, t_env, t_exp, tmp);
+			ft_parse_exp(temp, t_env, t_exp, tmp);
 			temp = temp->next;
 			if (tmp)
 				free(tmp);

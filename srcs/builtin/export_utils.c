@@ -6,7 +6,7 @@
 /*   By: aribesni <aribesni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 14:56:57 by aribesni          #+#    #+#             */
-/*   Updated: 2021/12/20 14:56:58 by aribesni         ###   ########.fr       */
+/*   Updated: 2021/12/20 15:37:57 by aribesni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_fill_data(t_list *tokens, t_sort *new_exp)
 	i = 0;
 	j = 0;
 	while (tokens->next->token[j] && tokens->next->token[j] != '+'
-        && tokens->next->token[j] != '=')
+		&& tokens->next->token[j] != '=')
 		new_exp->data[i++] = tokens->next->token[j++];
 	if (tokens->next->token[j] == '=' || tokens->next->token[j] == '+')
 	{
@@ -41,14 +41,16 @@ void	ft_fill_data(t_list *tokens, t_sort *new_exp)
 	new_exp->next = NULL;
 }
 
-void	ft_update_var_3(t_list *tokens, t_sort *temp_env, t_sort *temp_exp, t_sort *temp_exp_2)
+void	ft_update_var_3(t_list *tokens, t_sort *temp_env,
+		t_sort *temp_exp, t_sort *temp_exp_2)
 {
 	int		j;
 	t_sort	*temp_env_2;
 
 	j = 0;
 	temp_env_2 = malloc(sizeof(t_sort));
-	while (tokens->next->token[j] && (tokens->next->token[j] != '+' && tokens->next->token[j] != '='/* && tokens->next->token[j + 1] != '=')*/))
+	while (tokens->next->token[j] && (tokens->next->token[j] != '+'
+			&& tokens->next->token[j] != '='))
 		j++;
 	ft_set_temp(tokens, &temp_env->data, &temp_env_2->data, j);
 	ft_set_temp(tokens, &temp_env->name, &temp_env_2->name, j);
@@ -67,16 +69,19 @@ void	ft_update_var_3(t_list *tokens, t_sort *temp_env, t_sort *temp_exp, t_sort 
 	}
 }
 
-void	ft_update_var_2(t_list *tokens, t_sort **t_env, t_sort *temp_env, t_sort *temp_exp)
+void	ft_update_var_2(t_list *tokens, t_sort **t_env,
+		t_sort *temp_env, t_sort *temp_exp)
 {
 	int		j;
 	t_sort	*temp_exp_2;
 
 	j = 0;
 	temp_exp_2 = malloc(sizeof(t_sort));
-	while (tokens->next->token[j] && (tokens->next->token[j] != '+' && tokens->next->token[j] != '='/* && tokens->next->token[j + 1] != '=')*/))
+	while (tokens->next->token[j] && (tokens->next->token[j] != '+'
+			&& tokens->next->token[j] != '='))
 		j++;
-	if (!(temp_env && temp_env->name && ft_strcmp(temp_env->name, temp_exp->name) == 0))
+	if (!(temp_env && temp_env->name
+			&& ft_strcmp(temp_env->name, temp_exp->name) == 0))
 	{
 		ft_new_var_env(tokens, t_env, &temp_exp, j);
 		return ;
@@ -88,25 +93,9 @@ void	ft_update_var_2(t_list *tokens, t_sort **t_env, t_sort *temp_env, t_sort *t
 		free(temp_exp->data);
 	}
 	temp_exp->data = malloc(sizeof(char) * ft_strlen(tokens->next->token) + 3);
-	if (temp_env && temp_env->name && ft_strcmp(temp_env->name, temp_exp->name) == 0)
+	if (temp_env && temp_env->name
+		&& ft_strcmp(temp_env->name, temp_exp->name) == 0)
 		ft_update_var_3(tokens, temp_env, temp_exp, temp_exp_2);
-}
-
-void	ft_update_var(t_list *tokens, t_sort **t_env, t_sort **t_exp, t_sort *temp_env, t_sort *temp_exp)
-{
-	int		j;
-
-	j = 0;
-	while (tokens->next->token[j] && (tokens->next->token[j] != '+' && tokens->next->token[j] != '='/* && tokens->next->token[j + 1] != '=')*/))
-		j++;
-	if (temp_exp && ft_strncmp(temp_exp->data, temp_exp->name, j) == 0)
-	{
-		if (tokens->next->token[j] != '+' && tokens->next->token[j] != '=')
-			return ;
-		ft_update_var_2(tokens, t_env, temp_env, temp_exp);
-	}
-	else
-		ft_new_var(tokens, t_env, t_exp, j);
 }
 
 void	ft_browse_env(t_list *tokens, t_sort **t_env, t_sort **t_exp, char *tmp)
@@ -118,7 +107,8 @@ void	ft_browse_env(t_list *tokens, t_sort **t_env, t_sort **t_exp, char *tmp)
 	j = 0;
 	temp_env = *t_env;
 	temp_exp = *t_exp;
-	while (tokens->next->token[j] && (tokens->next->token[j] != '+' && tokens->next->token[j] != '='/* && tokens->next->token[j + 1] != '=')*/))
+	while (tokens->next->token[j] && (tokens->next->token[j] != '+'
+			&& tokens->next->token[j] != '='))
 		j++;
 	while (temp_env && ft_strcmp(temp_env->name, tmp) != 0)
 		temp_env = temp_env->next;
@@ -126,7 +116,13 @@ void	ft_browse_env(t_list *tokens, t_sort **t_env, t_sort **t_exp, char *tmp)
 		temp_exp = temp_exp->next;
 	if (temp_exp && temp_exp->name)
 		free(temp_exp->name);
-	if (temp_exp)
-		temp_exp->name = ft_strdup(tmp);
-	ft_update_var(tokens, t_env, t_exp, temp_env, temp_exp);
+	temp_exp->name = ft_strdup(tmp);
+	if (temp_exp && ft_strncmp(temp_exp->data, temp_exp->name, j) == 0)
+	{
+		if (tokens->next->token[j] != '+' && tokens->next->token[j] != '=')
+			return ;
+		ft_update_var_2(tokens, t_env, temp_env, temp_exp);
+	}
+	else
+		ft_new_var(tokens, t_env, t_exp, j);
 }

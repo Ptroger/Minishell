@@ -91,7 +91,7 @@ void	ft_set_list(t_list *tokens, t_sort **t_env, t_sort **t_exp)
 	temp_env = *t_env;
 	temp_exp = *t_exp;
 	while (tokens->next->token[j] && (tokens->next->token[j] != '+' 
-        && tokens->next->token[j] != '='/* && tokens->next->token[j + 1] != '=')*/))
+        && tokens->next->token[j] != '='))
 		j++;
 	tmp = (char *)malloc(sizeof(char) * j + 1);
 	if (!tmp)

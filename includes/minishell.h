@@ -94,6 +94,7 @@ void	redirect_output(t_vars *vars, t_list *tokens, char *token);
 int		handle_redirs(t_vars *vars, t_list *tokens, int *file);
 int		ft_is_redir(char *str);
 int		is_special(t_list *tokens);
+int		is_absolute(char *token);
 int		ft_pipe(t_vars **vars, t_pipe *pipe);
 t_pipe	*ft_add_elem_pipe(void);
 void	pipe_add_back(t_pipe **sort, t_pipe *new);
