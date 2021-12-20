@@ -90,6 +90,8 @@ void	destroy_store(t_pipe **store)
 		if (temp)
 			free(temp);
 	}
+	if (*store)
+		free(*store);
 	*store = NULL;
 }
 

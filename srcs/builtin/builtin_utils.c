@@ -93,7 +93,7 @@ void	ft_find_cmd(t_vars *vars, char *token, char ***cmd, char **tab)
 	if (!tab)
 	{
 		ft_putstr_fd("Error : path could not be found\n", 2);
-		return ;
+		clean_exit(vars, 1);
 	}
 	if (*cmd && *cmd[0])
 		free(*cmd[0]);

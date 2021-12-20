@@ -110,7 +110,7 @@ int		ft_is_redir(char *str);
 int		is_special(t_list *tokens);
 int		is_absolute(char *token);
 int		is_dir(t_vars *vars, char *path, int is_exec);
-int		ft_pipe(t_vars **vars, t_pipe *pipe);
+int		ft_pipe(t_vars **vars);
 t_pipe	*ft_add_elem_pipe(void);
 void	pipe_add_back(t_pipe **sort, t_pipe *new);
 
@@ -132,6 +132,8 @@ void	ft_set_env(t_sort **t_env, char **env);
 void	ft_display_exp(t_sort **t_exp);
 void	set_envs(t_vars *vars);
 char	*my_get_env(t_vars *vars, char *name);
+int		check_quote(char *str);
+void	cpy_env(t_sort *temp, char **env, int i, int *j);
 void	add_back(t_sort **sort, t_sort *new);
 
 // BUILTINS

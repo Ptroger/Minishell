@@ -152,12 +152,11 @@ void	ft_store_command(t_list *tokens, t_pipe **store)
 	}
 }
 
-int	ft_pipe(t_vars **vars, t_pipe *store)
+int	ft_pipe(t_vars **vars)
 {
 	int		size;
 	t_list	*temp;
 
-	(void)store;
 	size = 0;
 	temp = (*vars)->tokens;
 	while (temp)

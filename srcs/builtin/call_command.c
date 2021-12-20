@@ -46,6 +46,7 @@ void	ft_reset_var(t_vars **vars)
 			* ft_strlen(temp_env->info) + 6);
 	if (!temp_env->data)
 		return ;
+	ft_reset_var_2(vars, temp_env);
 }
 
 void	ft_call_command_2(t_vars **vars)
@@ -80,7 +81,7 @@ int	call_command(t_vars **vars, int is_child)
 		while (temp)
 		{
 			if (ft_strcmp("|", temp->token) == 0)
-				return (ft_pipe(vars, (*vars)->store));
+				return (ft_pipe(vars));
 			if (temp)
 				temp = temp->next;
 			(*vars)->size++;

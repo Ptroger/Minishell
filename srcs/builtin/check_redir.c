@@ -49,7 +49,7 @@ void	ft_check_redir_2(t_vars **vars, t_list *temp)
 	{
 		if (ft_strcmp("|", temp_2->token) == 0)
 		{
-			ft_pipe(vars, (*vars)->store);
+			ft_pipe(vars);
 			if (close(file) != 0)
 			{
 				throw_error(NULL, errno);

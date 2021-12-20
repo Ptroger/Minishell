@@ -48,15 +48,6 @@ void	ft_set_env(t_sort **t_env, char **env)
 	}
 }
 
-void	cpy_env(t_sort *temp, char **env, int i, int *j)
-{
-	while (env[i][*j] != '=')
-	{
-		temp->name[*j] = env[i][*j];
-		j++;
-	}
-}
-
 void	ft_get_env_name(t_sort **t_env, char **env)
 {
 	int		i;
