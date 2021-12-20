@@ -132,7 +132,8 @@ void	ft_check_redir_3(t_vars **vars, t_list *temp, int *file)
 {
 	char	**cmd;
 	
-	handle_redirs(*vars, temp, file);
+	(void)temp;
+//	handle_redirs(*vars, temp, file);
 	cmd = ft_command_size((*vars)->size);
 	if (ft_is_builtin((*vars)->tokens->token) == 1)
 		ft_call_builtin(vars, (*vars)->tokens);
@@ -160,6 +161,7 @@ void	ft_check_redir_2(t_vars **vars, t_list *temp)
 
 	temp_2 = (*vars)->tokens;
 	file = 0;
+	handle_redirs(*vars, temp, &file);
 	while (temp_2)
 	{
 		if (ft_strcmp("|", temp_2->token) == 0)
@@ -175,7 +177,7 @@ void	ft_check_redir_2(t_vars **vars, t_list *temp)
 		}
 		temp_2 = temp_2->next;
 	}
-	handle_redirs(*vars, temp, &file);
+//	handle_redirs(*vars, temp, &file);
 	ft_check_redir_3(vars, temp, &file);
 }
 

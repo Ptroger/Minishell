@@ -31,6 +31,8 @@ SRCS    =		srcs/token/parse.c \
 				srcs/builtin/env.c \
 				srcs/builtin/env_util.c \
 				srcs/builtin/export.c \
+				srcs/builtin/export_utils.c \
+				srcs/builtin/export_utils_2.c \
 				srcs/builtin/pwd.c \
 				srcs/builtin/unset.c \
 				srcs/pipe/new_readline.c \
