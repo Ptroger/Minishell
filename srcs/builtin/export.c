@@ -6,7 +6,7 @@
 /*   By: aribesni <aribesni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 16:04:59 by aribesni          #+#    #+#             */
-/*   Updated: 2021/11/10 11:48:42 by aribesni         ###   ########.fr       */
+/*   Updated: 2021/12/20 16:32:21 by aribesni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_new_var_env(t_list *tokens, t_sort **t_env, t_sort **t_exp, int j)
 
 	new_env = NULL;
 	if ((tokens->next->token[j] == '=' || (tokens->next->token[j] == '+'
-		&& tokens->next->token[j + 1] == '='))
+				&& tokens->next->token[j + 1] == '='))
 		&& tokens->next->token[j - 1] != ' ')
 	{
 		new_env = ft_add_elem(tokens->next->token);
@@ -46,8 +46,8 @@ void	ft_new_var(t_list *tokens, t_sort **t_env, t_sort **t_exp, int j)
 	if (!new_exp)
 		return ;
 	if ((tokens->next->token[j] == '=' || (tokens->next->token[j] == '+'
-		&& tokens->next->token[j + 1] == '='))
-			&& tokens->next->token[j - 1] != ' ')
+				&& tokens->next->token[j + 1] == '='))
+		&& tokens->next->token[j - 1] != ' ')
 	{
 		new_env = ft_add_elem(tokens->next->token);
 		add_back(t_env, new_env);

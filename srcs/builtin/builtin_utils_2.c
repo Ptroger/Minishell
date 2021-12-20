@@ -86,3 +86,26 @@ void	ft_reverse_rotate(t_sort **pile)
 	last->next = *pile;
 	*pile = last;
 }
+
+char	*ft_return_max(t_sort **pile_a)
+{
+	char	*max;
+	t_sort	*temp;
+
+	if (pile_a)
+		temp = *pile_a;
+	else
+		temp = NULL;
+	if (temp)
+	{
+		max = temp->data;
+		while (temp && temp->next)
+		{
+			temp = temp->next;
+			if (ft_strcmp(max, temp->data) < 0)
+				max = temp->data;
+		}
+		return (max);
+	}
+	return (NULL);
+}
