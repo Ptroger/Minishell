@@ -28,7 +28,7 @@ static	char	*ft_strnew(size_t size)
 static	size_t	ft_nb_wds(const char *s, size_t i, char c)
 {
 	size_t	nb_wds;
-	
+
 	if (!s)
 		return (0);
 	nb_wds = 0;
@@ -105,7 +105,6 @@ char	**ft_split(char const *s, char c)
 		ft_fill_in_tab(s, &i, nb_char, tab);
 		wd += 1;
 	}
-	i = 0;
 	tab[wd] = NULL;
 	return (tab);
 }

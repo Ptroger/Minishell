@@ -41,7 +41,8 @@ void	ft_process_4(t_vars **vars, t_pipe **temp_p, t_list *temp_1)
 	}
 	else if (is_special(temp_2) == TRUE && temp_1->next
 		&& temp_1->next->next && shall_exec(*vars, temp_1) == TRUE)
-		ft_find_cmd(*vars, temp_1->next->next->token, &(*temp_p)->cmd, (*vars)->path);
+		ft_find_cmd(*vars, temp_1->next->next->token,
+			&(*temp_p)->cmd, (*vars)->path);
 	else
 		ft_find_cmd(*vars, (*temp_p)->token, &(*temp_p)->cmd, (*vars)->path);
 }
@@ -78,8 +79,8 @@ int	ft_process_2(t_pipe **temp_p)
 	while (++i < (*temp_p)->size - 1 && (*temp_p)->size > 1
 		&& ft_is_key((*temp_p)->cell[i + 1]) == 0)
 	{
-		(*temp_p)->cmd[i + 1] = dupfree((*temp_p)->cell[i + 1]
-		, (*temp_p)->cmd[i + 1]);
+		(*temp_p)->cmd[i + 1] = dupfree((*temp_p)->cell[i + 1],
+				(*temp_p)->cmd[i + 1]);
 	}
 	return (1);
 }
