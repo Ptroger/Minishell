@@ -6,34 +6,11 @@
 /*   By: aribesni <aribesni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 17:02:44 by aribesni          #+#    #+#             */
-/*   Updated: 2021/11/09 17:02:45 by aribesni         ###   ########.fr       */
+/*   Updated: 2021/12/20 16:29:15 by aribesni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*ft_return_max(t_sort **pile_a)
-{
-	char	*max;
-	t_sort	*temp;
-
-	if (pile_a)
-		temp = *pile_a;
-	else
-		temp = NULL;
-	if (temp)
-	{
-		max = temp->data;
-		while (temp && temp->next)
-		{
-			temp = temp->next;
-			if (ft_strcmp(max, temp->data) < 0)
-				max = temp->data;
-		}
-		return (max);
-	}
-	return (NULL);
-}
 
 t_sort	*ft_add_elem(char *env)
 {
@@ -58,7 +35,7 @@ int	ft_pile_in_order(t_sort **pile_a)
 	t_sort	*temp;
 
 	temp = *pile_a;
-	if (temp)	
+	if (temp)
 		tmp = temp->data;
 	while (temp && temp->next)
 	{
@@ -72,8 +49,8 @@ int	ft_pile_in_order(t_sort **pile_a)
 
 char	*find_path(t_vars *vars, char *token, char **tab)
 {
-	char *path;
-	int i;
+	char	*path;
+	int		i;
 
 	i = 0;
 	while (tab[i])
@@ -116,7 +93,7 @@ void	ft_find_cmd(t_vars *vars, char *token, char ***cmd, char **tab)
 	if (!tab)
 	{
 		ft_putstr_fd("Error : path could not be found\n", 2);
-		return;
+		return ;
 	}
 	if (*cmd && *cmd[0])
 		free(*cmd[0]);
