@@ -121,6 +121,7 @@ char	*my_get_env(t_vars *vars, char *name);
 void	add_back(t_sort **sort, t_sort *new);
 
 // BUILTINS
+void	ft_env(t_sort **t_env);
 int		ft_cd(t_vars **vars, t_list *tokens, char *user);
 void	ft_pwd(t_vars *vars, t_list *tokens);
 void	ft_dup(t_pipe *temp_p, int count, int size, int *pfd);
