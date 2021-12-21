@@ -24,6 +24,7 @@ t_vars	*ft_init_vars(void)
 	vars->finish_line = FALSE;
 	vars->tab_size = 0;
 	vars->exit_status = 0;
+	vars->hrdc = FALSE;
 	vars->stdin = -1;
 	vars->stdout = -1;
 	vars->path = NULL;

@@ -29,20 +29,20 @@ void	redir_temp(t_vars *vars, t_list *tokens, char *name, int *file)
 	while (tokens)
 	{
 		if (tokens->type == R_IN)
-			redirect_input(vars, tokens);
+			redirect_input(vars, tokens, file);
 		if (tokens->type == R_OUT)
-			redirect_output(vars, tokens, tokens->token);
+			redirect_output(vars, tokens, tokens->token, file);
 		tokens = tokens->next;
 	}
 }
 
-void	redirect_input(t_vars *vars, t_list *tokens)
+void	redirect_input(t_vars *vars, t_list *tokens, int *file)
 {
 	while (tokens)
 	{
 		if (tokens->type == R_OUT)
-			redirect_output(vars, tokens, tokens->token);
-		if (tokens->type == R_IN)
+			redirect_output(vars, tokens, tokens->token, file);
+		else if (tokens->type == R_IN)
 		{
 			if (!tokens->next)
 			{
@@ -55,6 +55,8 @@ void	redirect_input(t_vars *vars, t_list *tokens)
 			if (vars->stdout == -1)
 				open_err(vars, tokens);
 		}
+//		else if (tokens->type == H_DOC)
+//			handle_redirs(vars, tokens, file);
 		tokens = tokens->next;
 	}
 	dup2(vars->stdin, STDIN_FILENO);
@@ -85,14 +87,16 @@ void	handle_token(t_vars *vars, t_list *tokens, char *token)
 		open_err(vars, tokens);
 }
 
-void	redirect_output(t_vars *vars, t_list *tokens, char *token)
+void	redirect_output(t_vars *vars, t_list *tokens, char *token, int *file)
 {
 	while (tokens && tokens->type != PIPE)
 	{
 		if (tokens->type == R_IN)
-			redirect_input(vars, tokens);
-		if (tokens->type == R_OUT)
+			redirect_input(vars, tokens, file);
+		else if (tokens->type == R_OUT)
 			handle_token(vars, tokens, token);
+//		else if (tokens->type == H_DOC)
+//			handle_redirs(vars, tokens, file);
 		tokens = tokens->next;
 	}
 	dup2(vars->stdout, STDOUT_FILENO);

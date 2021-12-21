@@ -19,7 +19,7 @@ void	ft_browse_tmp(t_list **temp, t_pipe **temp_p, int *count)
 	if (*temp && (*temp)->next)
 		*temp = (*temp)->next;
 	*count += 2;
-	*temp_p = (*temp_p)->next;
+	(void)temp_p;
 }
 
 void	ft_process_4(t_vars **vars, t_pipe **temp_p, t_list *temp_1)
@@ -58,7 +58,7 @@ void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1)
 	temp = temp_1;
 	while (temp_1)
 	{
-		if (is_special(temp_1) == TRUE && temp_p->redir == 1)
+		if (is_special(temp_1) == TRUE && temp_p->redir >= 1)
 		{
 			handle_redirs(*vars, temp_1, &file);
 			ft_process_4(vars, &temp_p, temp);

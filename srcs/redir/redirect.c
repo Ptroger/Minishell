@@ -23,17 +23,18 @@ int	redirect(t_vars *vars, t_list *tokens, char *name, int *file)
 	if (tokens->type != H_DOC)
 		is_dir(vars, name, FALSE);
 	if (ft_strcmp(token, "<") == 0)
-		redirect_input(vars, tokens);
+		redirect_input(vars, tokens, file);
 	else if (ft_strcmp(token, ">") == 0 || ft_strcmp(token, ">>") == 0)
-		redirect_output(vars, tokens, token);
+		redirect_output(vars, tokens, token, file);
 	else if (ft_strcmp(token, "<<") == 0)
 	{
 		while (toks && ft_strcmp(toks->token, "<<") != 0)
 			toks = toks->next;
-		if (toks->index == tokens->index)
+		if (toks->index == tokens->index && vars->hrdc == FALSE)
 		{
 			write_file(vars, name);
 			redir_temp(vars, tokens, H_DOC_PATH, file);
+			vars->hrdc = TRUE;
 		}
 	}
 	return (1);
@@ -44,10 +45,13 @@ int	handle_redirs(t_vars *vars, t_list *tokens, int *file)
 	char	*name;
 	t_list	*temp;
 
+	dprintf(2, "token : %s\n", tokens->token);
 	temp = tokens;
 	if (tokens->next)
 		name = tokens->next->token;
-	while (temp && ft_strcmp(temp->token, "|") != 0)
+	while (temp && ft_strcmp(temp->token, "<<") != 0)
 		temp = temp->next;
+	if (temp)
+		redirect(vars, temp, name, file);
 	return (redirect(vars, tokens, name, file));
 }

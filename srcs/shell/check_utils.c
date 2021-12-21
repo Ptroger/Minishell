@@ -8,7 +8,7 @@ int	check_pipe(char *str)
 	while (str[i])
 		i++;
 	i--;
-	if (str[i] && str[i] == '|')
+	if (i >= 0 && str[i] && str[i] == '|')
 	{
 		ft_putstr_fd("Pipe at the end of the line\n", 2);
 		return (FALSE);

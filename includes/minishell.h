@@ -69,6 +69,7 @@ typedef struct s_vars
 	int		exit_status;
 	int		stdout;
 	int		stdin;
+	int		hrdc;
 	char	**path;
 	char	**real_envs;
 	t_pipe	*original;
@@ -103,9 +104,9 @@ void	finish_token(t_vars *vars, char *token, int i);
 
 // REDIRECTIONS
 int		ft_check_redir(t_vars **vars);
-void	redirect_input(t_vars *vars, t_list *tokens);
+void	redirect_input(t_vars *vars, t_list *tokens, int *file);
 void	redir_temp(t_vars *vars, t_list *tokens, char *name, int *file);
-void	redirect_output(t_vars *vars, t_list *tokens, char *token);
+void	redirect_output(t_vars *vars, t_list *tokens, char *token, int *file);
 int		handle_redirs(t_vars *vars, t_list *tokens, int *file);
 int		ft_is_redir(char *str);
 int		is_special(t_list *tokens);

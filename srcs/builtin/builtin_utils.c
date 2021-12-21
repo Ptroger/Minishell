@@ -106,7 +106,7 @@ void	ft_find_cmd(t_vars *vars, char *token, char ***cmd, char **tab)
 	else
 	{
 		if (ft_strcmp(token, "<<") == 0)
-			*cmd[0] = find_path(vars, "cat", tab);
+			clean_exit(vars, 0);
 		else
 			*cmd[0] = find_path(vars, token, tab);
 		g_g.ret = execve(*cmd[0], *cmd, vars->real_envs);

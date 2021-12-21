@@ -55,7 +55,7 @@ void	ft_dup(t_pipe *temp_p, int count, int size, int *pfd)
 	i = 0;
 	if (temp_p->next)
 		dup2(pfd[count + 1], 1);
-	if (count != 0)
+	if (count != 0 && temp_p->redir != 2)
 		dup2(pfd[count - 2], 0);
 	while (i < (2 * (size - 1)))
 	{

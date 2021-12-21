@@ -25,18 +25,23 @@ int	ft_find_redir(t_vars **vars, t_pipe **temp_p_2, t_list **temp_2)
 		{
 			if (ft_is_redir((*temp_p_2)->cell[i]) == 1)
 			{
-				while (*temp_2 && is_special(*temp_2) != 0)
+				while (*temp_2 && is_special(*temp_2) == FALSE)
 					*temp_2 = (*temp_2)->next;
 				(*temp_p_2)->redir = 1;
+				if (*temp_2 && (*temp_2)->type == H_DOC)
+				{
+					(*temp_p_2)->redir = 2;
+					return (0);
+				}
 			}
 			i++;
 		}
 		(*temp_p_2) = (*temp_p_2)->next;
 	}
-	while (temp->next)
-		temp = temp->next;
-	if (ft_strcmp(temp->token, "|") == 0)
-		return (ft_new_readline(vars));
+//	while (temp->next)
+//		temp = temp->next;
+//	if (ft_strcmp(temp->token, "|") == 0)
+//		return (ft_new_readline(vars));
 	return (0);
 }
 
@@ -51,7 +56,7 @@ int	ft_process(t_vars **vars, t_pipe **temp_p, int size, int *pfd)
 	temp_1 = (*vars)->tokens;
 	temp_2 = (*vars)->tokens;
 	temp_p_2 = *temp_p;
-//	(*vars)->original = (*vars)->store;
+	(*vars)->original = (*vars)->store;
 	while (*temp_p)
 	{
 		if (ft_find_redir(vars, &temp_p_2, &temp_2) == 1)
@@ -65,7 +70,12 @@ int	ft_process(t_vars **vars, t_pipe **temp_p, int size, int *pfd)
 			ft_dup(*temp_p, count, size, pfd);
 			ft_process_3(vars, *temp_p, temp_1);
 		}
-		ft_browse_tmp(&temp_1, temp_p, &count);
+//		ft_browse_tmp(&temp_1, temp_p, &count);
+		(*temp_p) = (*temp_p)->next;
+		while (temp_1 && ft_strcmp(temp_1->token, "|") != 0)
+			temp_1 = temp_1->next;
+		if (temp_1 && temp_1->next)
+			temp_1 = temp_1->next;
 	}
 	return (1);
 }
