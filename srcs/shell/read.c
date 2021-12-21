@@ -67,6 +67,7 @@ char	*reset_loop(t_vars *vars)
 	while (line && (check_quote(line) == FALSE
 		|| check_pipe(line) == FALSE))
 	{
+		add_history(line);
 		free(line);
 		line = readline(PROMPT);
 	}
