@@ -6,7 +6,7 @@
 /*   By: ptroger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 16:08:33 by ptroger           #+#    #+#             */
-/*   Updated: 2021/12/20 16:08:34 by ptroger          ###   ########.fr       */
+/*   Updated: 2021/12/21 19:11:59 by aribesni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,8 @@ void	ft_call_env(t_vars **vars, t_list *tokens);
 void	ft_unset(t_list *tokens, t_sort **t_env, t_sort **t_exp);
 void	ft_unset_env(t_sort **t_env, int i);
 void	ft_unset_exp(t_sort **t_env, int i);
-void	ft_parse_unset(t_list *tokens, t_sort **t_env, t_sort **t_exp, char *tmp);
+void	ft_parse_unset(t_list *tokens, t_sort **t_env, t_sort **t_exp,
+			char *tmp);
 void	ft_export(t_list *tokens, t_sort **t_env, t_sort **t_exp);
 void	ft_fill_data(t_list *tokens, t_sort *new_exp);
 void	ft_set_list_2(t_sort *new_env);
@@ -175,6 +176,9 @@ char	*dupfree(char *s1, char *s2);
 void	destroy_vars(t_vars *vars);
 void	destroy_tab(char **tab);
 t_vars	*ft_init_vars(void);
+
+//PIPES
+int		ft_child(t_vars **vars, t_pipe **store, int size);
 
 // OTHERS
 void	set_type(t_vars *vars);

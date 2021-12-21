@@ -84,6 +84,7 @@ void	ft_parse_exp(t_list *tokens, t_sort **t_env, t_sort **t_exp, char *tmp)
 				&& (tmp[i] == '+' && tmp[i + 1] != '='))
 			{
 				printf("minishell: export: `%s': not a valid identifier\n", tmp);
+				g_g.ret = 2;
 				return ;
 			}
 			i++;
@@ -91,7 +92,10 @@ void	ft_parse_exp(t_list *tokens, t_sort **t_env, t_sort **t_exp, char *tmp)
 		ft_set_list(tokens, t_env, t_exp);
 	}
 	else
+	{
 		printf("minishell: export: `%s': not a valid identifier\n", tmp);
+		g_g.ret = 2;
+	}
 }
 
 void	ft_export(t_list *tokens, t_sort **t_env, t_sort **t_exp)

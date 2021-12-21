@@ -55,8 +55,6 @@ void	redirect_input(t_vars *vars, t_list *tokens, int *file)
 			if (vars->stdout == -1)
 				open_err(vars, tokens);
 		}
-//		else if (tokens->type == H_DOC)
-//			handle_redirs(vars, tokens, file);
 		tokens = tokens->next;
 	}
 	dup2(vars->stdin, STDIN_FILENO);
@@ -95,8 +93,6 @@ void	redirect_output(t_vars *vars, t_list *tokens, char *token, int *file)
 			redirect_input(vars, tokens, file);
 		else if (tokens->type == R_OUT)
 			handle_token(vars, tokens, token);
-//		else if (tokens->type == H_DOC)
-//			handle_redirs(vars, tokens, file);
 		tokens = tokens->next;
 	}
 	dup2(vars->stdout, STDOUT_FILENO);

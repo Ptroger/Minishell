@@ -67,7 +67,7 @@ void	ft_unset_env(t_sort **t_env, int i)
 	temp_1 = *t_env;
 	temp_2 = *t_env;
 	temp_3 = *t_env;
-	while (i-- && temp_2->next)
+	while (i-- && temp_2)
 		temp_2 = temp_2->next;
 	while (j-- && temp_1)
 		temp_1 = temp_1->next;

@@ -6,7 +6,7 @@
 /*   By: aribesni <aribesni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 15:00:18 by aribesni          #+#    #+#             */
-/*   Updated: 2021/12/20 15:00:20 by aribesni         ###   ########.fr       */
+/*   Updated: 2021/12/21 19:09:32 by aribesni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	ft_set_list_3(t_sort *new_env, int i, int j, int tmp)
 		j++;
 	}
 	new_env->info[j] = '\0';
-	new_env->next = NULL;
 	if (tmp == 1)
 	{
 		free(new_env->data);

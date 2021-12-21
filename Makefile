@@ -40,7 +40,6 @@ SRCS    =		srcs/token/parse.c \
 				srcs/builtin/single_command.c \
 				srcs/builtin/unset.c \
 				srcs/builtin/unset_utils.c \
-				srcs/pipe/new_readline.c \
 				srcs/pipe/pipe.c \
 				srcs/pipe/pipe_utils.c \
 				srcs/redir/redirect.c \
@@ -54,6 +53,7 @@ SRCS    =		srcs/token/parse.c \
 				srcs/shell/errors.c \
 				srcs/shell/utils.c \
 				srcs/pipe/pipe_utils_2.c \
+				srcs/pipe/pipe_utils_3.c \
 				srcs/heredoc/heredoc.c \
 				srcs/heredoc/utils.c \
 

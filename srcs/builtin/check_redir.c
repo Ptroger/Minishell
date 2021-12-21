@@ -6,7 +6,7 @@
 /*   By: aribesni <aribesni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 15:59:57 by aribesni          #+#    #+#             */
-/*   Updated: 2021/12/20 15:59:58 by aribesni         ###   ########.fr       */
+/*   Updated: 2021/12/21 19:10:30 by aribesni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ void	ft_check_redir_3(t_vars **vars, t_list *temp, int *file)
 {
 	char	**cmd;
 
-	(void)temp;
-//	if (temp->type != H_DOC)
-//	handle_redirs(*vars, temp, file);
+	if (temp->type != H_DOC)
+		handle_redirs(*vars, temp, file);
 	cmd = ft_command_size((*vars)->size);
 	if (ft_is_builtin((*vars)->tokens->token) == 1)
 		ft_call_builtin(vars, (*vars)->tokens);
@@ -47,7 +46,7 @@ void	ft_check_redir_2(t_vars **vars, t_list *temp)
 
 	temp_2 = (*vars)->tokens;
 	file = 0;
-//	if (temp->type == H_DOC)//&& temp->next && temp->next->next)
+	if (temp->type == H_DOC)
 		handle_redirs(*vars, temp, &file);
 	while (temp_2)
 	{

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aribesni <aribesni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 14:24:38 by aribesni          #+#    #+#             */
-/*   Updated: 2021/11/10 14:57:37 by aribesni         ###   ########.fr       */
+/*   Updated: 2021/12/21 19:09:54 by aribesni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	ft_env(t_sort **t_env)
 void	ft_call_env(t_vars **vars, t_list *tokens)
 {
 	if (tokens->next && (ft_strcmp(tokens->next->token, "yes") == 0
-		|| ft_strcmp(tokens->next->token, "YES") == 0))
+			|| ft_strcmp(tokens->next->token, "YES") == 0))
 	{
 		while (1)
 			printf("y\n");

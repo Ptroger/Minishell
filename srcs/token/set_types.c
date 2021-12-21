@@ -79,15 +79,9 @@ void	flag_syntax(t_vars *vars)
 		{
 			if (tokens->next && (tokens->next->type < 5
 					|| tokens->next->type > 7))
-			{
-				printf("2\n");
 				tokens->next->type = SYNTAX_ERROR;
-			}
 			else if (!tokens->next)
-			{
 				tokens->type = SYNTAX_ERROR;
-				printf("3\n");
-			}
 		}
 		tokens = tokens->next;
 	}

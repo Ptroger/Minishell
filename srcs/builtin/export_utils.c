@@ -6,7 +6,7 @@
 /*   By: aribesni <aribesni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 14:56:57 by aribesni          #+#    #+#             */
-/*   Updated: 2021/12/20 15:37:57 by aribesni         ###   ########.fr       */
+/*   Updated: 2021/12/21 19:08:24 by aribesni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	ft_fill_data(t_list *tokens, t_sort *new_exp)
 	}
 	else
 		new_exp->data[i] = '\0';
-	new_exp->next = NULL;
 }
 
 void	ft_update_var_3(t_list *tokens, t_sort *temp_env,
@@ -110,14 +109,13 @@ void	ft_browse_env(t_list *tokens, t_sort **t_env, t_sort **t_exp, char *tmp)
 	while (tokens->next->token[j] && (tokens->next->token[j] != '+'
 			&& tokens->next->token[j] != '='))
 		j++;
-	while (temp_env && ft_strcmp(temp_env->name, tmp) != 0)
+	while (temp_env && temp_env->next && ft_strcmp(temp_env->name, tmp) != 0)
 		temp_env = temp_env->next;
-	while (temp_exp && ft_strncmp(temp_exp->data, tmp, j) != 0)
+	while (temp_exp && temp_exp->next
+		&& ft_strncmp(temp_exp->data, tmp, j) != 0)
 		temp_exp = temp_exp->next;
-	if (temp_exp && temp_exp->name)
-		free(temp_exp->name);
 	temp_exp->name = ft_strdup(tmp);
-	if (temp_exp && ft_strncmp(temp_exp->data, temp_exp->name, j) == 0)
+	if (temp_exp && ft_strncmp(temp_exp->data, tmp, j) == 0)
 	{
 		if (tokens->next->token[j] != '+' && tokens->next->token[j] != '=')
 			return ;
