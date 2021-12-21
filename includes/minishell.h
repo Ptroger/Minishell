@@ -93,6 +93,7 @@ void	add_token(t_vars *vars, int i);
 char	*add_c_tok(char c, t_vars *vars, int i, char *token);
 char	*my_get_env(t_vars *vars, char *name);
 int		is_valid(t_vars *vars, char *line);
+int		check_pipe(char *str);
 void	cat_ret(char *token, t_vars *vars);
 int		ft_mul_strcmp(const char **s1, const char *s2);
 void	ft_strcpy_2(char *old, char *ne, int i);
