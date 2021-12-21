@@ -48,8 +48,8 @@ int	ft_find_redir(t_vars **vars, t_pipe **temp_p_2, t_list **temp_2)
 int	ft_process(t_vars **vars, t_pipe **temp_p, int size, int *pfd)
 {
 	int		count;
-	t_list	*temp_1;
 	t_list	*temp_2;
+	t_list	*temp_1;
 	t_pipe	*temp_p_2;
 
 	count = 0;
@@ -60,7 +60,10 @@ int	ft_process(t_vars **vars, t_pipe **temp_p, int size, int *pfd)
 	while (*temp_p)
 	{
 		if (ft_find_redir(vars, &temp_p_2, &temp_2) == 1)
+		{
+			printf("YO\n");
 			return (1);
+		}
 		ft_process_2(temp_p);
 		g_g.pid = fork();
 		if (g_g.pid < 0)
@@ -70,12 +73,9 @@ int	ft_process(t_vars **vars, t_pipe **temp_p, int size, int *pfd)
 			ft_dup(*temp_p, count, size, pfd);
 			ft_process_3(vars, *temp_p, temp_1);
 		}
-//		ft_browse_tmp(&temp_1, temp_p, &count);
+		ft_browse_tmp(&temp_1, temp_p, &count);
+		count += 2;
 		(*temp_p) = (*temp_p)->next;
-		while (temp_1 && ft_strcmp(temp_1->token, "|") != 0)
-			temp_1 = temp_1->next;
-		if (temp_1 && temp_1->next)
-			temp_1 = temp_1->next;
 	}
 	return (1);
 }

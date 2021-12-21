@@ -14,11 +14,12 @@
 
 void	ft_browse_tmp(t_list **temp, t_pipe **temp_p, int *count)
 {
+	(void)count;
 	while (*temp && ft_strcmp((*temp)->token, "|") != 0)
 		*temp = (*temp)->next;
 	if (*temp && (*temp)->next)
 		*temp = (*temp)->next;
-	*count += 2;
+//	*count += 2;
 	(void)temp_p;
 }
 

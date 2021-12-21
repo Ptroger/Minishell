@@ -45,7 +45,6 @@ int	handle_redirs(t_vars *vars, t_list *tokens, int *file)
 	char	*name;
 	t_list	*temp;
 
-	dprintf(2, "token : %s\n", tokens->token);
 	temp = tokens;
 	if (tokens->next)
 		name = tokens->next->token;
