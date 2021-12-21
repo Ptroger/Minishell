@@ -11,12 +11,13 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 void	ft_new_readline_3(t_vars **vars, char *line, char *tmp, char *ptr)
 {
-	tmp = ft_strjoin(tmp, line);
 	ptr = tmp;
-	tmp = ft_strjoin(tmp, " ");
+	tmp = ft_strjoin(ptr, " ");
+	ptr = tmp;
+	tmp = ft_strjoin(ptr, line);
 	free(ptr);
 	free(line);
 	printf("tmp : %s\n", tmp);
@@ -33,10 +34,10 @@ void	ft_new_readline_2(t_vars **vars, char *line, char *tmp)
 	while (line[ft_strlen(line) - 1] == '|')
 	{
 		ptr = tmp;
-		tmp = ft_strjoin(tmp, line);
+		tmp = ft_strjoin(ptr, line);
 		free(ptr);
 		ptr = tmp;
-		tmp = ft_strjoin(tmp, " ");
+		tmp = ft_strjoin(ptr, " ");
 		free(ptr);
 		free(line);
 		line = readline("> ");
@@ -46,6 +47,7 @@ void	ft_new_readline_2(t_vars **vars, char *line, char *tmp)
 			free(tmp);
 			clean_exit(*vars, 0);
 		}
+		printf("BITE\n");
 	}
 	ft_new_readline_3(vars, line, tmp, ptr);
 }
@@ -66,13 +68,72 @@ int	ft_new_readline(t_vars **vars)
 	while (temp)
 	{
 		ptr = tmp;
-		tmp = ft_strjoin(tmp, " ");
+		tmp = ft_strjoin(ptr, " ");
 		free(ptr);
 		ptr = tmp;
-		tmp = ft_strjoin(tmp, temp->token);
+		tmp = ft_strjoin(ptr, temp->token);
 		free(ptr);
 		temp = temp->next;
 	}
 	ft_new_readline_2(vars, line, tmp);
 	return (1);
+}
+*/
+
+void    ft_new_readline_2(t_vars **vars, char *line, char *tmp)
+{
+	char	*ptr;
+
+	ptr = NULL;
+    while (line[ft_strlen(line) - 1] == '|')
+    {
+		ptr = tmp;
+        tmp = ft_strjoin(ptr, line);
+		free(ptr);
+		ptr = tmp;
+        tmp = ft_strjoin(ptr, " ");
+        free(line);
+        line = readline("> ");
+    }
+	ptr = tmp;
+    tmp = ft_strjoin(ptr, line);
+	free(ptr);
+	ptr = tmp;
+    tmp = ft_strjoin(ptr, " ");
+	free(ptr);
+    free(line);
+    parse(tmp, *vars);
+    call_command(vars, FALSE);
+}
+
+int ft_new_readline(t_vars **vars)
+{
+    char	*line;
+    char	*tmp;
+	char	*ptr;
+    t_list	*temp;
+
+    temp = (*vars)->tokens;
+	line = readline("> ");
+	if (!line)
+		clean_exit(*vars, 0);
+    tmp = NULL;
+	ptr = NULL;
+    while (temp)
+    {
+		if (!tmp)
+			tmp = ft_strdup(temp->token);
+		else
+		{
+			ptr = tmp;
+			tmp = ft_strjoin(ptr, temp->token);
+			free(ptr);
+		}
+		ptr = tmp;
+        tmp = ft_strjoin(ptr, " ");
+		free(ptr);
+        temp = temp->next;
+    }
+    ft_new_readline_2(vars, line, tmp);
+    return (1);
 }
