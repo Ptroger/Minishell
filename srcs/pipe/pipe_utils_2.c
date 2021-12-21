@@ -32,14 +32,14 @@ void	ft_process_4(t_vars **vars, t_pipe **temp_p, t_list *temp_1)
 	{
 		(*temp_p)->cmd[0] = ft_strdup("tmp");
 		ft_call_builtin(vars, temp_1);
-		exit(g_g.ret);
+		clean_exit(*vars, g_g.ret);
 	}
 	else if (is_special(temp_2) == TRUE && temp_1->next
 		&& temp_1->next->next && ft_is_builtin(temp_1->next->next->token) == 1)
 	{
 		(*temp_p)->cmd[0] = ft_strdup("tmp");
 		ft_call_builtin(vars, temp_1->next->next);
-		exit(g_g.ret);
+		clean_exit(*vars, g_g.ret);
 	}
 	else if (is_special(temp_2) == TRUE && temp_1->next
 		&& temp_1->next->next && shall_exec(*vars, temp_1) == TRUE)
@@ -47,6 +47,7 @@ void	ft_process_4(t_vars **vars, t_pipe **temp_p, t_list *temp_1)
 			&(*temp_p)->cmd, (*vars)->path);
 	else
 		ft_find_cmd(*vars, (*temp_p)->token, &(*temp_p)->cmd, (*vars)->path);
+	
 }
 
 void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1)
@@ -82,7 +83,7 @@ int	ft_process_2(t_pipe **temp_p)
 		&& ft_is_key((*temp_p)->cell[i + 1]) == 0)
 	{
 		(*temp_p)->cmd[i + 1] = dupfree((*temp_p)->cell[i + 1],
-				(*temp_p)->cmd[i + 1]);
+			(*temp_p)->cmd[i + 1]);
 	}
 	return (1);
 }

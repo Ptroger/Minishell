@@ -22,6 +22,7 @@ char	*dupfree(char *s1, char *s2)
 {
 	char	*ret;
 
+	ret = NULL;
 	if (s2)
 		free(s2);
 	if (!s1)

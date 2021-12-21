@@ -16,6 +16,7 @@ void	ft_single_command_2(t_vars **vars, t_list *tokens, char ***cmd)
 {
 	int		status;
 
+	signal(SIGINT, sig_handler);
 	g_g.pid = fork();
 	if (g_g.pid == 0)
 	{

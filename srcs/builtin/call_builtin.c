@@ -28,6 +28,7 @@ void	ft_call_builtin_3(t_vars **vars, t_list *tokens)
 		else if (ft_strcmp(tokens->token, "pwd") == 0
 			|| ft_strcmp(tokens->token, "/bin/pwd") == 0)
 			ft_pwd(*vars, tokens);
+		printf("ici\n");
 		clean_exit(*vars, 0);
 	}
 	wait(&status);

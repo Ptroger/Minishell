@@ -105,6 +105,8 @@ void	destroy_vars(t_vars *vars)
 		destroy_env(&vars->t_env);
 		if (vars->path)
 			destroy_tab(vars->path);
-		destroy_store(&vars->store);
+		printf("%p == og\n", &vars->original);
+		printf("%p == store\n", &vars->store);
+		destroy_store(&vars->original);
 	}
 }

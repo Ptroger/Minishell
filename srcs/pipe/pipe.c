@@ -72,6 +72,9 @@ int	ft_pipe(t_vars **vars)
 
 	size = 0;
 	temp = (*vars)->tokens;
+	pipe_add_back(&(*vars)->store, ft_add_elem_pipe());
+	size++;
+	(*vars)->original = (*vars)->store;
 	while (temp)
 	{
 		if (ft_strcmp(temp->token, "|") == 0)
@@ -81,8 +84,6 @@ int	ft_pipe(t_vars **vars)
 		}
 		temp = temp->next;
 	}
-	pipe_add_back(&(*vars)->store, ft_add_elem_pipe());
-	size++;
 	ft_store_command((*vars)->tokens, &(*vars)->store);
 	ft_child(vars, &(*vars)->store, size);
 	return (0);

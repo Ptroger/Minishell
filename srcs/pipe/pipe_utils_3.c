@@ -15,9 +15,8 @@
 int	ft_find_redir(t_vars **vars, t_pipe **temp_p_2, t_list **temp_2)
 {
 	int		i;
-	t_list	*temp;
 
-	temp = (*vars)->tokens;
+	(void)vars;
 	while (*temp_p_2 && (*temp_p_2)->redir == 0)
 	{
 		i = 0;

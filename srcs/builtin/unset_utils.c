@@ -70,11 +70,6 @@ t_sort **t_exp, char *tmp)
 void	ft_parse_unset(t_list *tokens, t_sort **t_env,
 t_sort **t_exp, char *tmp)
 {
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
 	if (ft_isalpha(tmp[0]) == 1 || tmp[0] == '_')
 		ft_parse_unset_2(tokens, t_env, t_exp, tmp);
 	else

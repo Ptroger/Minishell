@@ -95,6 +95,7 @@ void	read_loop(t_vars *vars)
 				call_command(&vars, FALSE);
 			}
 			ft_lstclear(&vars->tokens, free);
+			destroy_store(&vars->original);
 			if (access(H_DOC_PATH, R_OK) == 0)
 				unlink(H_DOC_PATH);
 		}
