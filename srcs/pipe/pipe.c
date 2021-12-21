@@ -43,15 +43,15 @@ int	ft_find_redir(t_vars **vars, t_pipe **temp_p_2, t_list **temp_2)
 int	ft_process(t_vars **vars, t_pipe **temp_p, int size, int *pfd)
 {
 	int		count;
-	t_list	*temp_2;
 	t_list	*temp_1;
+	t_list	*temp_2;
 	t_pipe	*temp_p_2;
 
 	count = 0;
 	temp_1 = (*vars)->tokens;
 	temp_2 = (*vars)->tokens;
 	temp_p_2 = *temp_p;
-	(*vars)->original = (*vars)->store;
+//	(*vars)->original = (*vars)->store;
 	while (*temp_p)
 	{
 		if (ft_find_redir(vars, &temp_p_2, &temp_2) == 1)
@@ -66,8 +66,6 @@ int	ft_process(t_vars **vars, t_pipe **temp_p, int size, int *pfd)
 			ft_process_3(vars, *temp_p, temp_1);
 		}
 		ft_browse_tmp(&temp_1, temp_p, &count);
-//		count += 2;
-//		*temp_p = (*temp_p)->next;
 	}
 	return (1);
 }
