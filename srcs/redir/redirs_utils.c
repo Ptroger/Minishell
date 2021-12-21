@@ -79,7 +79,7 @@ void	handle_token(t_vars *vars, t_list *tokens, char *token)
 		if (vars->stdout > -1)
 			close(vars->stdout);
 		vars->stdout = open(tokens->next->token,
-				O_WRONLY | O_CREAT | O_APPEND, 0777);
+				O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	}
 	if (vars->stdout == -1)
 		open_err(vars, tokens);
