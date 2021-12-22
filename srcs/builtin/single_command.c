@@ -33,6 +33,7 @@ void	ft_single_command_2(t_vars **vars, t_list *tokens, char ***cmd)
 		g_g.ret = WEXITSTATUS(status);
 	}
 	destroy_tab(*cmd);
+	destroy_tab((*vars)->real_envs);
 }
 
 void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)

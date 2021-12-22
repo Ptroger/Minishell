@@ -61,9 +61,7 @@ int	ft_cd(t_vars **vars, t_list *tokens, char *user)
 	buf = NULL;
 	wd = getcwd(buf, sizeof(buf));
 	if (!tokens->next || ft_strcmp(tokens->next->token, "~") == 0)
-	{
 		ret = chdir(user);
-	}
 	else if (ft_strcmp(tokens->next->token, "-") == 0)
 		ret = ft_is_dash(vars);
 	else

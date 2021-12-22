@@ -90,3 +90,28 @@ int	check_quote(char *str)
 	ft_putstr_fd("No matching quotes found\n", 2);
 	return (FALSE);
 }
+
+int	find_path_2(char *token, char **tab)
+{
+	char	*path;
+	int		i;
+
+	i = 0;
+	while (tab[i])
+	{
+		path = malloc(sizeof(char) * ft_strlen(token) + ft_strlen(tab[i]) + 2);
+		if (!path)
+			return (FALSE);
+		path = ft_strcpy(path, tab[i]);
+		path = ft_strcat(path, "/");
+		path = ft_strcat(path, token);
+		if (access(path, X_OK) == 0)
+		{
+			free(path);
+			return (TRUE);
+		}
+		i++;
+		free(path);
+	}
+	return (FALSE);
+}

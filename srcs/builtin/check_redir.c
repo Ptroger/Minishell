@@ -16,8 +16,6 @@ void	ft_check_redir_3(t_vars **vars, t_list *temp, int *file)
 {
 	char	**cmd;
 
-	(void)temp;
-
 	if (temp->type != H_DOC)
 		handle_redirs(*vars, temp, file);
 	cmd = ft_command_size((*vars)->size);
