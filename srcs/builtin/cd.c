@@ -35,18 +35,16 @@ void	ft_set_oldpwd(t_vars **vars, char *wd)
 int	ft_is_dash(t_vars **vars)
 {
 	t_sort	*temp;
-	char	*old_pwd;
 
 	temp = (*vars)->t_env;
-	old_pwd = NULL;
 	while (temp && ft_strcmp(temp->name, "OLDPWD") != 0)
 		temp = temp->next;
 	if (ft_strcmp(temp->name, "OLDPWD") == 0)
 	{
 		if (temp->info == NULL)
 			printf("is NULL\n");
-		old_pwd = ft_strdup(temp->info);
-		return (chdir(old_pwd));
+		printf("%s\n", temp->info);
+		return (chdir(temp->info));
 	}
 	return (0);
 }
