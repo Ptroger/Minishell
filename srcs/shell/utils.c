@@ -31,3 +31,24 @@ void	ft_putstr_lst(char *token)
 		i++;
 	}
 }
+
+t_sort	*init_temp(void)
+{
+	t_sort	*temp_exp_2;
+
+	temp_exp_2 = malloc(sizeof(t_sort));
+	if (!temp_exp_2)
+		return (NULL);
+	temp_exp_2->data = NULL;
+	temp_exp_2->info = NULL;
+	temp_exp_2->name = NULL;
+	return (temp_exp_2);
+}
+
+void	ft_destroy_tmp(t_sort *temp_env_2, t_sort *temp_exp_2)
+{
+	if (temp_exp_2)
+		destroy_tmp_env(temp_exp_2);
+	if (temp_env_2)
+		destroy_tmp_env(temp_env_2);
+}

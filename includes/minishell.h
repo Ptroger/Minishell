@@ -162,7 +162,7 @@ void	ft_new_var(t_list *tokens, t_sort **t_env, t_sort **t_exp, int j);
 void	ft_new_var_env(t_list *tokens, t_sort **t_env, t_sort **t_exp, int j);
 void	ft_browse_env(t_list *tokens, t_sort **t_env,
 			t_sort **t_exp, char *tmp);
-void	destroy_tmp_env(t_sort *envs, char *str);
+void	destroy_tmp_env(t_sort *envs);
 void	ft_call_builtin(t_vars **vars, t_list *tokens);
 int		ft_is_builtin(char *token);
 
@@ -171,6 +171,7 @@ void	ft_browse_tmp(t_list **temp, t_pipe **temp_p, int *count);
 void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1);
 int		ft_process_2(t_vars **vars);
 int		check_path(t_vars *vars, char *path, int is_exec);
+t_sort	*init_temp(void);
 
 // MEMORY
 void	destroy_store(t_pipe **store);
@@ -180,6 +181,7 @@ void	destroy_vars(t_vars *vars);
 void	destroy_tab(char **tab);
 void	destroy_env(t_sort **envs);
 t_vars	*ft_init_vars(void);
+void	ft_destroy_tmp(t_sort *temp_env_2, t_sort *temp_exp_2);
 
 //PIPES
 int		ft_child(t_vars **vars, t_pipe **store, int size);

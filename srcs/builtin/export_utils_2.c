@@ -12,11 +12,10 @@
 
 #include "minishell.h"
 
-void	destroy_tmp_env(t_sort *envs, char *str)
+void	destroy_tmp_env(t_sort *envs)
 {
 	t_sort	*temp;
 
-	(void)str;
 	temp = envs;
 	if (temp->data)
 		free(temp->data);

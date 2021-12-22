@@ -40,19 +40,6 @@ void	ft_fill_data(t_list *tokens, t_sort *new_exp)
 		new_exp->data[i] = '\0';
 }
 
-t_sort	*init_temp()
-{
-	t_sort	*temp_exp_2;
-	
-	temp_exp_2 = malloc(sizeof(t_sort));
-	if (!temp_exp_2)
-		return (NULL);
-	temp_exp_2->data = NULL;
-	temp_exp_2->info = NULL;
-	temp_exp_2->name = NULL;
-	return (temp_exp_2);
-}
-
 void	ft_update_var_3(t_list *tokens, t_sort *temp_env,
 		t_sort *temp_exp, t_sort *temp_exp_2)
 {
@@ -79,10 +66,6 @@ void	ft_update_var_3(t_list *tokens, t_sort *temp_env,
 		temp_exp->data = ft_strjoin(temp_exp->data, "\"");
 		ft_set_list_2(temp_env);
 	}
-	if (temp_exp_2)
-		destroy_tmp_env(temp_exp_2, "EPX_2");
-	if (temp_env_2)
-		destroy_tmp_env(temp_env_2, "ENV_2");
 }
 
 void	ft_update_var_2(t_list *tokens, t_sort **t_env,
@@ -99,6 +82,7 @@ void	ft_update_var_2(t_list *tokens, t_sort **t_env,
 	if (!(temp_env && temp_env->name
 			&& ft_strcmp(temp_env->name, temp_exp->name) == 0))
 	{
+		ft_destroy_tmp(NULL, temp_exp_2);
 		ft_new_var_env(tokens, t_env, &temp_exp, j);
 		return ;
 	}
@@ -108,11 +92,8 @@ void	ft_update_var_2(t_list *tokens, t_sort **t_env,
 			temp_exp_2->data = ft_strdup(temp_exp->data);
 		free(temp_exp->data);
 	}
-	temp_exp->data
-		= malloc(sizeof(char) * (ft_strlen(tokens->next->token) + 3));
-	if (!temp_exp)
-		return ;
-	if (temp_env && temp_env->name
+	temp_exp->data = malloc(ft_strlen(tokens->next->token) + 3);
+	if (temp_exp && temp_env && temp_env->name
 		&& ft_strcmp(temp_env->name, temp_exp->name) == 0)
 		ft_update_var_3(tokens, temp_env, temp_exp, temp_exp_2);
 }
