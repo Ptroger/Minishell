@@ -24,6 +24,7 @@ void	ft_single_command_2(t_vars **vars, t_list *tokens, char ***cmd)
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
 		ft_find_cmd(*vars, tokens->token, cmd, (*vars)->path);
+		destroy_tab((*vars)->real_envs);
 	}
 	else
 	{

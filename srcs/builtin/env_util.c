@@ -48,7 +48,7 @@ void	set_envs(t_vars *vars)
 	if (vars->real_envs)
 		destroy_tab(vars->real_envs);
 	temp = vars->tab_size;
-	vars->real_envs = malloc(sizeof(char *) * (temp + 2));
+	vars->real_envs = malloc(sizeof(char *) * (temp + 1));
 	envs = vars->t_env;
 	vars->tab_size = 0;
 	while (envs && envs->next && vars->tab_size <= temp)
@@ -57,7 +57,8 @@ void	set_envs(t_vars *vars)
 		vars->tab_size++;
 		envs = envs->next;
 	}
-	vars->real_envs[vars->tab_size] = ft_strdup(envs->data);
-	vars->tab_size++;
+	// vars->real_envs[vars->tab_size] = ft_strdup(envs->data);
+// 
+	// vars->tab_size++;
 	vars->real_envs[vars->tab_size] = NULL;
 }

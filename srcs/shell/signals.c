@@ -15,6 +15,8 @@
 void	ctrl_d(t_vars *vars)
 {
 	printf("exit\n");
+	if (vars->real_envs)
+		destroy_tab(vars->real_envs);
 	clean_exit(vars, 0);
 }
 
