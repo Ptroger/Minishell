@@ -17,7 +17,6 @@ int	ft_find_redir(t_vars **vars, t_pipe **temp_p_2, t_list **temp_2)
 	int		i;
 
 	(void)vars;
-	printf("je suis = %s\n", (*temp_2)->token);
 	while (*temp_p_2 && (*temp_p_2)->redir == 0)
 	{
 		i = 0;
@@ -28,7 +27,6 @@ int	ft_find_redir(t_vars **vars, t_pipe **temp_p_2, t_list **temp_2)
 				while (*temp_2 && is_special(*temp_2) == FALSE)
 					*temp_2 = (*temp_2)->next;
 				(*temp_p_2)->redir = 1;
-				printf("temp_p2 == %s\n", (*temp_2)->token);
 				if (*temp_2 && (*temp_2)->type == H_DOC)
 				{
 					(*temp_p_2)->redir = 2;
@@ -39,7 +37,6 @@ int	ft_find_redir(t_vars **vars, t_pipe **temp_p_2, t_list **temp_2)
 		}
 		(*temp_p_2) = (*temp_p_2)->next;
 	}
-	*temp_2 = (*temp_2)->next;
 	return (0);
 }
 

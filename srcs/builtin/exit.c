@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	get_args(t_list *tokens)
+int	get_args(t_vars *vars, t_list *tokens)
 {
 	int	i;
 
@@ -22,6 +22,8 @@ int	get_args(t_list *tokens)
 		i++;
 		tokens = tokens->next;
 	}
+	if (i == 1)
+		clean_exit(vars, 0);
 	return (i);
 }
 
@@ -54,7 +56,7 @@ void	ft_exit(t_vars *vars, t_list *tokens)
 	int				count;
 	long long int	code;
 
-	count = get_args(tokens);
+	count = get_args(vars, tokens);
 	code = 0;
 	ft_putstr_fd("exit\n", STDOUT_FILENO);
 	if (tokens->next && tokens->next->token)

@@ -38,7 +38,7 @@ void	redir_temp(t_vars *vars, t_list *tokens, char *name, int *file)
 
 void	redirect_input(t_vars *vars, t_list *tokens, int *file)
 {
-	while (tokens)
+	while (tokens && tokens->type != PIPE)
 	{
 		if (tokens->type == R_OUT)
 			redirect_output(vars, tokens, tokens->token, file);

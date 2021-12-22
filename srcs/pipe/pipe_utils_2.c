@@ -57,7 +57,6 @@ void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1)
 	{
 		if (is_special(temp_1) == TRUE && temp_p->redir == 1)
 		{
-			printf("jesuisla\n");
 			handle_redirs(*vars, temp_1, &file);
 			ft_process_4(vars, &temp_p, temp);
 			close(file);
