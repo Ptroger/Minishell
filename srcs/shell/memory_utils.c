@@ -15,6 +15,7 @@
 void	clean_exit(t_vars *vars, int code)
 {
 	destroy_vars(vars);
+	
 	exit(code);
 }
 

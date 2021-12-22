@@ -161,6 +161,7 @@ void	ft_new_var(t_list *tokens, t_sort **t_env, t_sort **t_exp, int j);
 void	ft_new_var_env(t_list *tokens, t_sort **t_env, t_sort **t_exp, int j);
 void	ft_browse_env(t_list *tokens, t_sort **t_env,
 			t_sort **t_exp, char *tmp);
+void	destroy_tmp_env(t_sort *envs, char *str);
 void	ft_call_builtin(t_vars **vars, t_list *tokens);
 int		ft_is_builtin(char *token);
 
@@ -176,6 +177,7 @@ void	clean_exit(t_vars *vars, int code);
 char	*dupfree(char *s1, char *s2);
 void	destroy_vars(t_vars *vars);
 void	destroy_tab(char **tab);
+void	destroy_env(t_sort **envs);
 t_vars	*ft_init_vars(void);
 
 //PIPES

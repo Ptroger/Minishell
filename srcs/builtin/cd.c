@@ -45,8 +45,9 @@ int	ft_is_dash(t_vars **vars)
 		temp = temp->next;
 	if (ft_strcmp(temp->name, "OLDPWD") == 0)
 	{
+		if (temp->info == NULL)
+			printf("is NULL\n");
 		old_pwd = ft_strdup(temp->info);
-		printf("%s\n", old_pwd);
 		return (chdir(old_pwd));
 	}
 	return (0);

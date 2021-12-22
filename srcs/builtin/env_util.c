@@ -15,9 +15,7 @@
 void	add_back(t_sort **sort, t_sort *new)
 {
 	t_sort	*lst;
-	int		i;
 
-	i = 0;
 	if (!sort)
 		return ;
 	if (!*sort)
@@ -27,10 +25,7 @@ void	add_back(t_sort **sort, t_sort *new)
 	}
 	lst = *sort;
 	while (lst->next != NULL)
-	{
-		i++;
 		lst = lst->next;
-	}
 	lst->next = new;
 }
 

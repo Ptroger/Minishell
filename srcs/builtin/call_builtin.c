@@ -22,9 +22,6 @@ void	ft_call_builtin_3(t_vars **vars, t_list *tokens)
 		if (ft_strcmp(tokens->token, "echo") == 0
 			|| ft_strcmp(tokens->token, "/bin/echo") == 0)
 			ft_call_echo(tokens);
-		else if (ft_strcmp(tokens->token, "env") == 0
-			|| ft_strcmp(tokens->token, "/usr/bin/env") == 0)
-			ft_call_env(vars, tokens);
 		else if (ft_strcmp(tokens->token, "pwd") == 0
 			|| ft_strcmp(tokens->token, "/bin/pwd") == 0)
 			ft_pwd(*vars, tokens);
@@ -34,15 +31,26 @@ void	ft_call_builtin_3(t_vars **vars, t_list *tokens)
 	g_g.ret = WEXITSTATUS(status);
 }
 
-void	ft_call_builtin_2(t_vars **vars, t_list *tokens)
+int	ft_call_builtin_2(t_vars **vars, t_list *tokens)
 {
 	if (ft_strcmp(tokens->token, "export") == 0)
 	{
 		ft_export(tokens, &(*vars)->t_env, &(*vars)->t_exp);
-		return ;
+		return (1) ;
 	}
-	else if (ft_strcmp(tokens->token, "unset") == 0 && tokens->next)
-		ft_unset(tokens, &(*vars)->t_env, &(*vars)->t_exp);
+	else if (ft_strcmp(tokens->token, "unset") == 0)
+	{
+		if (tokens->next)
+			ft_unset(tokens, &(*vars)->t_env, &(*vars)->t_exp);
+		return (1);
+	}
+	else if (ft_strcmp(tokens->token, "env") == 0
+		|| ft_strcmp(tokens->token, "/usr/bin/env") == 0)
+	{
+		ft_call_env(vars, tokens);
+		return (1);
+	}
+	return (0);
 }
 
 void	ft_call_builtin(t_vars **vars, t_list *tokens)
@@ -70,8 +78,8 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 	}
 	if (user)
 		free(user);
-	ft_call_builtin_2(vars, tokens);
-	ft_call_builtin_3(vars, tokens);
+	if (ft_call_builtin_2(vars, tokens) == 0)
+		ft_call_builtin_3(vars, tokens);
 }
 
 int	ft_is_builtin(char *token)

@@ -12,6 +12,24 @@
 
 #include "minishell.h"
 
+void	destroy_tmp_env(t_sort *envs, char *str)
+{
+	t_sort	*temp;
+
+	(void)str;
+	temp = envs;
+	if (temp->data)
+		free(temp->data);
+	if (temp && temp->name)
+		free(temp->name);
+	if (temp->info)
+		free(temp->info);
+	envs = envs->next;
+	if (temp)
+		free(temp);
+	envs = NULL;
+}
+
 void	ft_display_exp(t_sort **t_exp)
 {
 	t_sort	*temp_exp;

@@ -61,7 +61,7 @@ INCLUDE =       -I ./includes/
 
 OBJS    =       $(SRCS:%.c=%.o)
 
-CFLAGS  =       -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS  =       -Wall -Wextra -Werror #-g -fsanitize=address
 
 LIBFT = 		./libft/libft.a
 

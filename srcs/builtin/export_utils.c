@@ -48,6 +48,11 @@ void	ft_update_var_3(t_list *tokens, t_sort *temp_env,
 
 	j = 0;
 	temp_env_2 = malloc(sizeof(t_sort));
+	if (!temp_exp_2)
+		return ;
+	temp_env_2->data = NULL;
+	temp_env_2->info = NULL;
+	temp_env_2->name = NULL;
 	while (tokens->next->token[j] && (tokens->next->token[j] != '+'
 			&& tokens->next->token[j] != '='))
 		j++;
@@ -66,7 +71,12 @@ void	ft_update_var_3(t_list *tokens, t_sort *temp_env,
 		temp_exp->data = ft_strjoin(temp_exp->data, "\"");
 		ft_set_list_2(temp_env);
 	}
+	if (temp_exp_2)
+		destroy_tmp_env(temp_exp_2, "EPX_2");
+	if (temp_env_2)
+		destroy_tmp_env(temp_env_2, "ENV_2");
 }
+
 
 void	ft_update_var_2(t_list *tokens, t_sort **t_env,
 		t_sort *temp_env, t_sort *temp_exp)
@@ -76,6 +86,11 @@ void	ft_update_var_2(t_list *tokens, t_sort **t_env,
 
 	j = 0;
 	temp_exp_2 = malloc(sizeof(t_sort));
+	if (!temp_exp_2)
+		return ;
+	temp_exp_2->data = NULL;
+	temp_exp_2->info = NULL;
+	temp_exp_2->name = NULL;
 	while (tokens->next->token[j] && (tokens->next->token[j] != '+'
 			&& tokens->next->token[j] != '='))
 		j++;
@@ -91,7 +106,9 @@ void	ft_update_var_2(t_list *tokens, t_sort **t_env,
 			temp_exp_2->data = ft_strdup(temp_exp->data);
 		free(temp_exp->data);
 	}
-	temp_exp->data = malloc(sizeof(char) * ft_strlen(tokens->next->token) + 3);
+	temp_exp->data = malloc(sizeof(char) * (ft_strlen(tokens->next->token) + 3));
+	if (!temp_exp)
+		return ;
 	if (temp_env && temp_env->name
 		&& ft_strcmp(temp_env->name, temp_exp->name) == 0)
 		ft_update_var_3(tokens, temp_env, temp_exp, temp_exp_2);

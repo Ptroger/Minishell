@@ -76,6 +76,8 @@ int	ft_process_2(t_vars *vars)
 
 	i = 0;
 	temp_p = &vars->store;
+	if ((*temp_p)->cell[0] != NULL)
+		i--;
 	is_ok = find_path_2((*temp_p)->token, vars->path);
 	(*temp_p)->token = ft_strdup((*temp_p)->cell[0]);
 	if (ft_is_builtin((*temp_p)->token) == 0

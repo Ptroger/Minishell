@@ -112,5 +112,6 @@ void	destroy_vars(t_vars *vars)
 		if (vars->path)
 			destroy_tab(vars->path);
 		destroy_store(&vars->original);
+		free(vars);
 	}
 }
