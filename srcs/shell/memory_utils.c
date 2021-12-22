@@ -25,7 +25,10 @@ char	*dupfree(char *s1, char *s2)
 
 	ret = NULL;
 	if (s2)
+	{
 		free(s2);
+		s2 = NULL;
+	}
 	if (!s1)
 		return (NULL);
 	ret = ft_strdup(s1);

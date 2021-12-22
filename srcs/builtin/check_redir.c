@@ -30,7 +30,6 @@ void	ft_check_redir_3(t_vars **vars, t_list *temp, int *file)
 	}
 	else
 		ft_single_command(vars, (*vars)->tokens, cmd, (*vars)->size);
-	free(cmd);
 	if (close(*file) != 0)
 	{
 		throw_error(NULL, errno);

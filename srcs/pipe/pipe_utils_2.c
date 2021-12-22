@@ -55,7 +55,7 @@ void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1)
 	temp = temp_1;
 	while (temp_1)
 	{
-		if (is_special(temp_1) == TRUE && temp_p->redir >= 1)
+		if (is_special(temp_1) == TRUE && temp_p->redir == 1)
 		{
 			handle_redirs(*vars, temp_1, &file);
 			ft_process_4(vars, &temp_p, temp);
@@ -68,17 +68,15 @@ void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1)
 	ft_process_4(vars, &temp_p, temp);
 }
 
-int	ft_process_2(t_vars *vars)
+int	ft_process_2(t_vars **vars)
 {
 	int		i;
-	int		is_ok;
 	t_pipe	**temp_p;
+	int		is_ok;
 
-	i = 0;
-	temp_p = &vars->store;
-	if ((*temp_p)->cell[0] != NULL)
-		i--;
-	is_ok = find_path_2((*temp_p)->token, vars->path);
+	i = -1;
+	temp_p = &(*vars)->store;
+	is_ok = find_path_2((*temp_p)->token, (*vars)->path);
 	(*temp_p)->token = ft_strdup((*temp_p)->cell[0]);
 	if (ft_is_builtin((*temp_p)->token) == 0
 		&& is_ok == TRUE)

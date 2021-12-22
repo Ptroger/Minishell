@@ -62,14 +62,10 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 	temp = (*vars)->t_env;
 	if (ft_strcmp(tokens->token, "exit") == 0)
 		ft_exit(*vars, tokens);
-	while (temp && ft_strcmp(temp->name, "USER") != 0)
+	while (temp && ft_strcmp(temp->name, "HOME") != 0)
 		temp = temp->next;
-	if (ft_strcmp(temp->name, "USER") == 0)
-	{
-		user = (char *)malloc(sizeof(char) * ft_strlen(temp->info) + 8);
-		user = ft_strcpy(user, "/Users/");
-		user = ft_strcat(user, temp->info);
-	}
+	if (ft_strcmp(temp->name, "HOME") == 0)
+		user = ft_strdup(temp->info);
 	if (ft_strcmp(tokens->token, "cd") == 0
 		|| ft_strcmp(tokens->token, "/usr/bin/cd") == 0)
 	{

@@ -73,5 +73,5 @@ void	ft_exit(t_vars *vars, t_list *tokens)
 		code = code % 256;
 		clean_exit(vars, code);
 	}
-	exit(0);
+	clean_exit(vars, 0);
 }
