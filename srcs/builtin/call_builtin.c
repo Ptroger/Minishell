@@ -36,7 +36,7 @@ int	ft_call_builtin_2(t_vars **vars, t_list *tokens)
 	if (ft_strcmp(tokens->token, "export") == 0)
 	{
 		ft_export(tokens, &(*vars)->t_env, &(*vars)->t_exp);
-		return (1) ;
+		return (1);
 	}
 	else if (ft_strcmp(tokens->token, "unset") == 0)
 	{
@@ -61,7 +61,10 @@ void	ft_call_builtin(t_vars **vars, t_list *tokens)
 	user = NULL;
 	temp = (*vars)->t_env;
 	if (ft_strcmp(tokens->token, "exit") == 0)
+	{
 		ft_exit(*vars, tokens);
+		return ;
+	}
 	while (temp && ft_strcmp(temp->name, "HOME") != 0)
 		temp = temp->next;
 	if (ft_strcmp(temp->name, "HOME") == 0)

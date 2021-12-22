@@ -62,6 +62,7 @@ char	*reset_loop(t_vars *vars)
 
 	vars->parse_i = 0;
 	vars->exit_status = g_g.ret;
+	g_g.ret = 0;
 	signal(SIGQUIT, SIG_IGN);
 	line = readline(PROMPT);
 	while (line && (check_quote(line) == FALSE

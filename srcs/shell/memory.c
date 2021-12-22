@@ -105,6 +105,8 @@ void	destroy_vars(t_vars *vars)
 		destroy_env(&vars->t_env);
 		if (vars->path)
 			destroy_tab(vars->path);
+		if (vars->real_envs)
+			destroy_tab(vars->real_envs);
 		destroy_store(&vars->original);
 		free(vars);
 	}

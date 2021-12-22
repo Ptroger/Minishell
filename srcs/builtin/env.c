@@ -96,16 +96,11 @@ void	ft_call_env(t_vars **vars, t_list *tokens)
 	{
 		while (1)
 			printf("y\n");
-		//clean_exit(*vars, 0);
 	}
 	if (tokens->next && ft_is_key(tokens->next->token) == 0)
 	{
 		printf("env: %s: No such file or directory\n", tokens->next->token);
-		//clean_exit(*vars, 127);
 	}
 	else
-	{
 		ft_env(&(*vars)->t_env);
-		//clean_exit(*vars, 0);
-	}
 }

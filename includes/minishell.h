@@ -61,6 +61,7 @@ typedef struct s_vars
 	int		parse_i;
 	int		name_i;
 	int		token_size;
+	int		ret;
 	int		finish_line;
 	int		special_i;
 	int		been_quoted;

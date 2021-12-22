@@ -31,7 +31,7 @@ void	cat_ret(char *token, t_vars *vars)
 	int		i;
 	char	*ret;
 
-	ret = ft_itoa(g_g.ret);
+	ret = ft_itoa(vars->exit_status);
 	i = 0;
 	while (ret[i])
 	{

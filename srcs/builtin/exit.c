@@ -65,13 +65,12 @@ void	ft_exit(t_vars *vars, t_list *tokens)
 			clean_exit(vars, 2);
 		}
 	}
-	else if (count > 1)
+	if (count > 2)
 		many_args();
-	else if (count == 0)
+	if (count == 2)
 	{
 		code = ft_atoi(tokens->next->token);
 		code = code % 256;
 		clean_exit(vars, code);
 	}
-	clean_exit(vars, 0);
 }
