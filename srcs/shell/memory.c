@@ -101,12 +101,16 @@ void	destroy_vars(t_vars *vars)
 	if (vars)
 	{
 		ft_lstclear(&vars->tokens, free);
+		// int i = 0;
+		// while (vars->original->cmd[i])
+		// {
+		// 	i++;
+		// 	// (*vars)->store = (*vars)->store->next;
+		// }
 		destroy_env(&vars->t_exp);
 		destroy_env(&vars->t_env);
 		if (vars->path)
 			destroy_tab(vars->path);
-		printf("%p == og\n", &vars->original);
-		printf("%p == store\n", &vars->store);
 		destroy_store(&vars->original);
 	}
 }

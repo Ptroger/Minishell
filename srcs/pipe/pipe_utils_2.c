@@ -27,17 +27,14 @@ void	ft_process_4(t_vars **vars, t_pipe **temp_p, t_list *temp_1)
 	t_list	*temp_2;
 
 	temp_2 = (*vars)->tokens;
-	(*vars)->store = (*vars)->original;
 	if (ft_is_builtin((*temp_p)->token) == 1)
 	{
-		(*temp_p)->cmd[0] = ft_strdup("tmp");
 		ft_call_builtin(vars, temp_1);
 		clean_exit(*vars, g_g.ret);
 	}
 	else if (is_special(temp_2) == TRUE && temp_1->next
 		&& temp_1->next->next && ft_is_builtin(temp_1->next->next->token) == 1)
 	{
-		(*temp_p)->cmd[0] = ft_strdup("tmp");
 		ft_call_builtin(vars, temp_1->next->next);
 		clean_exit(*vars, g_g.ret);
 	}
@@ -47,7 +44,6 @@ void	ft_process_4(t_vars **vars, t_pipe **temp_p, t_list *temp_1)
 			&(*temp_p)->cmd, (*vars)->path);
 	else
 		ft_find_cmd(*vars, (*temp_p)->token, &(*temp_p)->cmd, (*vars)->path);
-	
 }
 
 void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1)
@@ -72,18 +68,27 @@ void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1)
 	ft_process_4(vars, &temp_p, temp);
 }
 
-int	ft_process_2(t_pipe **temp_p)
+int	ft_process_2(t_vars *vars)
 {
 	int		i;
+	int		is_ok;
+	t_pipe	**temp_p;
 
-	i = -1;
+	i = 0;
+	temp_p = &vars->store;
+	is_ok = find_path_2((*temp_p)->token, vars->path);
 	(*temp_p)->token = ft_strdup((*temp_p)->cell[0]);
-	(*temp_p)->cmd = ft_command_size((*temp_p)->size + 1);
-	while (++i < (*temp_p)->size - 1 && (*temp_p)->size > 1
-		&& ft_is_key((*temp_p)->cell[i + 1]) == 0)
+	if (ft_is_builtin((*temp_p)->token) == 0
+		&& is_ok == TRUE)
 	{
-		(*temp_p)->cmd[i + 1] = dupfree((*temp_p)->cell[i + 1],
-			(*temp_p)->cmd[i + 1]);
+		(*temp_p)->cmd = ft_command_size((*temp_p)->size + 1);
+		while (i < (*temp_p)->size - 1 && (*temp_p)->size > 1
+			&& ft_is_key((*temp_p)->cell[i + 1]) == 0)
+		{
+			(*temp_p)->cmd[i + 1] = dupfree((*temp_p)->cell[i + 1],
+					(*temp_p)->cmd[i + 1]);
+			i++;
+		}
 	}
 	return (1);
 }

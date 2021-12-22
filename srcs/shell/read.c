@@ -65,7 +65,7 @@ char	*reset_loop(t_vars *vars)
 	signal(SIGQUIT, SIG_IGN);
 	line = readline(PROMPT);
 	while (line && (check_quote(line) == FALSE
-		|| check_pipe(line) == FALSE))
+			|| check_pipe(line) == FALSE))
 	{
 		add_history(line);
 		free(line);

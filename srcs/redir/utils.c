@@ -42,6 +42,7 @@ int	is_dir(t_vars *vars, char *path, int is_exec)
 	struct stat	p;
 	int			ret;
 
+	p.st_mode = 1;
 	x = 0;
 	stat(path, &p);
 	x = S_ISDIR(p.st_mode);

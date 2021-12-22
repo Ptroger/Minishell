@@ -60,7 +60,7 @@ void	ft_call_command_2(t_vars **vars)
 	else
 		ft_single_command(vars, (*vars)->tokens, cmd, (*vars)->size);
 	if (cmd)
-		free(cmd);
+		destroy_tab(cmd);
 }
 
 int	call_command(t_vars **vars, int is_child)
@@ -81,7 +81,7 @@ int	call_command(t_vars **vars, int is_child)
 		while (temp)
 		{
 			if (ft_strcmp("|", temp->token) == 0)
-				return (ft_pipe(vars));
+				return (ft_pipe(vars));			
 			if (temp)
 				temp = temp->next;
 			(*vars)->size++;

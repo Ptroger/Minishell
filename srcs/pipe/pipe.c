@@ -70,10 +70,9 @@ int	ft_pipe(t_vars **vars)
 	int		size;
 	t_list	*temp;
 
-	size = 0;
+	size = 1;
 	temp = (*vars)->tokens;
 	pipe_add_back(&(*vars)->store, ft_add_elem_pipe());
-	size++;
 	(*vars)->original = (*vars)->store;
 	while (temp)
 	{

@@ -167,7 +167,8 @@ int		ft_is_builtin(char *token);
 // BUILTINS_UTILS
 void	ft_browse_tmp(t_list **temp, t_pipe **temp_p, int *count);
 void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1);
-int		ft_process_2(t_pipe **temp_p);
+int		ft_process_2(t_vars *vars);
+int		check_path(t_vars *vars, char *path, int is_exec);
 
 // MEMORY
 void	destroy_store(t_pipe **store);
@@ -182,6 +183,7 @@ int		ft_child(t_vars **vars, t_pipe **store, int size);
 
 // OTHERS
 void	set_type(t_vars *vars);
+int		find_path_2(char *token, char **tab);
 void	sig_handler(int sig);
 int		check_syntax(t_vars *vars);
 int		throw_error(char *err, int errcode);

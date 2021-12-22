@@ -46,7 +46,7 @@ void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
 	{
 		while (temp && ft_is_key(temp->token) == 0)
 		{
-			cmd[i] = temp->token;
+			cmd[i] = ft_strdup(temp->token);
 			temp = temp->next;
 			i++;
 		}

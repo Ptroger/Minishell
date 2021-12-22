@@ -47,6 +47,31 @@ int	ft_pile_in_order(t_sort **pile_a)
 	return (1);
 }
 
+int	find_path_2(char *token, char **tab)
+{
+	char	*path;
+	int		i;
+
+	i = 0;
+	while (tab[i])
+	{
+		path = malloc(sizeof(char) * ft_strlen(token) + ft_strlen(tab[i]) + 2);
+		if (!path)
+			return (FALSE);
+		path = ft_strcpy(path, tab[i]);
+		path = ft_strcat(path, "/");
+		path = ft_strcat(path, token);
+		if (access(path, X_OK) == 0)
+		{
+			free(path);
+			return (TRUE);
+		}
+		i++;
+		free(path);
+	}
+	return (FALSE);
+}
+
 char	*find_path(t_vars *vars, char *token, char **tab)
 {
 	char	*path;
@@ -72,18 +97,20 @@ char	*find_path(t_vars *vars, char *token, char **tab)
 	return (ft_strdup(token));
 }
 
-int	check_path(t_vars *vars, char *path)
+int	check_path(t_vars *vars, char *path, int is_exec)
 {
 	if (is_dir(vars, path, TRUE) == FALSE)
 	{
 		if (access(path, X_OK) == 0)
 			return (TRUE);
-		ft_putstr_fd(path, STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
-		throw_error(NULL, errno);
-		clean_exit(vars, 126);
+		else if (is_exec == TRUE)
+		{
+			ft_putstr_fd(path, STDERR_FILENO);
+			ft_putstr_fd(": ", STDERR_FILENO);
+			throw_error(NULL, errno);
+			clean_exit(vars, 126);
+		}
 	}
-	clean_exit(vars, 1);
 	return (FALSE);
 }
 
@@ -100,7 +127,7 @@ void	ft_find_cmd(t_vars *vars, char *token, char ***cmd, char **tab)
 	if (is_absolute(token) == TRUE)
 	{
 		*cmd[0] = ft_strdup(token);
-		if (check_path(vars, *cmd[0]) == TRUE)
+		if (check_path(vars, *cmd[0], TRUE) == TRUE)
 			execve(*cmd[0], *cmd, vars->real_envs);
 	}
 	else
