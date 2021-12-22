@@ -1,0 +1,1 @@
+ls > titi | echo toto

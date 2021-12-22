@@ -167,7 +167,7 @@ int		ft_is_builtin(char *token);
 // BUILTINS_UTILS
 void	ft_browse_tmp(t_list **temp, t_pipe **temp_p, int *count);
 void	ft_process_3(t_vars **vars, t_pipe *temp_p, t_list *temp_1);
-int		ft_process_2(t_vars *vars);
+int		ft_process_2(t_vars **vars);
 int		check_path(t_vars *vars, char *path, int is_exec);
 
 // MEMORY
@@ -199,5 +199,5 @@ int		ft_pile_in_order(t_sort **pile_a);
 char	*find_path(t_vars *vars, char *token, char **tab);
 char	*ft_return_max(t_sort **pile_a);
 char	**ft_command_size(int size);
-
+int		check_space(char *str);
 #endif

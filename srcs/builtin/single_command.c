@@ -17,6 +17,7 @@ void	ft_single_command_2(t_vars **vars, t_list *tokens, char ***cmd)
 	int		status;
 
 	signal(SIGINT, sig_handler);
+	cmd[0][0] = ft_strdup("tmp");
 	g_g.pid = fork();
 	if (g_g.pid == 0)
 	{
@@ -31,6 +32,7 @@ void	ft_single_command_2(t_vars **vars, t_list *tokens, char ***cmd)
 		signal(SIGINT, sig_handler);
 		g_g.ret = WEXITSTATUS(status);
 	}
+	destroy_tab(*cmd);
 }
 
 void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
@@ -46,7 +48,7 @@ void	ft_single_command(t_vars **vars, t_list *tokens, char **cmd, int size)
 	{
 		while (temp && ft_is_key(temp->token) == 0)
 		{
-			cmd[i] = ft_strdup(temp->token);
+			cmd[i] = dupfree(temp->token, cmd[i]);
 			temp = temp->next;
 			i++;
 		}

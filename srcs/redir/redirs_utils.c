@@ -52,7 +52,7 @@ void	redirect_input(t_vars *vars, t_list *tokens, int *file)
 			if (vars->stdin > -1)
 				close(vars->stdout);
 			vars->stdin = open(tokens->next->token, O_RDONLY);
-			if (vars->stdout == -1)
+			if (vars->stdin == -1)
 				open_err(vars, tokens);
 		}
 		tokens = tokens->next;

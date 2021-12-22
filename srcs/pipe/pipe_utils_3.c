@@ -55,7 +55,7 @@ int	ft_process(t_vars **vars, t_pipe **temp_p, int size, int *pfd)
 	{
 		if (ft_find_redir(vars, &temp_p_2, &temp_2) == 1)
 			return (1);
-		ft_process_2(*vars);
+		ft_process_2(vars);
 		g_g.pid = fork();
 		if (g_g.pid < 0)
 			return (throw_error("Fork failed", errno));

@@ -16,6 +16,8 @@ void	ft_check_redir_3(t_vars **vars, t_list *temp, int *file)
 {
 	char	**cmd;
 
+	(void)temp;
+
 	if (temp->type != H_DOC)
 		handle_redirs(*vars, temp, file);
 	cmd = ft_command_size((*vars)->size);
@@ -30,7 +32,6 @@ void	ft_check_redir_3(t_vars **vars, t_list *temp, int *file)
 	}
 	else
 		ft_single_command(vars, (*vars)->tokens, cmd, (*vars)->size);
-	free(cmd);
 	if (close(*file) != 0)
 	{
 		throw_error(NULL, errno);
@@ -38,6 +39,21 @@ void	ft_check_redir_3(t_vars **vars, t_list *temp, int *file)
 	}
 	clean_exit(*vars, 0);
 }
+
+// void	check_heredoc(t_vars *vars, int file)
+// {
+// 	t_list	*temp;
+
+// 	temp = (*vars)->tokens;
+// 	while (temp)
+// 	{
+// 		if (temp->type == H_DOC)
+// 			break ;
+// 		temp->next;
+// 	}
+// 	if (temp->next)
+// 		write_file()
+// }
 
 void	ft_check_redir_2(t_vars **vars, t_list *temp)
 {

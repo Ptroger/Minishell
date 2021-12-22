@@ -12,15 +12,43 @@
 
 #include "minishell.h"
 
+int	check_space(char *str)
+{
+	int	i;
+	int	j;
+
+	j = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (str[j] == ' ')
+			j++;
+		i++;
+	}
+	if (j == i)
+		return (FALSE);
+	return (TRUE);
+}
+
 int	check_pipe(char *str)
 {
 	int	i;
+	int	j;
 
+	j = -1;
 	i = 0;
 	while (str[i])
+	{
+		if (str[i] == '|')
+			j = i;
 		i++;
-	i--;
-	if (i >= 0 && str[i] && str[i] == '|')
+	}
+	i = j + 1;
+	while (str[i] && str[i] == ' ')
+	{
+		i++;
+	}
+	if (!str[i] && j != -1)
 	{
 		ft_putstr_fd("Pipe at the end of the line\n", 2);
 		return (FALSE);
