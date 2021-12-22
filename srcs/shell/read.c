@@ -100,11 +100,6 @@ void	read_loop(t_vars *vars)
 			if (access(H_DOC_PATH, R_OK) == 0)
 				unlink(H_DOC_PATH);
 		}
-		else if (line)
-		{
-			free(line);
-			destroy_store(&vars->original);
-		}
 	}
 }
 

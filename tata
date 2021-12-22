@@ -1,1 +1,11 @@
-ls > titi | echo toto
+includes
+libft
+Makefile
+minishell
+README.md
+srcs
+tata
+tit
+titi
+toto
+tutu

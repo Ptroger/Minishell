@@ -40,21 +40,6 @@ void	ft_check_redir_3(t_vars **vars, t_list *temp, int *file)
 	clean_exit(*vars, 0);
 }
 
-// void	check_heredoc(t_vars *vars, int file)
-// {
-// 	t_list	*temp;
-
-// 	temp = (*vars)->tokens;
-// 	while (temp)
-// 	{
-// 		if (temp->type == H_DOC)
-// 			break ;
-// 		temp->next;
-// 	}
-// 	if (temp->next)
-// 		write_file()
-// }
-
 void	ft_check_redir_2(t_vars **vars, t_list *temp)
 {
 	t_list	*temp_2;

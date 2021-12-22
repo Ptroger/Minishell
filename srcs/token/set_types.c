@@ -78,7 +78,7 @@ void	flag_syntax(t_vars *vars)
 		if (tokens->type >= R_IN && tokens->type <= H_DOC)
 		{
 			if (tokens->next && ((tokens->next->type < 5
-					|| tokens->next->type > 7)
+						|| tokens->next->type > 7)
 					&& tokens->next->type != ARG))
 				tokens->next->type = SYNTAX_ERROR;
 			else if (!tokens->next)

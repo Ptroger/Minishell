@@ -57,7 +57,8 @@ void	set_envs(t_vars *vars)
 		vars->tab_size++;
 		envs = envs->next;
 	}
-	vars->real_envs[vars->tab_size] = ft_strdup(envs->data);
+	vars->real_envs[vars->tab_size] = ft_strdup(en
+	vs->data);
 	vars->tab_size++;
 	vars->real_envs[vars->tab_size] = NULL;
 }

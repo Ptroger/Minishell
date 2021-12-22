@@ -82,7 +82,7 @@ int	call_command(t_vars **vars, int is_child)
 		while (temp)
 		{
 			if (ft_strcmp("|", temp->token) == 0)
-				return (ft_pipe(vars));			
+				return (ft_pipe(vars));
 			if (temp)
 				temp = temp->next;
 			(*vars)->size++;
