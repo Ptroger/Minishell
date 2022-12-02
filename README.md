@@ -1,3 +1,3 @@
-Minishell
-toto
+42 Project -> Minishell
 
+Implement a basic bash interpretor: builtins, pipes, heredoc...
